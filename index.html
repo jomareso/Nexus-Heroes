@@ -154,7 +154,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 
 /* ═══ MINIGAME ═══ */
 #mg{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:20px;display:none;}
-.mghdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.mghdr{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;}
 .mgwt{font-size:12px;font-weight:800;color:var(--tx3);margin-bottom:2px;}
 .mgtit{font-size:20px;font-weight:900;}
 .timw{display:flex;align-items:center;gap:7px;}
@@ -517,6 +517,10 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 .golden-badge{background:linear-gradient(90deg,#ffd23f,#ffb700);color:#3a2a00;font-weight:900;font-size:12px;text-align:center;padding:7px;border-radius:9px;margin-bottom:10px;animation:goldpulse 1.2s ease-in-out infinite;}
 @keyframes goldpulse{0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
 
+
+.pause-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:var(--tx);padding:8px 14px;height:38px;border-radius:10px;font-size:13px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;transition:background 0.15s;flex-shrink:0;}
+.pause-btn:hover{background:rgba(255,255,255,0.2);color:var(--tx);}
+
 </style>
 </head>
 <body>
@@ -697,6 +701,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
     </div>
     <div id="mg">
       <div class="mghdr">
+        <button class="pause-btn" onclick="pauseMission()" title="Pausar y salir">&#8592; Salir</button>
         <div><div class="mgwt" id="mgwl">Pregunta 1/8</div><div class="mgtit" id="mgtit">Batalla de Energía</div></div>
         <div class="timw"><div class="tbw"><div class="tbar g" id="tbar" style="width:100%"></div></div><span class="tnum" id="tnum">25</span></div>
       </div>
@@ -1275,7 +1280,7 @@ function updHdr(){
   var lb=document.getElementById('lvlb');if(lb)lb.textContent='Nv.'+d.level;
   var hst=document.getElementById('hst');if(hst)hst.textContent=d.streak;
   var hco=document.getElementById('hco');if(hco)hco.textContent=d.coins;
-  var hxp=document.getElementById('hxp');if(hxp)hxp.textContent=d.xp;
+  var hxp=document.getElementById('hxp');if(hxp)hxp.textContent=d.xp.toLocaleString('es-DO');
   var pb=document.getElementById('playbtn');if(pb)pb.style.background=m==='exp'?'linear-gradient(135deg,#4DAFFF,#18CDB0)':'linear-gradient(135deg,#9B6FFF,#FF6EB4)';
   var hbar=document.getElementById('hcobar');if(hbar)hbar.style.width=pct+'%';
   var t=TIERS[d.tier-1];
@@ -1325,7 +1330,7 @@ function renderHub(){
   var sa=document.getElementById('savg');if(sa)sa.textContent=avg?avg+'/100':'-';
   var sb=document.getElementById('sbst');if(sb)sb.textContent=d.best+' dias';
   var so=document.getElementById('sown');if(so)so.textContent=S.cat.filter(function(i){return i.owned===true||(i.type==='c'&&i.stock>0);}).length;
-  var sx=document.getElementById('sxp');if(sx)sx.textContent=d.xp+' XP';
+  var sx=document.getElementById('sxp');if(sx)sx.textContent=d.xp.toLocaleString('es-DO')+' XP';
   var stn=document.getElementById('stnum');if(stn)stn.textContent=d.streak;
   var dt=document.getElementById('stdots');if(dt){dt.innerHTML='';for(var i=0;i<14;i++){var dv=document.createElement('div');dv.className='dot '+(i<d.streak?'done':i===d.streak?'today':'empty');dt.appendChild(dv);}}
   var grk=document.getElementById('grk');
@@ -1673,8 +1678,21 @@ function nextQ(){
   cq++;if(cq>=S.ses.qs.length)endMission();else renderQ();
 }
 
+function pauseMission(){
+  SND.ui();
+  // Guardar el tiempo acumulado y salir a seleccion (el tiempo se retoma luego)
+  clearInterval(ti);stopSessTimer();
+  saveMissionProgress(sessSeconds);
+  var minDone=Math.floor(sessSeconds/60),minLeft=Math.max(0,Math.ceil((SESS_TARGET-sessSeconds)/60));
+  if(sessSeconds>0 && sessSeconds<SESS_TARGET){
+    toast('Progreso guardado: '+minDone+' min. Te faltan '+minLeft+' min para completar tu misión hoy.');
+  }
+  showScreen('sel');
+}
+
 function endMission(){
   clearInterval(ti);
+  // Interpretacion A: el tiempo acumula todo el dia. Mision valida si el total del dia >= 15 min
   var hasTime=sessSeconds>=SESS_TARGET;
 
   // ── ENCADENAR: si termino las 8 preguntas pero AUN no llega a 15 min, carga otra tanda ──
@@ -1692,8 +1710,8 @@ function endMission(){
       pool2.push(isLen2?genLen(qd):genMat(qd));
     }
     S.ses.qs=pool2; S.ses.correct=0; ans=[]; cq=0; S.ses.goldenIdx=Math.floor(Math.random()*8); S.ses.goldenHit=false;
-    var minLeft=Math.ceil((SESS_TARGET-sessSeconds)/60);
-    toast('Buen ritmo! Sigue practicando '+minLeft+' min mas para completar tu misión.');
+    var minLeft=Math.max(1,Math.ceil((SESS_TARGET-sessSeconds)/60));
+    toast('Buen ritmo! Sigue practicando '+minLeft+' min más para completar tu primera misión del día.');
     renderQ();
     return;
   }
@@ -1713,8 +1731,8 @@ function endMission(){
   if(isLen){if(!d.lenScores)d.lenScores=[];d.lenScores.push(score);}
   var earned=0;
   var missionOk=passed&&hasTime;if(missionOk){
-    sessSeconds=0;
-    clearMissionProgress(); // mision completada, reiniciar acumulador
+    // El tiempo NO se reinicia: sigue acumulando todo el dia (solo resetea al cambiar de dia)
+    saveMissionProgress(sessSeconds);
     d.streak++;if(d.streak>d.best)d.best=d.streak;
     addXP(100+(score===100?50:0),d);
     // Bono por rondas extra completadas (niño rápido práctica mas = mas recompensa)
@@ -1803,7 +1821,7 @@ function showResult(score,passed,tMin,earned,hasTime,rawPassed,rounds){
   // ── REWARDS ──
   var rews=document.getElementById('rews');
   if(rews)rews.innerHTML=missionOk
-    ?'<div class="rew">NC +'+earned+'</div><div class="rew">XP +100</div>'
+    ?'<div class="rew">NC +'+earned.toLocaleString('es-DO')+'</div><div class="rew">XP +100</div>'
       +(score===100?'<div class="rew" style="color:var(--am)">Score perfecto!</div>':'')
       +(d.streak%7===0&&d.streak>0?'<div class="rew" style="color:var(--am)">Racha '+d.streak+' dias!</div>':'')
     :(passed&&!hasTime
@@ -1893,9 +1911,9 @@ function renderParent(){
   }
   // Levels
   var ple=document.getElementById('plve'),ples=document.getElementById('plves');
-  if(ple)ple.textContent='Nivel '+exp.level;if(ples)ples.textContent=DLVLS[exp.level-1].name+' - XP: '+exp.xp;
+  if(ple)ple.textContent='Nivel '+exp.level;if(ples)ples.textContent=DLVLS[exp.level-1].name+' - XP: '+exp.xp.toLocaleString('es-DO');
   var plg=document.getElementById('plvg'),plgs=document.getElementById('plvgs');
-  if(plg)plg.textContent='Nivel '+gua.level;if(plgs)plgs.textContent=DLVLS[gua.level-1].name+' - XP: '+gua.xp;
+  if(plg)plg.textContent='Nivel '+gua.level;if(plgs)plgs.textContent=DLVLS[gua.level-1].name+' - XP: '+gua.xp.toLocaleString('es-DO');
   // Week grids
   var days=['L','M','X','J','V','S','D'];
   ['exp','gua'].forEach(function(m){
@@ -1959,7 +1977,7 @@ function renderShop(){
   var sb=document.getElementById('shbar');if(sb)sb.style.width=pct+'%';
   var ss=document.getElementById('shcapsub');if(ss)ss.textContent=d.coins.toLocaleString('es-DO')+' de '+c.toLocaleString('es-DO')+' NC ('+pct+'%)';
   var sn=document.getElementById('shcnote');if(sn)sn.textContent='Limite: '+c.toLocaleString('es-DO')+' NC - Gastado: '+d.spent.toLocaleString('es-DO')+' NC';
-  var sv=document.getElementById('shcapval');if(sv)sv.textContent=c+' NC';
+  var sv=document.getElementById('shcapval');if(sv)sv.textContent=c.toLocaleString('es-DO')+' NC';
   var shen=document.getElementById('sheconote');var nr=TSPEND[d.tier]||null;
   if(shen)shen.textContent=nr?'Siguiente cofre: gasta '+nr.toLocaleString('es-DO')+' NC. Llevas '+d.spent.toLocaleString('es-DO')+' NC.':'Tienes el cofre máximo!';
   var secs={};S.cat.forEach(function(it){if(!secs[it.sec])secs[it.sec]=[];secs[it.sec].push(it);});
@@ -1994,7 +2012,7 @@ function buyItem(id){
 function buildShareText(){
   var m=S.mode,d=S[m];
   var sc=d.scores,avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
-  return 'Soy un Guardián de NEXUS!\n'+'Misiones completadas: '+d.missions+'\nRacha: '+d.streak+' dias\nScore promedio: '+avg+'/100\nNexus Coins: '+d.coins+'\n\nReto de vacaciones: 15 minutos diarios para llegar mas preparado al proximo curso. Unete!';
+  return 'Soy un Guardián de NEXUS!\n'+'Misiones completadas: '+d.missions+'\nRacha: '+d.streak+' dias\nScore promedio: '+avg+'/100\nNexus Coins: '+d.coins.toLocaleString('es-DO')+'\n\nReto de vacaciones: 15 minutos diarios para llegar mas preparado al proximo curso. Unete!';
 }
 function openShare(){
   var m=S.mode,d=S[m];
@@ -2232,7 +2250,7 @@ function renderInforme() {
     +'<div class="inf-hero-name">'+name+'</div>'
     +'<div class="inf-hero-detail">Grado '+grade+' &bull; Nivel '+exp.level+' &mdash; '+DLVLS[exp.level-1].name+'</div>'
     +'<div class="inf-stats">'
-    +'<div class="inf-stat"><div class="inf-stat-val">'+totalMis+'</div><div class="inf-stat-lbl">Misiones</div></div>'
+    +'<div class="inf-stat"><div class="inf-stat-val">'+totalMis.toLocaleString('es-DO')+'</div><div class="inf-stat-lbl">Misiones</div></div>'
     +'<div class="inf-stat"><div class="inf-stat-val">'+maxStreak+'</div><div class="inf-stat-lbl">Mejor racha</div></div>'
     +'<div class="inf-stat"><div class="inf-stat-val">'+totalTime+'</div><div class="inf-stat-lbl">Min práctica</div></div>'
     +'</div></div>'
@@ -2245,7 +2263,7 @@ function renderInforme() {
     +(prog.length?'<p style="font-size:11px;color:var(--am);font-weight:900;margin:8px 0 4px;">En progreso</p>'+mkTags(prog,'prog')+'<br><br>':'')
     +(ref.length?'<p style="font-size:11px;color:var(--rd);font-weight:900;margin:8px 0 4px;">Necesita refuerzo</p>'+mkTags(ref,'ref')+'<br><br>':'')
     +'<div class="inf-recom"><h4>Recomendacion para padres</h4><p>'+recom+'</p></div>'
-    +'<div class="inf-msg"><div class="inf-msg-ico">&#127942;</div><h3>'+firstName+', eres un Guardián!</h3><p>Completaste '+totalMis+' misiones, lograste una racha de '+maxStreak+' dias y practicaste '+totalTime+' minutos. Llegaste mejor preparado para el proximo curso!</p></div>'
+    +'<div class="inf-msg"><div class="inf-msg-ico">&#127942;</div><h3>'+firstName+', eres un Guardián!</h3><p>Completaste '+totalMis.toLocaleString('es-DO')+' misiones, lograste una racha de '+maxStreak+' dias y practicaste '+totalTime+' minutos. Llegaste mejor preparado para el proximo curso!</p></div>'
     +'<div class="inf-share-row">'
     +'<button class="inf-sbtn wa" onclick="shareInforme()">&#128172; Compartir logro</button>'
     +'<button class="inf-sbtn sec" onclick="SND.ui();renderParent();showScreen(\'par\')">Volver al Panel</button>'
@@ -2426,12 +2444,12 @@ function renderAdmin(){
   var stats=document.getElementById('adm-stats');
   if(stats)stats.innerHTML=
     '<div class="adm-stat-grid">'
-    +'<div class="adm-stat"><div class="adm-stat-val">'+totalMis+'</div><div class="adm-stat-lbl">Misiones totales</div></div>'
+    +'<div class="adm-stat"><div class="adm-stat-val">'+totalMis.toLocaleString('es-DO')+'</div><div class="adm-stat-lbl">Misiones totales</div></div>'
     +'<div class="adm-stat"><div class="adm-stat-val">'+tasaAprobacion+'%</div><div class="adm-stat-lbl">Tasa aprobacion</div></div>'
     +'<div class="adm-stat"><div class="adm-stat-val">'+maxStreak+'</div><div class="adm-stat-lbl">Mejor racha</div></div>'
     +'<div class="adm-stat"><div class="adm-stat-val">'+avgAll+'</div><div class="adm-stat-lbl">Score global prom.</div></div>'
-    +'<div class="adm-stat"><div class="adm-stat-val" style="color:var(--tl)">'+ncEarned+'</div><div class="adm-stat-lbl">NC ganados total</div></div>'
-    +'<div class="adm-stat"><div class="adm-stat-val" style="color:var(--am)">'+ncSpent+'</div><div class="adm-stat-lbl">NC gastados</div></div>'
+    +'<div class="adm-stat"><div class="adm-stat-val" style="color:var(--tl)">'+ncEarned.toLocaleString('es-DO')+'</div><div class="adm-stat-lbl">NC ganados total</div></div>'
+    +'<div class="adm-stat"><div class="adm-stat-val" style="color:var(--am)">'+ncSpent.toLocaleString('es-DO')+'</div><div class="adm-stat-lbl">NC gastados</div></div>'
     +'</div>'
     +'<div class="adm-card">'
     +'<div class="adm-row"><span class="adm-rl">Score Explorador (Mat)</span><span class="adm-rv" style="color:var(--bl)">'+expAvg+'/100</span></div>'
@@ -2503,12 +2521,12 @@ function admCopyText(){
   var txt='NEXUS v3.1 — Resumen Admin\n'
     +new Date().toLocaleString('es-DO')+'\n\n'
     +'Perfil: '+(S.profile.name||'N/A')+', '+( S.profile.age||'-')+' años, Grado '+(S.profile.grade||'-')+'\n'
-    +'Misiones totales: '+totalMis+'\n'
+    +'Misiones totales: '+totalMis.toLocaleString('es-DO')+'\n'
     +'Score promedio: '+avg+'/100\n'
     +'Tiempo práctica: '+totalTime+' min\n'
     +'Racha max: '+Math.max(exp.best,gua.best)+' dias\n'
-    +'NC Explorador: '+exp.coins+' (gastados: '+exp.spent+')\n'
-    +'NC Guardián: '+gua.coins+' (gastados: '+gua.spent+')\n'
+    +'NC Explorador: '+exp.coins.toLocaleString('es-DO')+' (gastados: '+exp.spent.toLocaleString('es-DO')+')\n'
+    +'NC Guardián: '+gua.coins.toLocaleString('es-DO')+' (gastados: '+gua.spent.toLocaleString('es-DO')+')\n'
     +'Nivel Exp: '+exp.level+' | Nivel Gua: '+gua.level+'\n';
   if(navigator.clipboard)navigator.clipboard.writeText(txt).then(function(){toast('Resumen copiado!');});
   else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Copiado!');}
