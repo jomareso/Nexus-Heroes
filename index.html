@@ -571,7 +571,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 <!-- SELECT -->
 <div id="sel" class="screen active">
   <div class="profile-banner" id="profile-banner"><div class="pb-avatar exp" id="pb-avatar">&#9889;</div><div class="pb-info"><div class="pb-name" id="pb-name">Guardian</div><div class="pb-detail" id="pb-detail">Modo Explorador &bull; Grado 4</div></div><button class="pb-edit" onclick="SND.ui();showScreen('onboard');obGoStep(0)">Editar perfil</button></div>
-  <div class="logo"><h1 onclick="logoTap()" style="cursor:default;user-select:none;">NEXUS</h1><p>Academia de Guardianes</p></div>
+  <div class="logo" onclick="logoTap()" style="cursor:pointer;user-select:none;"><h1 style="pointer-events:none;">NEXUS</h1><p>Academia de Guardianes</p></div>
   <div class="sel-cards">
     <div class="scard exp" onclick="SND.ui();startMode('exp')">
       <div class="sico">&#9889;</div><h2>Modo Explorador</h2>
@@ -2061,9 +2061,12 @@ var logoTaps=0, logoTimer=null;
 function logoTap() {
   logoTaps++;
   clearTimeout(logoTimer);
-  logoTimer=setTimeout(function(){logoTaps=0;},1500);
+  logoTimer=setTimeout(function(){logoTaps=0;},3000);
+  // feedback discreto: pequeno tick de sonido a partir del 3er toque
+  if(logoTaps>=3 && logoTaps<5){SND.tick();}
   if(logoTaps>=5){
     logoTaps=0;
+    clearTimeout(logoTimer);
     SND.unlock();
     admPinBuf=[];renderAdminPin('Ingresa el PIN de administrador.','');
     showScreen('adminpin');
