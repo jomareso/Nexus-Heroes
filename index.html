@@ -1102,8 +1102,8 @@ var LENGUA_QS=[
 function saveState(){
   try{localStorage.setItem('nh2',JSON.stringify({profile:S.profile,onboarded:S.onboarded,diagDone:S.diagDone,
     pin:S.pin,
-    exp:{streak:S.exp.streak,coins:S.exp.coins,xp:S.exp.xp,missions:S.exp.missions,scores:S.exp.scores,best:S.exp.best,tier:S.exp.tier,spent:S.exp.spent,level:S.exp.level,lvlXP:S.exp.lvlXP,lenScores:S.exp.lenScores||[],grade:S.exp.grade||0,weakArea:S.exp.weakArea||''},
-    gua:{streak:S.gua.streak,coins:S.gua.coins,xp:S.gua.xp,missions:S.gua.missions,scores:S.gua.scores,best:S.gua.best,tier:S.gua.tier,spent:S.gua.spent,level:S.gua.level,lvlXP:S.gua.lvlXP,lenScores:S.gua.lenScores||[],grade:S.gua.grade||0,weakArea:S.gua.weakArea||''},
+    exp:{streak:S.exp.streak,coins:S.exp.coins,xp:S.exp.xp,missions:S.exp.missions,scores:S.exp.scores,best:S.exp.best,tier:S.exp.tier,spent:S.exp.spent,level:S.exp.level,lvlXP:S.exp.lvlXP,lenScores:S.exp.lenScores||[],grade:S.exp.grade||0,weakArea:S.exp.weakArea||'',sessTime:S.exp.sessTime||0,dailyDate:S.exp.dailyDate||'',dailySeconds:S.exp.dailySeconds||0,didRecovery:S.exp.didRecovery||false,missionDate:S.exp.missionDate||'',missionSeconds:S.exp.missionSeconds||0},
+    gua:{streak:S.gua.streak,coins:S.gua.coins,xp:S.gua.xp,missions:S.gua.missions,scores:S.gua.scores,best:S.gua.best,tier:S.gua.tier,spent:S.gua.spent,level:S.gua.level,lvlXP:S.gua.lvlXP,lenScores:S.gua.lenScores||[],grade:S.gua.grade||0,weakArea:S.gua.weakArea||'',sessTime:S.gua.sessTime||0,dailyDate:S.gua.dailyDate||'',dailySeconds:S.gua.dailySeconds||0,didRecovery:S.gua.didRecovery||false,missionDate:S.gua.missionDate||'',missionSeconds:S.gua.missionSeconds||0},
     cat:S.cat
   }));}catch(e){}
 }
@@ -1112,8 +1112,8 @@ function loadState(){
   var def={
     mode:'exp',pin:'1234',pinChanging:false,pinNew:'',area:'mat',onboarded:false,diagDone:false,
     profile:{name:'',age:'',grade:'4',mode:'exp',registro:''},
-    exp:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false},
-    gua:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false},
+    exp:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false,missionDate:'',missionSeconds:0,skills:{}},
+    gua:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false,missionDate:'',missionSeconds:0,skills:{}},
     cat:JSON.parse(JSON.stringify(CAT)),
     ses:{qs:[],correct:0,t0:null},activeWorld:0
   };
@@ -1128,7 +1128,7 @@ function loadState(){
     ['exp','gua'].forEach(function(k){
       if(!p[k])return;
       var src=p[k],dst=def[k];
-      ['streak','coins','xp','missions','best','tier','spent','level','lvlXP','grade','weakArea'].forEach(function(f){if(src[f]!==undefined)dst[f]=src[f];});
+      ['streak','coins','xp','missions','best','tier','spent','level','lvlXP','grade','weakArea','sessTime','dailyDate','dailySeconds','didRecovery','missionDate','missionSeconds'].forEach(function(f){if(src[f]!==undefined)dst[f]=src[f];});
       if(src.scores&&src.scores.length)dst.scores=src.scores;
       if(src.lenScores&&src.lenScores.length)dst.lenScores=src.lenScores;
     });
@@ -1175,7 +1175,7 @@ function showScreen(id){
   var el=document.getElementById(id);if(!el)return;
   el.classList.add('active');
   if(id==='res'||id==='pin')el.style.display='flex';
-  if(id==='sel'){stopSessTimer();sessSeconds=0;updSessBar();}
+  if(id==='sel'){stopSessTimer();saveMissionProgress(sessSeconds);updSessBar();}
 }
 function goHome(){
   clearInterval(ti);
@@ -1344,8 +1344,61 @@ function renderHub(){
 }
 
 // ═══ QUESTION GENERATORS ═══
-function genMat(diff){
-  var d=DLVLS[diff-1],ops=d.ops,op=ops[Math.floor(Math.random()*ops.length)],mx=d.maxN;
+// ════ APRENDIZAJE ADAPTATIVO ════
+// Mecanismo 2: memoria de dominio por operacion (entre sesiones)
+function recordSkill(op,correct){
+  var d=S[S.mode];
+  if(!d.skills)d.skills={};
+  if(!d.skills[op])d.skills[op]={c:0,t:0};
+  d.skills[op].t++;
+  if(correct)d.skills[op].c++;
+  saveState();
+}
+function skillMastery(op){
+  var d=S[S.mode];
+  if(!d.skills||!d.skills[op]||d.skills[op].t<3)return null; // sin datos suficientes
+  return d.skills[op].c/d.skills[op].t;
+}
+function isWeakSkill(op){
+  var m=skillMastery(op);
+  return m!==null && m<0.7; // <70% = necesita refuerzo
+}
+// Lista de temas debiles para mostrar a los padres
+function getWeakTopics(mode){
+  var d=S[mode];
+  if(!d.skills)return [];
+  var opNames={add:'Suma',sub:'Resta',table:'Tablas',mul:'Multiplicación',div:'División',frac:'Fracciones',power:'Potencias/Raíces',decimal:'Decimales',integer:'Números enteros',equation:'Ecuaciones',mcm:'MCM',sequence:'Patrones'};
+  var weak=[];
+  for(var op in d.skills){
+    var s=d.skills[op];
+    if(s.t>=3){
+      var pct=Math.round(s.c/s.t*100);
+      if(pct<70)weak.push({name:opNames[op]||op,pct:pct});
+    }
+  }
+  weak.sort(function(a,b){return a.pct-b.pct;});
+  return weak;
+}
+
+// Elegir operacion con sesgo hacia temas debiles (refuerzo dirigido)
+function pickWeightedOp(ops){
+  var weights=ops.map(function(op){
+    var m=skillMastery(op);
+    if(m===null)return 1.5;        // tema nuevo: peso medio-alto (explorar)
+    if(m<0.5)return 3.0;           // muy debil: triple probabilidad
+    if(m<0.7)return 2.0;           // debil: doble
+    if(m<0.85)return 1.0;          // en progreso: normal
+    return 0.4;                    // dominado: baja frecuencia
+  });
+  var total=weights.reduce(function(a,b){return a+b;},0);
+  var r=Math.random()*total,acc=0;
+  for(var i=0;i<ops.length;i++){acc+=weights[i];if(r<=acc)return ops[i];}
+  return ops[ops.length-1];
+}
+
+function _genMatCore(diff){
+  var d=DLVLS[diff-1],ops=d.ops,op=(typeof pickWeightedOp==='function'?pickWeightedOp(ops):ops[Math.floor(Math.random()*ops.length)]),mx=d.maxN;
+  var __op=op; // recordar la operacion elegida para tracking
   function shuf(arr){return arr.sort(function(){return Math.random()-0.5;});}
   function R(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
   function wrap(res,pool){var all=[res].concat(pool.filter(function(x){return x!==res&&x>0;}).slice(0,3));while(all.length<4)all.push(res+all.length+Math.floor(Math.random()*4)+1);var s=shuf(all.slice(0,4));return{opts:s.map(String),ok:s.indexOf(res)};}
@@ -1456,6 +1509,21 @@ function genMat(diff){
   }
   return genMat(1);
 }
+function genMat(diff){
+  var q=_genMatCore(diff);
+  if(q && !q.op){
+    // inferir op desde el top si el core no lo expone
+    q.op=_topToOp(q.top);
+  }
+  return q;
+}
+function _topToOp(top){
+  if(!top)return 'add';
+  if(top.indexOf('Tabla')===0)return 'table';
+  var map={'Suma':'add','Resta':'sub','Multiplicación':'mul','División':'div','Fracciones':'frac','Potencias':'power','Raiz cuadrada':'power','Decimales':'decimal','Números enteros':'integer','Ecuaciones':'equation','MCM':'mcm','Patrones':'sequence'};
+  return map[top]||'add';
+}
+
 
 function genLen(diff){
   // diff reservado para escalado futuro por grado
@@ -1472,16 +1540,17 @@ function startMission(){
   }
   var d=S[S.mode],diff=d.level,isLen=S.area==='len';
   var pool=[];
-  // Curva incremental: primeras 2 preguntas mas faciles (calentamiento), luego sube al nivel del grado
+  // Curva incremental + adaptativa: empieza facil, sube/baja segun desempeno (se regenera en renderQ)
   for(var i=0;i<8;i++){
     var qDiff;
     if(i<2) qDiff=Math.max(1,diff-1);      // calentamiento: 1 nivel abajo
-    else if(i<5) qDiff=diff;                // nivel del grado
-    else qDiff=diff;                        // mantiene (no sube arriba del grado)
+    else qDiff=diff;
     pool.push(isLen?genLen(qDiff):genMat(qDiff));
   }
-  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8)};
+  S.ses.baseDiff=diff; // guardar nivel base para ajuste dinamico
+  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8),hotStreak:0,coldStreak:0,baseDiff:0};
   ans=[];cq=0;
+  sessSeconds=getMissionProgress(); // retomar tiempo acumulado del dia
   var hub=document.getElementById('hub');if(hub)hub.style.display='none';
   var mg=document.getElementById('mg');if(mg)mg.style.display='block';
   // area badge
@@ -1493,7 +1562,18 @@ function startMission(){
 
 function renderQ(){
   var s=S.ses;if(cq>=s.qs.length){endMission();return;}
-  var q=s.qs[cq],tot=s.qs.length,d=S[S.mode];
+  var d=S[S.mode];
+  // Mecanismo 1: dificultad dinamica - regenerar pregunta segun desempeno reciente
+  if(cq>=2 && s.area!=='len' && s.baseDiff){
+    var adjDiff=s.baseDiff;
+    if((s.hotStreak||0)>=3)adjDiff=Math.min(9,s.baseDiff+1);   // 3 seguidas: sube
+    else if((s.coldStreak||0)>=2)adjDiff=Math.max(1,s.baseDiff-1); // 2 fallos: baja
+    // regenerar solo si el ajuste cambia el nivel y la pregunta no fue respondida
+    if(adjDiff!==s.baseDiff && ans[cq]===undefined){
+      s.qs[cq]=genMat(adjDiff);
+    }
+  }
+  var q=s.qs[cq],tot=s.qs.length;
   var isGolden=(cq===s.goldenIdx);
   var pg=document.getElementById('pg');
   if(pg){pg.innerHTML='';for(var i=0;i<tot;i++){var dv=document.createElement('div');dv.className='pd '+(i<cq?(ans[i]?'ok':'no'):i===cq?'now':'');pg.appendChild(dv);}}
@@ -1534,6 +1614,14 @@ function pick(i){
   if(btns[i])btns[i].className=(isLen?'lopt ':'opt ')+(ok?'ok':'no');
   if(!ok&&btns[q.ok])btns[q.ok].className=(isLen?'lopt ':'opt ')+' ok';
   ans[cq]=ok;
+  // Mecanismo 2: registrar dominio del tema (solo matematica)
+  if(!isLen && q.op && typeof recordSkill==='function')recordSkill(q.op,ok);
+  // Mecanismo 1: dificultad dinamica - rastrear aciertos/fallos seguidos
+  if(ok){
+    S.ses.hotStreak=(S.ses.hotStreak||0)+1;S.ses.coldStreak=0;
+  }else{
+    S.ses.coldStreak=(S.ses.coldStreak||0)+1;S.ses.hotStreak=0;
+  }
   if(ok){
     S.ses.correct++;
     if(isGolden)S.ses.goldenHit=true; // bono NC al final, no distorsiona score
@@ -1626,6 +1714,7 @@ function endMission(){
   var earned=0;
   var missionOk=passed&&hasTime;if(missionOk){
     sessSeconds=0;
+    clearMissionProgress(); // mision completada, reiniciar acumulador
     d.streak++;if(d.streak>d.best)d.best=d.streak;
     addXP(100+(score===100?50:0),d);
     // Bono por rondas extra completadas (niño rápido práctica mas = mas recompensa)
@@ -1787,8 +1876,20 @@ function renderParent(){
   // Recom
   var rc=document.getElementById('par-recom');
   if(rc){
-    var worst_mat=exp.scores.length?Math.min.apply(null,exp.scores):0;
-    rc.textContent=worst_mat<80?'El Explorador necesita refuerzo en Matemática. Práctica con los ejercicios de nivel '+(S.exp.level)+' antes de avanzar.':'El Explorador va muy bien! Puede intentar el siguiente nivel pronto.';
+    var weakE=getWeakTopics('exp'), weakG=getWeakTopics('gua');
+    var html='';
+    function weakLine(label,weak,d){
+      if(weak.length>0){
+        var tags=weak.slice(0,4).map(function(w){return '<span style=\"display:inline-block;background:rgba(255,82,82,0.12);color:var(--rd);font-weight:800;font-size:11px;padding:3px 9px;border-radius:999px;margin:2px;\">'+w.name+' '+w.pct+'%</span>';}).join('');
+        return '<div style=\"margin-bottom:8px;\"><b>'+label+'</b> está reforzando: '+tags+'<div style=\"font-size:11px;color:var(--tx3);margin-top:4px;\">El juego le repetirá estos temas hasta dominarlos (80%+).</div></div>';
+      }
+      var anyData=d.skills&&Object.keys(d.skills).length>0;
+      if(anyData)return '<div style=\"margin-bottom:8px;color:var(--gr);font-weight:700;\">'+label+' domina todos sus temas actuales. Listo para más retos!</div>';
+      return '<div style=\"margin-bottom:8px;color:var(--tx3);\">'+label+': aún sin datos suficientes. Necesita jugar más misiones.</div>';
+    }
+    html+=weakLine('Explorador',weakE,S.exp);
+    html+=weakLine('Guardián',weakG,S.gua);
+    rc.innerHTML=html;
   }
   // Levels
   var ple=document.getElementById('plve'),ples=document.getElementById('plves');
@@ -2037,6 +2138,19 @@ function getDailySeconds(){
 function addDailySeconds(n){var d=S[S.mode];getDailySeconds();d.dailySeconds=(d.dailySeconds||0)+n;saveState();}
 function dailyCap(){var d=S[S.mode];return d.didRecovery?DAILY_MAX_REC:DAILY_MAX;}
 function dailyLimitReached(){return getDailySeconds()>=dailyCap();}
+// ── Tiempo de mision acumulado por dia (permite pausar y retomar) ──
+function getMissionProgress(){
+  var d=S[S.mode];
+  if(!d.missionDate||d.missionDate!==todayKey()){d.missionDate=todayKey();d.missionSeconds=0;saveState();}
+  return d.missionSeconds||0;
+}
+function saveMissionProgress(secs){
+  var d=S[S.mode];getMissionProgress();
+  d.missionSeconds=secs;saveState();
+}
+function clearMissionProgress(){
+  var d=S[S.mode];d.missionSeconds=0;d.missionDate=todayKey();saveState();
+}
 function startSessTimer() {
   if(sessSeconds>=SESS_TARGET) return; // already reached goal, no need to restart
   clearInterval(sessInt);
@@ -2045,6 +2159,7 @@ function startSessTimer() {
     sessSeconds++;
     var d=S[S.mode]; d.sessTime=(d.sessTime||0)+1;
     addDailySeconds(1);
+    if(sessSeconds%5===0)saveMissionProgress(sessSeconds); // guardar cada 5s por si cierra el navegador
     updSessBar();
     if(sessSeconds===SESS_TARGET){SND.win();toast('15 minutos completados! Ya puedes completar tu misión.');}
     if(dailyLimitReached()){clearInterval(sessInt);toast('Limite diario alcanzado ('+Math.floor(dailyCap()/60)+' min). Vuelve mañana!');}
