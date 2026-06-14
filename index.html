@@ -571,7 +571,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 <!-- SELECT -->
 <div id="sel" class="screen active">
   <div class="profile-banner" id="profile-banner"><div class="pb-avatar exp" id="pb-avatar">&#9889;</div><div class="pb-info"><div class="pb-name" id="pb-name">Guardian</div><div class="pb-detail" id="pb-detail">Modo Explorador &bull; Grado 4</div></div><button class="pb-edit" onclick="SND.ui();showScreen('onboard');obGoStep(0)">Editar perfil</button></div>
-  <div class="logo" onclick="logoTap()" style="cursor:pointer;user-select:none;"><h1 style="pointer-events:none;">NEXUS</h1><p>Academia de Guardianes</p></div>
+  <div class="logo" id="nexus-logo" style="cursor:pointer;user-select:none;"><h1 style="pointer-events:none;">NEXUS</h1><p style="pointer-events:none;">Academia de Guardianes</p></div>
   <div class="sel-cards">
     <div class="scard exp" onclick="SND.ui();startMode('exp')">
       <div class="sico">&#9889;</div><h2>Modo Explorador</h2>
@@ -1137,6 +1137,21 @@ function changePinFlow(){S.pinChanging=true;S.pinNew='';pbuf=[];renderPinUI('Ing
 // ═══ PARTICLES ═══
 // INIT
 (function(){if(S.onboarded){updateProfileBanner();}else{showScreen('onboard');if(typeof obGoStep!=='undefined')obGoStep(0);}})();
+// Bind secret admin access to logo (touch + click, deduped)
+(function(){
+  var logo=document.getElementById('nexus-logo');
+  if(!logo)return;
+  var lastTap=0;
+  function handler(e){
+    e.preventDefault();
+    var now=Date.now();
+    if(now-lastTap<120)return; // ignore duplicate touch+click within 120ms
+    lastTap=now;
+    logoTap();
+  }
+  logo.addEventListener('touchend',handler,{passive:false});
+  logo.addEventListener('click',handler);
+})();
 (function(){var c=document.getElementById('ptc');if(!c)return;var cols=['#4DAFFF33','#9B6FFF33','#18CDB033','#FFB83022'];for(var i=0;i<18;i++){var p=document.createElement('div');p.className='pt';var sz=Math.random()*4+2;p.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+cols[i%4]+';left:'+Math.random()*100+'%;animation-duration:'+(Math.random()*16+8)+'s;animation-delay:'+(Math.random()*10)+'s;';c.appendChild(p);}})();
 
 // ═══ MODE ═══
@@ -2248,7 +2263,7 @@ function admCopyText(){
 // ════ GOOGLE SHEETS SYNC ════
 // Pega aqui la URL del Apps Script Web App (entre las comillas).
 // Si queda vacia, el juego funciona igual pero no envia datos.
-var SHEETS_URL = '';
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyZmYD-7QjfbpUAKG7MZWhSIzJmu9PshhCzpAMLCRj1j7e1w0RLc6FXnho_5ZRFEkux2A/exec';
 
 function syncToSheets(){
   if(!SHEETS_URL) return;
