@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>NEXOS — Academia de Guardianes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+:root{
+  --bg:#09091A;--card:#13132A;--card2:#1A1A38;--bdr:rgba(255,255,255,0.08);--bdr2:rgba(255,255,255,0.18);
+  --tx:#EEEEFF;--tx2:#A8A8D0;--tx3:#5A5A88;
+  --bl:#4DAFFF;--pu:#9B6FFF;--tl:#18CDB0;--am:#FFB830;--rd:#FF5252;--gr:#2EDC7D;--pk:#FF6EB4;
+  --exp:linear-gradient(135deg,#4DAFFF,#18CDB0);
+  --gua:linear-gradient(135deg,#9B6FFF,#FF6EB4);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--tx);font-family:'Nunito','Segoe UI','SF Pro Rounded',system-ui,sans-serif;font-size:16px;}
+button{font-family:inherit;cursor:pointer;border:none;outline:none;}
+#ptc{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.pt{position:absolute;border-radius:50%;animation:pf linear infinite;opacity:0.18;}
+@keyframes pf{0%{transform:translateY(110vh)}100%{transform:translateY(-10vh)}}
+#app{position:relative;z-index:1;height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+.screen{display:none;height:100vh;overflow:hidden;flex-direction:column;}
+.screen.active{display:flex;}
+
+/* ═══ SELECT ═══ */
+#sel{align-items:center;justify-content:center;padding:1.5rem;overflow-y:auto;gap:0;}
+.logo{text-align:center;margin-bottom:2rem;}
+.logo h1{font-size:clamp(38px,8vw,70px);font-weight:900;letter-spacing:-2px;background:linear-gradient(135deg,#4DAFFF,#9B6FFF,#18CDB0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.logo p{color:var(--tx3);font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-top:4px;font-weight:800;}
+.sel-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:700px;width:100%;margin-bottom:1.2rem;}
+.scard{background:var(--card);border:2px solid var(--bdr);border-radius:22px;padding:1.8rem;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
+.scard::after{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.scard.exp::after{background:var(--exp);}
+.scard.gua::after{background:var(--gua);}
+.scard:hover{transform:translateY(-4px);border-color:var(--bdr2);}
+.scard.exp:hover{box-shadow:0 20px 40px rgba(77,175,255,0.2);}
+.scard.gua:hover{box-shadow:0 20px 40px rgba(155,111,255,0.2);}
+.sico{font-size:48px;margin-bottom:12px;}
+.scard h2{font-size:22px;font-weight:900;margin-bottom:5px;}
+.scard.exp h2{color:var(--bl);}
+.scard.gua h2{color:var(--pu);}
+.scard p{color:var(--tx2);font-size:14px;line-height:1.6;margin-bottom:12px;font-weight:600;}
+.tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tag{font-size:11px;padding:3px 10px;border-radius:999px;font-weight:800;}
+.tb{background:rgba(77,175,255,0.14);color:var(--bl);}
+.tp{background:rgba(155,111,255,0.14);color:var(--pu);}
+.tt{background:rgba(24,205,176,0.14);color:var(--tl);}
+.ta{background:rgba(255,184,48,0.14);color:var(--am);}
+.sel-foot{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.gbtn{background:transparent;border:2px solid var(--bdr);color:var(--tx3);padding:9px 18px;border-radius:10px;font-size:14px;font-weight:800;transition:all 0.2s;}
+.gbtn:hover{border-color:var(--bdr2);color:var(--tx2);}
+.sndbtn{background:rgba(255,255,255,0.04);border:2px solid var(--bdr);color:var(--tx2);padding:9px 16px;border-radius:10px;font-size:14px;font-weight:800;}
+
+/* ═══ GAME HEADER ═══ */
+.ghdr{background:var(--card);border-bottom:2px solid var(--bdr);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.hdrl{display:flex;align-items:center;gap:8px;}
+.bbtn{background:rgba(255,255,255,0.06);border:2px solid var(--bdr);color:var(--tx2);padding:6px 12px;border-radius:8px;font-size:13px;font-weight:800;transition:all 0.2s;}
+.bbtn:hover{background:rgba(255,255,255,0.12);color:var(--tx);}
+.mbdg{font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;letter-spacing:1px;text-transform:uppercase;}
+.mbdg.exp{background:rgba(77,175,255,0.2);color:var(--bl);}
+.mbdg.gua{background:rgba(155,111,255,0.2);color:var(--pu);}
+.lvlbdg{font-size:11px;font-weight:900;padding:4px 11px;border-radius:999px;background:rgba(255,184,48,0.15);color:var(--am);}
+.hdrr{display:flex;align-items:center;gap:12px;}
+.hst{display:flex;align-items:center;gap:4px;font-size:14px;font-weight:900;}
+.hl{color:var(--tx3);font-weight:700;font-size:12px;margin-right:1px;}
+.coinh{cursor:pointer;}
+.cmbar{width:38px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:2px;overflow:hidden;}
+.cmfill{height:100%;border-radius:2px;background:var(--tl);transition:width 0.4s;}
+.shopbtn{background:rgba(24,205,176,0.1);border:2px solid rgba(24,205,176,0.3);color:var(--tl);padding:5px 12px;border-radius:8px;font-size:12px;font-weight:900;}
+
+/* ═══ HUB ═══ */
+#hub{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:20px;}
+.greet h2{font-size:clamp(20px,4vw,28px);font-weight:900;margin-bottom:4px;}
+.greet h2 em{font-style:normal;background:linear-gradient(135deg,var(--bl),var(--pu));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.greet p{color:var(--tx2);font-size:14px;margin-bottom:18px;font-weight:600;}
+.hubg{display:grid;grid-template-columns:1fr 280px;gap:14px;margin-bottom:20px;}
+.card{background:var(--card);border:2px solid var(--bdr);border-radius:16px;padding:1.2rem;}
+.slbl{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;color:var(--tx3);margin-bottom:8px;}
+.mtit{font-size:18px;font-weight:900;margin-bottom:5px;}
+.mdsc{font-size:14px;color:var(--tx2);line-height:1.6;margin-bottom:12px;font-weight:600;}
+.mmeta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;}
+.chip{font-size:12px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.06);color:var(--tx2);font-weight:700;}
+.playbtn{width:100%;padding:15px;border-radius:13px;border:none;font-size:16px;font-weight:900;color:#fff;transition:all 0.2s;}
+.playbtn:hover{opacity:0.88;transform:scale(1.01);}
+.playbtn:active{transform:scale(0.97);}
+.sistack{display:flex;flex-direction:column;gap:12px;}
+.stbig{font-size:52px;font-weight:900;color:var(--am);line-height:1;}
+.stsub{font-size:13px;color:var(--tx2);margin-top:2px;margin-bottom:10px;font-weight:600;}
+.dots{display:flex;gap:4px;flex-wrap:wrap;}
+.dot{width:18px;height:18px;border-radius:4px;}
+.dot.done{background:var(--am);}
+.dot.today{background:rgba(255,184,48,0.3);border:2px solid var(--am);animation:dp 1.5s infinite;}
+.dot.empty{background:rgba(255,255,255,0.06);}
+@keyframes dp{0%,100%{opacity:1}50%{opacity:0.35}}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:2px solid var(--bdr);font-size:14px;}
+.srow:last-child{border-bottom:none;}
+.srl{color:var(--tx2);font-weight:600;}
+.srv{font-weight:900;}
+/* Coin panel */
+.cpnl{background:linear-gradient(135deg,rgba(24,205,176,0.08),rgba(77,175,255,0.04));border:2px solid rgba(24,205,176,0.2);border-radius:16px;padding:1.2rem;margin-top:12px;}
+.cpnltop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+.cpnltop h3{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--tl);font-weight:900;}
+.ctot{font-size:30px;font-weight:900;color:var(--tl);}
+.ctierlbl{font-size:12px;color:var(--tx3);font-weight:700;margin-bottom:6px;}
+.cbarw{height:10px;background:rgba(255,255,255,0.07);border-radius:5px;overflow:hidden;margin-bottom:5px;}
+.cbarf{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--tl),var(--bl));transition:width 0.6s;}
+.cblbls{display:flex;justify-content:space-between;font-size:10px;color:var(--tx3);margin-bottom:10px;font-weight:700;}
+.cearnrow{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px;}
+.cearn{font-size:11px;padding:3px 8px;border-radius:5px;background:rgba(255,255,255,0.05);color:var(--tx3);font-weight:700;}
+.shopobtn{width:100%;padding:10px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--tl),var(--bl));color:#fff;font-size:13px;font-weight:900;}
+/* Worlds */
+.wg{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px;}
+.wc{background:var(--card);border:2px solid var(--bdr);border-radius:12px;padding:11px 7px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.wc:hover:not(.lk){border-color:var(--bdr2);transform:translateY(-2px);}
+.wc.lk{opacity:0.3;cursor:default;}
+.wc.act{border-color:var(--bl);}
+.wico{font-size:26px;margin-bottom:5px;}
+.wn{font-size:11px;font-weight:900;margin-bottom:2px;}
+.wt{font-size:10px;color:var(--tx3);line-height:1.4;font-weight:700;}
+.wp{height:3px;background:rgba(255,255,255,0.07);border-radius:2px;margin-top:5px;overflow:hidden;}
+.wpf{height:100%;border-radius:2px;}
+/* Achievements */
+.achrow{display:flex;gap:9px;overflow-x:auto;padding-bottom:6px;margin-bottom:4px;}
+.ac{background:var(--card);border:2px solid var(--bdr);border-radius:12px;padding:11px;min-width:116px;flex-shrink:0;}
+.ac.lk{opacity:0.3;}
+.ai{font-size:22px;margin-bottom:5px;}
+.an{font-size:12px;font-weight:900;margin-bottom:2px;}
+.ad{font-size:10px;color:var(--tx3);line-height:1.4;font-weight:700;}
+/* Level card */
+.lvlcard{background:linear-gradient(135deg,rgba(255,184,48,0.08),rgba(255,184,48,0.03));border:2px solid rgba(255,184,48,0.2);border-radius:13px;padding:11px 14px;margin-top:12px;display:flex;align-items:center;gap:12px;}
+.lvlnum{font-size:34px;font-weight:900;color:var(--am);}
+.lvlinf{flex:1;}
+.lvltit{font-size:14px;font-weight:900;color:var(--am);margin-bottom:2px;}
+.lvlsub{font-size:12px;color:var(--tx3);font-weight:700;}
+.lvlpw{height:5px;background:rgba(255,255,255,0.07);border-radius:3px;margin-top:5px;overflow:hidden;}
+.lvlpf{height:100%;border-radius:3px;background:var(--am);transition:width 0.5s;}
+/* Guardian rank */
+.grk{background:linear-gradient(135deg,rgba(155,111,255,0.1),rgba(255,110,180,0.07));border:2px solid rgba(155,111,255,0.3);border-radius:16px;padding:1.2rem;margin-top:12px;}
+.grk h3{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--pu);font-weight:900;margin-bottom:10px;}
+.rkrow{display:flex;align-items:center;gap:9px;margin-bottom:8px;}
+.rkrow:last-child{margin-bottom:0;}
+.rkico{font-size:13px;width:22px;}
+.rklbl{font-size:13px;flex:1;color:var(--tx2);font-weight:700;}
+.rkbar{width:56px;height:4px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden;}
+.rkbf{height:100%;border-radius:2px;}
+.rkv{font-size:13px;font-weight:900;}
+/* Area tabs */
+.area-tabs{display:flex;gap:8px;margin-bottom:16px;}
+.area-tab{flex:1;padding:10px;border-radius:10px;border:2px solid var(--bdr);background:transparent;color:var(--tx2);font-size:13px;font-weight:800;transition:all 0.2s;cursor:pointer;}
+.area-tab.active.exp{background:rgba(77,175,255,0.15);border-color:var(--bl);color:var(--bl);}
+.area-tab.active.gua{background:rgba(155,111,255,0.15);border-color:var(--pu);color:var(--pu);}
+
+/* ═══ MINIGAME ═══ */
+#mg{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:20px;display:none;}
+.mghdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.mgwt{font-size:12px;font-weight:800;color:var(--tx3);margin-bottom:2px;}
+.mgtit{font-size:20px;font-weight:900;}
+.timw{display:flex;align-items:center;gap:7px;}
+.tbw{width:110px;height:9px;background:rgba(255,255,255,0.1);border-radius:5px;overflow:hidden;}
+.tbar{height:100%;border-radius:5px;transition:width 0.1s linear;}
+.tbar.g{background:var(--gr);}
+.tbar.a{background:var(--am);}
+.tbar.r{background:var(--rd);}
+.tnum{font-size:16px;font-weight:900;min-width:26px;}
+.pg{display:flex;gap:5px;margin-bottom:20px;}
+.pd{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,0.07);}
+.pd.ok{background:var(--gr);}
+.pd.no{background:var(--rd);}
+.pd.now{background:var(--bl);animation:dp 1s infinite;}
+.area-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:900;margin-bottom:14px;}
+.area-badge.mat{background:rgba(77,175,255,0.15);color:var(--bl);}
+.area-badge.len{background:rgba(155,111,255,0.15);color:var(--pu);}
+.qcard{background:var(--card);border:2px solid var(--bdr);border-radius:20px;padding:1.8rem;max-width:580px;margin:0 auto 14px;}
+.qlvl{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--tx3);margin-bottom:7px;}
+.qctx{font-size:13px;color:var(--tx3);font-style:italic;margin-bottom:7px;font-weight:700;}
+.qtxt{font-size:clamp(17px,3vw,24px);font-weight:900;line-height:1.5;margin-bottom:20px;color:var(--tx);}
+.qvis{background:rgba(255,255,255,0.03);border:2px solid var(--bdr);border-radius:12px;padding:1rem;margin-bottom:18px;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;font-size:26px;font-weight:900;line-height:1.1;}
+.fn{border-bottom:3px solid var(--tx);padding-bottom:3px;}
+.fd{padding-top:3px;}
+.fop{font-size:24px;font-weight:900;color:var(--tx2);}
+.fblank{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border:3px dashed var(--bl);border-radius:8px;font-size:20px;font-weight:900;color:var(--bl);}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.opt{background:rgba(255,255,255,0.05);border:2px solid var(--bdr);border-radius:12px;padding:15px;font-size:18px;font-weight:900;text-align:center;color:var(--tx);transition:all 0.2s;}
+.opt:hover{background:rgba(77,175,255,0.1);border-color:var(--bl);}
+.opt.ok{background:rgba(46,220,125,0.2);border-color:var(--gr);color:var(--gr);pointer-events:none;}
+.opt.no{background:rgba(255,82,82,0.15);border-color:var(--rd);color:var(--rd);pointer-events:none;}
+.opt4{grid-template-columns:1fr 1fr;}
+/* Lengua options */
+.lopt{background:rgba(255,255,255,0.05);border:2px solid var(--bdr);border-radius:12px;padding:13px 16px;font-size:15px;font-weight:700;text-align:left;color:var(--tx);transition:all 0.2s;display:block;width:100%;margin-bottom:8px;}
+.lopt:hover{background:rgba(155,111,255,0.1);border-color:var(--pu);}
+.lopt.ok{background:rgba(46,220,125,0.2);border-color:var(--gr);color:var(--gr);pointer-events:none;}
+.lopt.no{background:rgba(255,82,82,0.15);border-color:var(--rd);color:var(--rd);pointer-events:none;}
+/* Reading passage */
+.passage{background:rgba(255,255,255,0.03);border:2px solid var(--bdr);border-radius:12px;padding:1.2rem;margin-bottom:16px;font-size:15px;line-height:1.8;color:var(--tx2);font-weight:600;}
+.passage strong{color:var(--tx);font-weight:900;}
+
+/* ═══ FEEDBACK ═══ */
+.fb{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card2);border:2px solid var(--bdr2);border-radius:20px;padding:2rem;text-align:center;z-index:200;min-width:270px;max-width:90vw;animation:fpop 0.28s ease;}
+.fb.on{display:block;}
+@keyframes fpop{0%{transform:translate(-50%,-50%) scale(0.65);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.fbi{font-size:60px;margin-bottom:10px;}
+.fbt{font-size:24px;font-weight:900;margin-bottom:6px;}
+.fbs{font-size:14px;color:var(--tx2);margin-bottom:16px;font-weight:700;}
+.fbb{padding:12px 32px;border-radius:11px;font-size:15px;font-weight:900;color:#fff;}
+.fboverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199;}
+.fboverlay.on{display:block;}
+
+/* ═══ RESULT ═══ */
+#res{align-items:center;justify-content:center;padding:1.5rem;overflow-y:auto;}
+.rcard{background:var(--card);border:2px solid var(--bdr);border-radius:24px;padding:2rem;max-width:460px;width:100%;text-align:center;}
+.rico{font-size:72px;margin-bottom:10px;}
+.rtit{font-size:26px;font-weight:900;margin-bottom:4px;}
+.rsw{display:flex;align-items:center;justify-content:center;gap:16px;margin:1.4rem 0;}
+.rscore{font-size:76px;font-weight:900;line-height:1;}
+.rscore.p{color:var(--gr);}
+.rscore.f{color:var(--am);}
+.rslbl{font-size:14px;color:var(--tx3);text-align:left;line-height:1.9;font-weight:700;}
+.rbars{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem;}
+.rbrow{display:flex;align-items:center;gap:9px;}
+.rbl{font-size:12px;color:var(--tx3);width:105px;text-align:right;flex-shrink:0;font-weight:700;}
+.rbtrk{flex:1;height:8px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;}
+.rbf{height:100%;border-radius:4px;transition:width 1s ease;}
+.rews{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:1.4rem;}
+.rew{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.05);border:2px solid var(--bdr);border-radius:8px;padding:6px 11px;font-size:13px;font-weight:800;}
+.ract{display:flex;gap:9px;}
+.rbtn{flex:1;padding:14px;border-radius:12px;font-size:15px;font-weight:900;color:#fff;transition:all 0.2s;}
+.rbtn.sec{background:rgba(255,255,255,0.06);border:2px solid var(--bdr);color:var(--tx2);}
+.recovbox{background:rgba(255,184,48,0.06);border:2px solid rgba(255,184,48,0.28);border-radius:13px;padding:1rem;margin:10px 0;text-align:left;}
+.recovbox h4{color:var(--am);font-size:14px;font-weight:900;margin-bottom:4px;}
+.recovbox p{font-size:13px;color:var(--tx2);line-height:1.6;font-weight:600;}
+/* Share card */
+.share-card{background:linear-gradient(135deg,rgba(77,175,255,0.12),rgba(155,111,255,0.1));border:2px solid rgba(77,175,255,0.25);border-radius:14px;padding:1rem;margin-bottom:12px;text-align:center;}
+.share-card p{font-size:13px;color:var(--tx2);margin-bottom:10px;font-weight:700;}
+.share-btns{display:flex;gap:8px;justify-content:center;}
+.share-btn{padding:8px 16px;border-radius:9px;font-size:13px;font-weight:900;border:none;cursor:pointer;color:#fff;transition:all 0.2s;}
+.share-btn.wa{background:#25D366;}
+.share-btn.cp{background:rgba(255,255,255,0.1);border:2px solid var(--bdr);color:var(--tx2);}
+
+/* ═══ PIN ═══ */
+#pin{align-items:center;justify-content:center;padding:2rem;overflow-y:auto;}
+.pincard{background:var(--card);border:2px solid var(--bdr);border-radius:22px;padding:2.2rem;max-width:360px;width:100%;text-align:center;}
+.pinico{font-size:60px;margin-bottom:14px;}
+.pincard h2{font-size:24px;font-weight:900;margin-bottom:5px;}
+.pincard p{font-size:14px;color:var(--tx2);margin-bottom:20px;font-weight:700;}
+.pindots{display:flex;justify-content:center;gap:12px;margin-bottom:20px;}
+.pindot{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.1);border:2px solid var(--bdr2);transition:all 0.2s;}
+.pindot.filled{background:var(--pu);border-color:var(--pu);}
+.pinkpad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-width:250px;margin:0 auto 14px;}
+.pk{background:var(--card2);border:2px solid var(--bdr);border-radius:11px;padding:15px;font-size:22px;font-weight:900;color:var(--tx);transition:all 0.2s;}
+.pk:hover{background:rgba(155,111,255,0.15);border-color:var(--pu);}
+.pk:active{transform:scale(0.93);}
+.pk.del{font-size:17px;color:var(--tx3);}
+.pinempty{background:transparent!important;border:none!important;cursor:default!important;}
+.pinerr{color:var(--rd);font-size:14px;font-weight:800;height:20px;margin-bottom:8px;}
+.pinhint{font-size:12px;color:var(--tx3);font-weight:700;}
+
+/* ═══ PARENT ═══ */
+#par{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;padding:22px;}
+.parhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.parhdr h2{font-size:22px;font-weight:900;}
+.pgrid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:20px;}
+.pst{background:var(--card);border:2px solid var(--bdr);border-radius:14px;padding:1.1rem;}
+.psn{font-size:32px;font-weight:900;line-height:1;}
+.psl{font-size:12px;color:var(--tx3);margin-top:3px;font-weight:700;}
+.pch{margin-bottom:20px;}
+.pch h3{font-size:16px;font-weight:900;margin-bottom:10px;}
+.pwg{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:12px;}
+.pday{border-radius:8px;padding:8px 4px;text-align:center;}
+.pday.ok{background:rgba(46,220,125,0.12);border:2px solid rgba(46,220,125,0.25);}
+.pday.miss{background:rgba(255,82,82,0.07);border:2px solid rgba(255,82,82,0.15);}
+.pday.fut{background:rgba(255,255,255,0.03);border:2px solid var(--bdr);}
+.pdn{font-size:10px;color:var(--tx3);margin-bottom:2px;font-weight:800;}
+.pds{font-size:14px;font-weight:900;}
+.pday.ok .pds{color:var(--gr);}
+.pday.miss .pds{color:var(--rd);}
+.tbars{display:flex;flex-direction:column;gap:8px;}
+.trow{display:flex;align-items:center;gap:9px;}
+.tnm{font-size:13px;color:var(--tx2);width:140px;flex-shrink:0;font-weight:800;}
+.ttrk{flex:1;height:10px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden;}
+.tfill{height:100%;border-radius:5px;}
+.tpct{font-size:13px;font-weight:900;min-width:32px;text-align:right;}
+.divl{height:2px;background:var(--bdr);margin:16px 0;}
+.plog{background:var(--card);border:2px solid var(--bdr);border-radius:14px;padding:1.1rem;}
+.logrow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:2px solid var(--bdr);font-size:13px;}
+.logrow:last-child{border-bottom:none;}
+.plvlg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.plvlc{background:var(--card);border:2px solid var(--bdr);border-radius:13px;padding:13px;}
+.plvln{font-size:13px;font-weight:800;color:var(--tx2);margin-bottom:4px;}
+.plvlv{font-size:22px;font-weight:900;color:var(--am);}
+.plvls{font-size:12px;color:var(--tx3);font-weight:700;}
+/* Today summary */
+.today-card{background:linear-gradient(135deg,rgba(46,220,125,0.08),rgba(24,205,176,0.05));border:2px solid rgba(46,220,125,0.22);border-radius:14px;padding:1.1rem;margin-bottom:16px;}
+.today-card h3{font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:var(--gr);font-weight:900;margin-bottom:10px;}
+.today-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.today-item{text-align:center;}
+.today-val{font-size:22px;font-weight:900;}
+.today-lbl{font-size:11px;color:var(--tx3);font-weight:700;margin-top:2px;}
+/* Recomendacion */
+.recom-card{background:rgba(255,184,48,0.05);border:2px solid rgba(255,184,48,0.18);border-radius:12px;padding:1rem;margin-bottom:14px;}
+.recom-card h4{color:var(--am);font-size:13px;font-weight:900;margin-bottom:5px;}
+.recom-card p{font-size:13px;color:var(--tx2);font-weight:600;line-height:1.6;}
+
+/* ═══ SHOP ═══ */
+#shop{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;padding:22px;}
+.shophdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+.shophdr h2{font-size:20px;font-weight:900;}
+.shophdr p{font-size:12px;color:var(--tx3);margin-top:2px;font-weight:700;}
+.sbal{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.sbaln{font-size:42px;font-weight:900;color:var(--tl);line-height:1;}
+.sbali{flex:1;}
+.sbalt{font-size:14px;font-weight:900;color:var(--tx2);margin-bottom:3px;}
+.scapb{height:8px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;margin-bottom:3px;}
+.scapf{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--tl),var(--bl));transition:width 0.4s;}
+.scaps{font-size:11px;color:var(--tx3);font-weight:700;}
+.econbox{background:rgba(255,184,48,0.05);border:2px solid rgba(255,184,48,0.16);border-radius:12px;padding:.9rem;margin-bottom:16px;}
+.econbox h4{color:var(--am);font-size:13px;font-weight:900;margin-bottom:7px;}
+.econg{display:grid;grid-template-columns:1fr 1fr;gap:3px 14px;}
+.erow{display:flex;justify-content:space-between;font-size:12px;padding:2px 0;font-weight:700;}
+.erl{color:var(--tx3);}
+.erv{color:var(--am);}
+.sstit{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--tx3);font-weight:900;margin:18px 0 9px;}
+.shopg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:5px;}
+.si{background:var(--card);border:2px solid var(--bdr);border-radius:14px;padding:.9rem;text-align:center;transition:all 0.2s;position:relative;}
+.si:hover:not(.sio):not(.sip){border-color:var(--bdr2);transform:translateY(-2px);}
+.si.sio{border-color:rgba(46,220,125,0.35);background:rgba(46,220,125,0.04);}
+.si.sip{opacity:0.4;}
+.siico{font-size:32px;margin-bottom:7px;}
+.sinm{font-size:13px;font-weight:900;margin-bottom:2px;}
+.sidsc{font-size:11px;color:var(--tx3);margin-bottom:7px;line-height:1.4;font-weight:700;}
+.sipr{font-size:12px;font-weight:900;color:var(--tl);margin-bottom:6px;}
+.sibtn{width:100%;padding:7px;border-radius:8px;font-size:12px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--tl),var(--bl));}
+.sibtn.ob{background:rgba(46,220,125,0.18);color:var(--gr);cursor:default;}
+.sibtn.lb{background:rgba(255,255,255,0.06);color:var(--tx3);cursor:not-allowed;}
+.opip{position:absolute;top:7px;right:7px;background:var(--gr);color:#fff;font-size:9px;font-weight:900;padding:2px 5px;border-radius:4px;}
+
+/* ═══ SHARE MODAL ═══ */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:300;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay.on{display:flex;}
+.modal{background:var(--card);border:2px solid var(--bdr2);border-radius:22px;padding:2rem;max-width:420px;width:100%;text-align:center;}
+.modal h2{font-size:22px;font-weight:900;margin-bottom:8px;}
+.modal p{font-size:14px;color:var(--tx2);margin-bottom:1.5rem;font-weight:600;line-height:1.6;}
+.prog-card{background:linear-gradient(135deg,var(--card2),rgba(77,175,255,0.08));border:2px solid rgba(77,175,255,0.2);border-radius:16px;padding:1.4rem;margin-bottom:1.4rem;text-align:left;}
+.prog-card-title{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--bl);font-weight:900;margin-bottom:12px;}
+.prog-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.prog-stat{text-align:center;}
+.prog-stat-val{font-size:24px;font-weight:900;color:var(--am);}
+.prog-stat-lbl{font-size:11px;color:var(--tx3);font-weight:700;margin-top:2px;}
+.modal-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.modal-btn{padding:10px 20px;border-radius:10px;font-size:14px;font-weight:900;border:none;cursor:pointer;color:#fff;transition:all 0.2s;}
+.modal-btn.wa{background:#25D366;}
+.modal-btn.close-btn{background:rgba(255,255,255,0.08);border:2px solid var(--bdr);color:var(--tx2);}
+
+/* ═══ FX ═══ */
+.cflt{position:fixed;font-size:16px;font-weight:900;color:var(--tl);pointer-events:none;z-index:500;animation:cfr 1.2s ease-out forwards;}
+@keyframes cfr{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-80px)}}
+.confp{position:fixed;pointer-events:none;z-index:400;border-radius:2px;animation:cfll 1.6s ease-in forwards;}
+@keyframes cfll{0%{opacity:1;transform:translateY(-20px) rotate(0)}100%{opacity:0;transform:translateY(100vh) rotate(760deg)}}
+.toast{position:fixed;top:18px;right:18px;background:var(--card2);border:2px solid var(--bdr2);border-radius:12px;padding:11px 18px;font-size:14px;font-weight:800;z-index:500;animation:tsli 0.3s ease;max-width:300px;line-height:1.5;}
+@keyframes tsli{from{transform:translateX(110px);opacity:0}to{transform:translateX(0);opacity:1}}
+@media(max-width:600px){
+  .sel-cards{grid-template-columns:1fr;}
+  .hubg{grid-template-columns:1fr;}
+  .wg{grid-template-columns:repeat(3,1fr);}
+  .pgrid{grid-template-columns:1fr 1fr;}
+  .ract{flex-direction:column;}
+  .econg{grid-template-columns:1fr;}
+  .plvlg{grid-template-columns:1fr;}
+  .today-grid{grid-template-columns:repeat(3,1fr);}
+  .prog-stats{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div id="ptc"></div>
+<div id="app">
+
+<!-- SELECT -->
+<div id="sel" class="screen active">
+  <div class="logo"><h1>NEXOS</h1><p>Academia de Guardianes</p></div>
+  <div class="sel-cards">
+    <div class="scard exp" onclick="SND.ui();startMode('exp')">
+      <div class="sico">&#9889;</div><h2>Modo Explorador</h2>
+      <p>Aventuras rapidas, matematica y lengua espanola. Para guardianes de 9 a 10 anos.</p>
+      <div class="tags"><span class="tag tb">9-10 anos</span><span class="tag tt">4to a 5to</span><span class="tag tb">Matematica</span><span class="tag tt">Lengua</span></div>
+    </div>
+    <div class="scard gua" onclick="SND.ui();startMode('gua')">
+      <div class="sico">&#128737;</div><h2>Modo Guardian</h2>
+      <p>Niveles, ranking y logros. Matematica y Lengua espanola para guardianes de 14 a 15 anos.</p>
+      <div class="tags"><span class="tag tp">14-15 anos</span><span class="tag ta">8vo a 9no</span><span class="tag tp">Matematica</span><span class="tag ta">Lengua</span></div>
+    </div>
+  </div>
+  <div class="sel-foot">
+    <button class="gbtn" onclick="showPin()">Panel de Padres</button>
+    <button class="sndbtn" id="sndt" onclick="toggleSnd()">&#128266; Sonido ON</button>
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="game" class="screen">
+  <div class="ghdr">
+    <div class="hdrl">
+      <button class="bbtn" onclick="SND.ui();goHome()">Inicio</button>
+      <span class="mbdg" id="mbdg">EXP</span>
+      <span class="lvlbdg" id="lvlb">Nv.1</span>
+    </div>
+    <div class="hdrr">
+      <div class="hst">&#128293;<span class="hl">Racha</span><span id="hst">0</span></div>
+      <div class="hst coinh" onclick="SND.ui();openShop()">
+        <span>&#129693;</span><span class="hl">NC</span>
+        <div><span id="hco">0</span><div class="cmbar"><div class="cmfill" id="hcobar" style="width:0%"></div></div></div>
+      </div>
+      <div class="hst">&#9889;<span class="hl">XP</span><span id="hxp">0</span></div>
+      <button class="shopbtn" onclick="SND.ui();openShop()">Tienda</button>
+    </div>
+  </div>
+  <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0;">
+    <div id="hub">
+      <div class="greet"><h2>Hola, <em id="gname">Guardian</em>!</h2><p id="gsub">Tu mision te espera.</p></div>
+      <!-- Area tabs -->
+      <div class="area-tabs">
+        <button class="area-tab active" id="tab-mat" onclick="setArea('mat')">&#129518; Matematica</button>
+        <button class="area-tab" id="tab-len" onclick="setArea('len')">&#128218; Lengua Espanola</button>
+      </div>
+      <div class="hubg">
+        <div>
+          <div class="card">
+            <div class="slbl">Mision del dia</div>
+            <div class="mtit" id="mtit">Isla Nexus - Nivel 1</div>
+            <div class="mdsc" id="mdsc">Completa los retos para proteger el Nexus.</div>
+            <div class="mmeta"><span class="chip">15 min minimo</span><span class="chip">Meta: 80/100</span><span class="chip" id="mrew">+50 NC</span></div>
+            <button class="playbtn" id="playbtn" onclick="SND.ui();startMission()">&#9876; Comenzar mision</button>
+          </div>
+          <div class="lvlcard">
+            <div class="lvlnum" id="hlvln">1</div>
+            <div class="lvlinf">
+              <div class="lvltit" id="hlvlt">Guardian Novato</div>
+              <div class="lvlsub" id="hlvls">Completa misiones para subir de nivel</div>
+              <div class="lvlpw"><div class="lvlpf" id="hlvlb" style="width:0%"></div></div>
+            </div>
+          </div>
+          <div class="cpnl">
+            <div class="cpnltop"><h3>Nexos Coins</h3><div class="ctot" id="cptot">0</div></div>
+            <div class="ctierlbl" id="cptier">Cofre basico - Limite: 5000 NC</div>
+            <div class="cbarw"><div class="cbarf" id="cpbar" style="width:0%"></div></div>
+            <div class="cblbls"><span>0</span><span id="cpmid">2500</span><span id="cpmax">5000</span></div>
+            <div class="cearnrow"><span class="cearn">Mision: +50</span><span class="cearn">Racha: +10/dia</span><span class="cearn">Score 100: +25</span><span class="cearn">Jefe: +100</span></div>
+            <button class="shopobtn" onclick="SND.ui();openShop()">Abrir Tienda del Nexus</button>
+          </div>
+          <div id="grk" class="grk" style="display:none;">
+            <h3>Tu record personal</h3>
+            <div class="rkrow"><span class="rkico">&#127941;</span><span class="rklbl">Mejor score</span><div class="rkbar"><div class="rkbf" id="rb1" style="width:0%;background:var(--pu)"></div></div><span class="rkv" id="rv1" style="color:var(--pu)">-</span></div>
+            <div class="rkrow"><span class="rkico">&#128197;</span><span class="rklbl">Ultima sesion</span><div class="rkbar"><div class="rkbf" id="rb2" style="width:0%;background:var(--tl)"></div></div><span class="rkv" id="rv2" style="color:var(--tl)">-</span></div>
+            <div class="rkrow"><span class="rkico">&#128200;</span><span class="rklbl">Promedio</span><div class="rkbar"><div class="rkbf" id="rb3" style="width:0%;background:var(--am)"></div></div><span class="rkv" id="rv3" style="color:var(--am)">-</span></div>
+          </div>
+        </div>
+        <div class="sistack">
+          <div class="card">
+            <div class="slbl">Racha activa</div>
+            <div class="stbig" id="stnum">0</div>
+            <div class="stsub">dias consecutivos</div>
+            <div class="dots" id="stdots"></div>
+          </div>
+          <div class="card" style="flex:1;">
+            <div class="slbl">Tu progreso</div>
+            <div class="srow"><span class="srl">Misiones</span><span class="srv" id="smis">0</span></div>
+            <div class="srow"><span class="srl">Score promedio</span><span class="srv" id="savg">-</span></div>
+            <div class="srow"><span class="srl">Mejor racha</span><span class="srv" id="sbst">0</span></div>
+            <div class="srow"><span class="srl">Items</span><span class="srv" style="color:var(--tl)" id="sown">0</span></div>
+            <div class="srow"><span class="srl">XP total</span><span class="srv" style="color:var(--pu)" id="sxp">0</span></div>
+          </div>
+          <button class="shopobtn" style="background:linear-gradient(135deg,#9B6FFF,#FF6EB4);" onclick="openShare()">&#128279; Compartir progreso</button>
+        </div>
+      </div>
+      <div class="slbl">Mundos del Nexus</div>
+      <div class="wg" id="wg"></div>
+      <div class="slbl">Logros</div>
+      <div class="achrow" id="achr"></div>
+    </div>
+    <div id="mg">
+      <div class="mghdr">
+        <div><div class="mgwt" id="mgwl">Pregunta 1/8</div><div class="mgtit" id="mgtit">Batalla de Energia</div></div>
+        <div class="timw"><div class="tbw"><div class="tbar g" id="tbar" style="width:100%"></div></div><span class="tnum" id="tnum">25</span></div>
+      </div>
+      <div id="areabadge"></div>
+      <div class="pg" id="pg"></div>
+      <div id="mgc"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PIN -->
+<div id="pin" class="screen">
+  <div class="pincard">
+    <div class="pinico">&#128274;</div>
+    <h2>Panel de Padres</h2>
+    <p id="pinmsg">Ingresa el PIN de 4 digitos.</p>
+    <div class="pindots" id="pindots"></div>
+    <div class="pinerr" id="pinerr"></div>
+    <div class="pinkpad" id="pinkpad"></div>
+    <div class="pinhint" id="pinhint">PIN inicial: 1234</div>
+    <button class="bbtn" style="margin-top:14px;" onclick="SND.ui();showScreen('sel')">Volver</button>
+  </div>
+</div>
+
+<!-- PARENT -->
+<div id="par" class="screen">
+  <div class="parhdr">
+    <h2>&#128202; Panel de Padres</h2>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;">
+      <button class="bbtn" onclick="SND.ui();changePinFlow()">Cambiar PIN</button>
+      <button class="bbtn" onclick="openShare()">Compartir</button>
+      <button class="bbtn" onclick="SND.ui();showScreen('sel')">Salir</button>
+    </div>
+  </div>
+  <!-- Today -->
+  <div class="today-card">
+    <h3>Hoy</h3>
+    <div class="today-grid">
+      <div class="today-item"><div class="today-val" id="td-mis" style="color:var(--gr)">-</div><div class="today-lbl">Mision</div></div>
+      <div class="today-item"><div class="today-val" id="td-score" style="color:var(--bl)">-</div><div class="today-lbl">Score</div></div>
+      <div class="today-item"><div class="today-val" id="td-streak" style="color:var(--am)">-</div><div class="today-lbl">Racha</div></div>
+    </div>
+  </div>
+  <div class="pgrid">
+    <div class="pst"><div class="psn" style="color:var(--bl)" id="pwmis">0</div><div class="psl">Misiones totales</div></div>
+    <div class="pst"><div class="psn" style="color:var(--gr)" id="pwavg">-</div><div class="psl">Score promedio</div></div>
+    <div class="pst"><div class="psn" style="color:var(--am)" id="pwse">0</div><div class="psl">Racha Explorador</div></div>
+    <div class="pst"><div class="psn" style="color:var(--pu)" id="pwsg">0</div><div class="psl">Racha Guardian</div></div>
+  </div>
+  <!-- Recomendacion -->
+  <div class="recom-card">
+    <h4>&#128161; Recomendacion del dia</h4>
+    <p id="par-recom">Completa los datos jugando una mision para ver la recomendacion.</p>
+  </div>
+  <div class="slbl">Nivel de dificultad</div>
+  <div class="plvlg">
+    <div class="plvlc"><div class="plvln">Explorador (9 anos)</div><div class="plvlv" id="plve">Nivel 1</div><div class="plvls" id="plves">Novato</div></div>
+    <div class="plvlc"><div class="plvln">Guardian (14 anos)</div><div class="plvlv" id="plvg">Nivel 1</div><div class="plvls" id="plvgs">Novato</div></div>
+  </div>
+  <div class="pch">
+    <h3><span style="color:var(--bl)">Explorador</span> - 9 anos</h3>
+    <div class="slbl">Semana actual</div><div class="pwg" id="we"></div>
+    <div class="slbl" style="margin-top:12px;">Matematica por tema</div><div class="tbars" id="te-mat"></div>
+    <div class="slbl" style="margin-top:12px;">Lengua Espanola por tema</div><div class="tbars" id="te-len"></div>
+  </div>
+  <div class="divl"></div>
+  <div class="pch">
+    <h3><span style="color:var(--pu)">Guardian</span> - 14 anos</h3>
+    <div class="slbl">Semana actual</div><div class="pwg" id="wg2"></div>
+    <div class="slbl" style="margin-top:12px;">Matematica por tema</div><div class="tbars" id="tg-mat"></div>
+    <div class="slbl" style="margin-top:12px;">Lengua Espanola por tema</div><div class="tbars" id="tg-len"></div>
+  </div>
+  <div class="divl"></div>
+  <div class="slbl">Actividad reciente</div>
+  <div class="plog" id="plog"></div>
+</div>
+
+<!-- SHOP -->
+<div id="shop" class="screen">
+  <div class="shophdr">
+    <div><h2>Tienda del Nexus</h2><p id="shcnote">Limite: 5000 NC</p></div>
+    <button class="bbtn" onclick="SND.ui();goHome()">Hub</button>
+  </div>
+  <div class="sbal">
+    <div class="sbaln" id="shcoins">0</div>
+    <div class="sbali">
+      <div class="sbalt" id="shtier">Cofre basico - 1/5</div>
+      <div class="scapb"><div class="scapf" id="shbar" style="width:0%"></div></div>
+      <div class="scaps" id="shcapsub">0 de 5000 NC</div>
+    </div>
+  </div>
+  <div class="econbox">
+    <h4>Como ganar Nexos Coins</h4>
+    <div class="econg">
+      <div class="erow"><span class="erl">Mision completada</span><span class="erv">+50 NC</span></div>
+      <div class="erow"><span class="erl">Dia de racha</span><span class="erv">+10 NC</span></div>
+      <div class="erow"><span class="erl">Score perfecto</span><span class="erv">+25 NC</span></div>
+      <div class="erow"><span class="erl">Jefe final</span><span class="erv">+100 NC</span></div>
+      <div class="erow"><span class="erl">Racha 7 dias</span><span class="erv">+70 NC</span></div>
+      <div class="erow"><span class="erl">Limite actual</span><span class="erv" id="shcapval" style="color:var(--rd)">5000 NC</span></div>
+    </div>
+    <p style="font-size:11px;color:var(--tx3);margin-top:7px;font-weight:700;" id="sheconote">Gasta NC para desbloquear cofres con mayor limite.</p>
+  </div>
+  <div id="shopbody"></div>
+</div>
+
+<!-- RESULT -->
+<div id="res" class="screen">
+  <div class="rcard">
+    <div class="rico" id="rico">&#127881;</div>
+    <div class="rtit" id="rtit">Mision completada!</div>
+    <div class="rsw"><div class="rscore p" id="rscore">92</div><div class="rslbl" id="rslbl"></div></div>
+    <div class="rbars" id="rbars"></div>
+    <div id="recsec" style="display:none;"><div class="recovbox"><h4>Tu guardian necesita mas entrenamiento</h4><p id="recmsg">Completa la mision de recuperacion.</p></div></div>
+    <div class="rews" id="rews"></div>
+    <div class="share-card" id="share-prompt" style="display:none;">
+      <p>&#127881; Comparte tu logro con tu familia!</p>
+      <div class="share-btns">
+        <button class="share-btn wa" onclick="shareWhatsApp()">&#128172; WhatsApp</button>
+        <button class="share-btn cp" onclick="copyProgress()">&#128203; Copiar</button>
+      </div>
+    </div>
+    <div class="ract">
+      <button class="rbtn sec" onclick="SND.ui();goHome()">Hub</button>
+      <button class="rbtn" id="rmbtn" onclick="nextAct()">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- #app -->
+
+<!-- FEEDBACK -->
+<div class="fboverlay" id="fboverlay"></div>
+<div class="fb" id="fb">
+  <div class="fbi" id="fbi">&#9989;</div>
+  <div class="fbt" id="fbt">Correcto!</div>
+  <div class="fbs" id="fbs">+10 XP</div>
+  <button class="fbb" id="fbb" onclick="nextQ()">Continuar</button>
+</div>
+
+<!-- SHARE MODAL -->
+<div class="modal-overlay" id="share-modal">
+  <div class="modal">
+    <h2>&#127775; Tu progreso</h2>
+    <p>Comparte con tu familia cuanto has avanzado en el reto de vacaciones.</p>
+    <div class="prog-card">
+      <div class="prog-card-title">NEXOS — Reto de vacaciones</div>
+      <div class="prog-stats">
+        <div class="prog-stat"><div class="prog-stat-val" id="sh-mis">0</div><div class="prog-stat-lbl">Misiones completadas</div></div>
+        <div class="prog-stat"><div class="prog-stat-val" id="sh-streak">0</div><div class="prog-stat-lbl">Dias de racha</div></div>
+        <div class="prog-stat"><div class="prog-stat-val" id="sh-score">-</div><div class="prog-stat-lbl">Score promedio</div></div>
+        <div class="prog-stat"><div class="prog-stat-val" id="sh-coins">0</div><div class="prog-stat-lbl">Nexos Coins</div></div>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn wa" onclick="shareWhatsApp()">&#128172; WhatsApp</button>
+      <button class="modal-btn cp" style="background:rgba(255,255,255,0.08);border:2px solid var(--bdr);color:var(--tx2);" onclick="copyProgress()">&#128203; Copiar texto</button>
+      <button class="modal-btn close-btn" onclick="closeShare()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══ SOUND ═══
+var SND=(function(){
+  var ctx=null,muted=false;
+  function gc(){if(!ctx){try{ctx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){return null;}}if(ctx&&ctx.state==='suspended')ctx.resume();return ctx;}
+  function tone(f,tp,dur,vol,d0){if(muted)return;var c=gc();if(!c)return;vol=vol||0.12;d0=d0||0;try{var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=tp;o.frequency.value=f;var t=c.currentTime+d0;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+0.01);g.gain.exponentialRampToValueAtTime(0.001,t+dur);o.start(t);o.stop(t+dur+0.05);}catch(e){}}
+  function chord(fs,tp,dur,vol,d0){fs.forEach(function(f,i){tone(f,tp,dur,vol||(0.09),(d0||0)+i*0.02);});}
+  return{
+    toggle:function(){muted=!muted;return muted;},
+    ui:function(){tone(440,'sine',0.07,0.09);},
+    correct:function(){chord([523,659,784],'sine',0.18,0.11);setTimeout(function(){tone(1047,'sine',0.22,0.08);},170);},
+    wrong:function(){tone(180,'sawtooth',0.3,0.13);setTimeout(function(){tone(140,'sawtooth',0.2,0.09);},120);},
+    tick:function(){tone(900,'square',0.04,0.07);},
+    expire:function(){tone(220,'sawtooth',0.4,0.16);setTimeout(function(){tone(160,'sawtooth',0.3,0.12);},180);},
+    win:function(){[0,130,260,390].forEach(function(d,i){setTimeout(function(){chord([523*(1+i*0.17),659*(1+i*0.13),784],'sine',0.28,0.1);},d);});},
+    fail:function(){chord([400,320,250],'sawtooth',0.5,0.11);},
+    coin:function(){[1046,1318,1568].forEach(function(f,i){tone(f,'sine',0.13,0.07,i*0.07);});},
+    unlock:function(){chord([392,523,659,784,1047],'sine',0.45,0.08);},
+    buy:function(){chord([523,659,784,1047],'sine',0.22,0.08);},
+    hover:function(){tone(330,'sine',0.05,0.06);},
+    streak:function(){[0,110,220].forEach(function(d){setTimeout(function(){tone(660,'sine',0.11,0.09);},d);});},
+  };
+})();
+
+// ═══ TIERS & LEVELS ═══
+var TIERS=[{cap:5000,lbl:'Cofre basico'},{cap:8000,lbl:'Cofre de plata'},{cap:12000,lbl:'Cofre de oro'},{cap:18000,lbl:'Cofre de cristal'},{cap:25000,lbl:'Cofre legendario'}];
+var TSPEND=[0,1500,4000,8000,15000];
+var DLVLS=[
+  {n:1,name:'Novato',     ops:['add'],                         maxN:10,  timer:30},
+  {n:2,name:'Aprendiz',   ops:['add','sub'],                   maxN:20,  timer:25},
+  {n:3,name:'Explorador', ops:['add','sub','mul'],              maxN:50,  timer:22},
+  {n:4,name:'Guerrero',   ops:['add','sub','mul','div','table'],maxN:100, timer:18},
+  {n:5,name:'Elite',      ops:['add','sub','mul','div','table','frac'],maxN:100,timer:15},
+];
+var LXP=[0,300,700,1400,2500];
+
+// ═══ SHOP CATALOG ═══
+var CAT=[
+  {id:'p1',sec:'Poderes',name:'Pausa del tiempo',ico:'&#9208;',desc:'Congela el timer 5 seg',price:80,type:'c',maxSt:3,stock:0},
+  {id:'p2',sec:'Poderes',name:'Escudo de racha',ico:'&#128737;',desc:'Protege tu racha 1 dia',price:150,type:'c',maxSt:2,stock:0},
+  {id:'p3',sec:'Poderes',name:'Doble monedas',ico:'&#127775;',desc:'2x NC proxima mision',price:200,type:'c',maxSt:2,stock:0},
+  {id:'p4',sec:'Poderes',name:'Pista magica',ico:'&#128161;',desc:'Elimina 2 opciones incorrectas',price:60,type:'c',maxSt:5,stock:0},
+  {id:'s1',sec:'Skins',name:'Armadura Nexus',ico:'&#128309;',desc:'Skin azul electrico',price:300,type:'s',owned:false},
+  {id:'s2',sec:'Skins',name:'Armadura Volcan',ico:'&#128308;',desc:'Skin rojo fuego elite',price:400,type:'s',owned:false},
+  {id:'s3',sec:'Skins',name:'Armadura Sombra',ico:'&#9899;',desc:'Skin oscuro legendario',price:750,type:'s',owned:false},
+  {id:'s4',sec:'Skins',name:'Armadura Arcoiris',ico:'&#127752;',desc:'Skin cromatico raro',price:1200,type:'s',owned:false},
+  {id:'w1',sec:'Mundos',name:'Ciudad Decimal',ico:'&#127961;',desc:'Desbloquea Mundo III',price:500,type:'s',owned:false},
+  {id:'w2',sec:'Mundos',name:'Torre de Medidas',ico:'&#128332;',desc:'Desbloquea Mundo IV',price:800,type:'s',owned:false},
+  {id:'t1',sec:'Titulos',name:'Guardian de Elite',ico:'&#128081;',desc:'Titulo junto a tu nombre',price:350,type:'s',owned:false},
+  {id:'t2',sec:'Titulos',name:'Maestro del Nexus',ico:'&#127775;',desc:'El titulo mas alto',price:2000,type:'s',owned:false,minTier:3},
+  {id:'c2',sec:'Cofres',name:'Cofre de plata',ico:'&#129352;',desc:'Limite 8000 NC. Gasta 1500.',price:0,type:'tier',tier:2,spendReq:1500,owned:false},
+  {id:'c3',sec:'Cofres',name:'Cofre de oro',ico:'&#129351;',desc:'Limite 12000 NC. Gasta 4000.',price:0,type:'tier',tier:3,spendReq:4000,owned:false},
+  {id:'c5',sec:'Cofres',name:'Cofre legendario',ico:'&#128302;',desc:'Limite 25000 NC. Gasta 15000.',price:0,type:'tier',tier:5,spendReq:15000,owned:false},
+];
+
+var WORLDS=[
+  {n:'Isla Nexus',ico:'&#127965;',t:'Suma y resta',c:'var(--bl)',p:60,lk:false},
+  {n:'Volcan',ico:'&#127755;',t:'Multiplicacion',c:'var(--rd)',p:20,lk:false},
+  {n:'Ciudad Decimal',ico:'&#127961;',t:'Divisiones',c:'var(--tl)',p:0,lk:true},
+  {n:'Torre Medidas',ico:'&#128332;',t:'Tablas',c:'var(--am)',p:0,lk:true},
+  {n:'Dimension Geo',ico:'&#128311;',t:'Geometria',c:'var(--pu)',p:0,lk:true},
+];
+var ACHS=[
+  {n:'Triada',d:'3 dias seguidos',i:'&#128293;',lk:false},
+  {n:'Semana',d:'7 dias seguidos',i:'&#9889;',lk:false},
+  {n:'Acero',d:'14 dias seguidos',i:'&#128737;',lk:true},
+  {n:'Perfecto',d:'100/100',i:'&#128142;',lk:true},
+  {n:'Bilingue',d:'Completa Mat y Lengua',i:'&#127760;',lk:true},
+  {n:'Maestro',d:'Todos los mundos',i:'&#127775;',lk:true},
+];
+
+// ═══ LENGUA QUESTIONS ═══
+var LENGUA_QS=[
+  {ctx:'Lee el texto y responde.',q:'"El sol sale cada manana y da luz al mundo entero." La idea principal es:',passage:null,opts:['El sol da luz al mundo','El sol sale de noche','El mundo es oscuro','La luna brilla'],ok:0,top:'Idea principal'},
+  {ctx:'Elige la palabra con ortografia correcta.',q:'Cual de estas palabras esta bien escrita?',passage:null,opts:['vaca','baca','vaka','bacca'],ok:0,top:'Ortografia'},
+  {ctx:'Comprension lectora.',q:'"Maria fue al mercado. Compro manzanas, peras y uvas." Maria compro frutas en:',passage:null,opts:['el mercado','la escuela','su casa','el parque'],ok:0,top:'Comprension lectora'},
+  {ctx:'Ordena la oracion.',q:'Cual es el orden correcto? (perro / el / corre / rapido)',passage:null,opts:['El perro corre rapido','Rapido el perro corre','Corre rapido el perro','El rapido perro corre'],ok:0,top:'Estructura de oraciones'},
+  {ctx:'Vocabulario en contexto.',q:'"El cielo estaba nublado." Nublado significa que habia:',passage:null,opts:['Nubes','Sol fuerte','Lluvia intensa','Viento frio'],ok:0,top:'Vocabulario'},
+  {ctx:'Identifica el sustantivo.',q:'En "El nino juega en el parque", los sustantivos son:',passage:null,opts:['nino y parque','juega y el','El y en','nino y juega'],ok:0,top:'Gramatica'},
+  {ctx:'Lee y responde.',q:'"Pedro estudio mucho y saco buena nota." Pedro saco buena nota porque:',passage:null,opts:['estudio mucho','tuvo suerte','copio a un amigo','no durmio'],ok:0,top:'Comprension lectora'},
+  {ctx:'Antonimos.',q:'El antonimo de "frio" es:',passage:null,opts:['caliente','helado','frescor','templado'],ok:0,top:'Vocabulario'},
+  {ctx:'Tipo de oracion.',q:'"Cierra la puerta!" Es una oracion:',passage:null,opts:['imperativa','interrogativa','declarativa','exclamativa'],ok:0,top:'Gramatica'},
+  {ctx:'Sinonimos.',q:'Un sinonimo de "rapido" es:',passage:null,opts:['veloz','lento','tranquilo','pausado'],ok:0,top:'Vocabulario'},
+  {ctx:'Lee el texto.',q:'"Ana tiene un perro llamado Max. Max es muy jugueton y le gusta correr." El perro se llama:',passage:null,opts:['Max','Ana','Rex','Tomas'],ok:0,top:'Comprension lectora'},
+  {ctx:'Uso correcto de la tilde.',q:'Cual de estas palabras lleva tilde?',passage:null,opts:['arbol','casa','perro','libro'],ok:0,top:'Ortografia'},
+];
+
+// ═══ STATE ═══
+function saveState(){
+  try{localStorage.setItem('nh2',JSON.stringify({
+    pin:S.pin,
+    exp:{streak:S.exp.streak,coins:S.exp.coins,xp:S.exp.xp,missions:S.exp.missions,scores:S.exp.scores,best:S.exp.best,tier:S.exp.tier,spent:S.exp.spent,level:S.exp.level,lvlXP:S.exp.lvlXP,lenScores:S.exp.lenScores||[]},
+    gua:{streak:S.gua.streak,coins:S.gua.coins,xp:S.gua.xp,missions:S.gua.missions,scores:S.gua.scores,best:S.gua.best,tier:S.gua.tier,spent:S.gua.spent,level:S.gua.level,lvlXP:S.gua.lvlXP,lenScores:S.gua.lenScores||[]},
+    cat:S.cat
+  }));}catch(e){}
+}
+function loadState(){
+  try{localStorage.removeItem('nh');/* clear old key */}catch(e){}
+  var def={
+    mode:'exp',pin:'1234',pinChanging:false,pinNew:'',area:'mat',
+    exp:{streak:3,coins:2000,xp:350,missions:4,scores:[85,90,78,92],best:3,tier:1,spent:0,level:1,lvlXP:0,lenScores:[82,88]},
+    gua:{streak:7,coins:102,xp:1200,missions:8,scores:[72,85,88,91,80,94,87,95],best:7,tier:1,spent:0,level:1,lvlXP:0,lenScores:[75,80,85]},
+    cat:JSON.parse(JSON.stringify(CAT)),
+    ses:{qs:[],correct:0,t0:null},activeWorld:0
+  };
+  try{
+    var raw=localStorage.getItem('nh2');
+    if(!raw)return def;
+    var p=JSON.parse(raw);
+    if(p.pin)def.pin=p.pin;
+    ['exp','gua'].forEach(function(k){
+      if(!p[k])return;
+      var src=p[k],dst=def[k];
+      ['streak','coins','xp','missions','best','tier','spent','level','lvlXP'].forEach(function(f){if(src[f]!==undefined)dst[f]=src[f];});
+      if(src.scores&&src.scores.length)dst.scores=src.scores;
+      if(src.lenScores&&src.lenScores.length)dst.lenScores=src.lenScores;
+    });
+    if(p.cat)def.cat=p.cat;
+  }catch(e){}
+  return def;
+}
+var S=loadState();
+S.mode='exp';S.pinChanging=false;S.pinNew='';S.ses={qs:[],correct:0,t0:null};S.activeWorld=0;S.area='mat';
+var ans=[],cq=0,ti=null,tL=0,tT=0,pbuf=[];
+var actLog=[
+  {m:'exp',s:92,p:true,t:'Ayer 4:30pm',area:'mat'},
+  {m:'gua',s:88,p:true,t:'Ayer 7:15pm',area:'len'},
+  {m:'exp',s:75,p:false,t:'Hace 2 dias',area:'mat'},
+  {m:'gua',s:95,p:true,t:'Hace 3 dias',area:'len'},
+];
+
+// ═══ COIN SYSTEM ═══
+function coinCap(d){return TIERS[d.tier-1].cap;}
+function addCoins(amt,d){var c=coinCap(d),before=d.coins;d.coins=Math.min(c,d.coins+amt);var added=d.coins-before;if(added>0){SND.coin();floatCoin('+'+added+' NC');}if(d.coins>=c)toast('Cofre lleno ('+c+' NC) - Visita la tienda!');saveState();return added;}
+function spend(amt,d){if(d.coins<amt)return false;d.coins-=amt;d.spent+=amt;checkT(d);updHdr();saveState();return true;}
+function checkT(d){S.cat.filter(function(i){return i.type==='tier'&&!i.owned;}).forEach(function(it){if(d.spent>=(it.spendReq||0)){it.owned=true;if(it.tier>d.tier){d.tier=it.tier;SND.unlock();confetti(40);toast('Nuevo cofre: '+TIERS[it.tier-1].lbl+' Limite: '+TIERS[it.tier-1].cap+' NC');}}});}
+function floatCoin(t){var el=document.createElement('div');el.className='cflt';el.textContent=t;el.style.cssText='left:'+(40+Math.random()*20)+'%;top:'+(30+Math.random()*15)+'%;';document.body.appendChild(el);setTimeout(function(){el.remove();},1300);}
+function addXP(xp,d){d.xp+=xp;d.lvlXP=(d.lvlXP||0)+xp;if(d.level<5){var req=LXP[d.level];if(d.lvlXP>=req){d.level++;d.lvlXP=0;SND.unlock();confetti(50);saveState();toast('NIVEL '+d.level+' desbloqueado! Modo '+DLVLS[d.level-1].name);}}}
+function lvlPct(d){if(d.level>=5)return 100;return Math.min(100,Math.round((d.lvlXP||0)/LXP[d.level]*100));}
+
+// ═══ SOUND TOGGLE ═══
+function toggleSnd(){var m=SND.toggle();var b=document.getElementById('sndt');b.textContent=m?'&#128263; Sonido OFF':'&#128266; Sonido ON';b.classList.toggle('muted',m);if(!m)SND.ui();}
+
+// ═══ AREA SYSTEM ═══
+function setArea(area){
+  SND.ui();S.area=area;
+  var tabMat=document.getElementById('tab-mat');
+  var tabLen=document.getElementById('tab-len');
+  var m=S.mode;
+  if(tabMat){tabMat.className='area-tab'+(area==='mat'?' active '+m:'');}
+  if(tabLen){tabLen.className='area-tab'+(area==='len'?' active '+m:'');}
+  renderHubMission();
+}
+
+// ═══ NAV ═══
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');s.style.display='';});
+  var el=document.getElementById(id);if(!el)return;
+  el.classList.add('active');
+  if(id==='res'||id==='pin')el.style.display='flex';
+}
+function goHome(){
+  clearInterval(ti);
+  var mg=document.getElementById('mg');if(mg)mg.style.display='none';
+  var hub=document.getElementById('hub');if(hub)hub.style.display='block';
+  var fb=document.getElementById('fb');if(fb)fb.classList.remove('on');
+  var fbo=document.getElementById('fboverlay');if(fbo)fbo.classList.remove('on');
+  showScreen('game');renderHub();
+}
+function openShop(){renderShop();showScreen('shop');}
+function showPin(){S.pinChanging=false;pbuf=[];renderPinUI('Ingresa el PIN de 4 digitos.','PIN inicial: 1234');showScreen('pin');}
+function changePinFlow(){S.pinChanging=true;S.pinNew='';pbuf=[];renderPinUI('Ingresa tu nuevo PIN de 4 digitos.','');showScreen('pin');}
+
+// ═══ PARTICLES ═══
+(function(){var c=document.getElementById('ptc');if(!c)return;var cols=['#4DAFFF33','#9B6FFF33','#18CDB033','#FFB83022'];for(var i=0;i<18;i++){var p=document.createElement('div');p.className='pt';var sz=Math.random()*4+2;p.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+cols[i%4]+';left:'+Math.random()*100+'%;animation-duration:'+(Math.random()*16+8)+'s;animation-delay:'+(Math.random()*10)+'s;';c.appendChild(p);}})();
+
+// ═══ MODE ═══
+function startMode(m){S.mode=m;updHdr();renderHub();showScreen('game');}
+
+function updHdr(){
+  var m=S.mode,d=S[m],c=coinCap(d),pct=Math.min(100,Math.round(d.coins/c*100));
+  var mb=document.getElementById('mbdg');if(mb){mb.textContent=m==='exp'?'EXPLORADOR':'GUARDIAN';mb.className='mbdg '+m;}
+  var lb=document.getElementById('lvlb');if(lb)lb.textContent='Nv.'+d.level;
+  var hst=document.getElementById('hst');if(hst)hst.textContent=d.streak;
+  var hco=document.getElementById('hco');if(hco)hco.textContent=d.coins;
+  var hxp=document.getElementById('hxp');if(hxp)hxp.textContent=d.xp;
+  var pb=document.getElementById('playbtn');if(pb)pb.style.background=m==='exp'?'linear-gradient(135deg,#4DAFFF,#18CDB0)':'linear-gradient(135deg,#9B6FFF,#FF6EB4)';
+  var hbar=document.getElementById('hcobar');if(hbar)hbar.style.width=pct+'%';
+  var t=TIERS[d.tier-1];
+  var ct=document.getElementById('cptot'),ctr=document.getElementById('cptier'),cbr=document.getElementById('cpbar'),cm=document.getElementById('cpmid'),cmx=document.getElementById('cpmax');
+  if(ct)ct.textContent=d.coins;
+  if(ctr)ctr.textContent=t.lbl+' - Limite: '+t.cap+' NC';
+  if(cbr)cbr.style.width=Math.min(100,Math.round(d.coins/t.cap*100))+'%';
+  if(cm)cm.textContent=Math.round(t.cap/2);
+  if(cmx)cmx.textContent=t.cap;
+  var hl=document.getElementById('hlvln'),hlt=document.getElementById('hlvlt'),hls=document.getElementById('hlvls'),hlb=document.getElementById('hlvlb');
+  if(hl)hl.textContent=d.level;
+  if(hlt)hlt.textContent='Guardian '+DLVLS[d.level-1].name;
+  if(hls)hls.textContent=d.level<5?'XP para nivel '+(d.level+1)+': '+(d.lvlXP||0)+'/'+LXP[d.level]:'Nivel maximo!';
+  if(hlb)hlb.style.width=lvlPct(d)+'%';
+  // area tabs
+  var tm=document.getElementById('tab-mat'),tl=document.getElementById('tab-len');
+  if(tm)tm.className='area-tab'+(S.area==='mat'?' active '+m:'');
+  if(tl)tl.className='area-tab'+(S.area==='len'?' active '+m:'');
+}
+
+function renderHubMission(){
+  var m=S.mode,d=S[m],dl=DLVLS[d.level-1];
+  var isLen=S.area==='len';
+  var mt=document.getElementById('mtit'),md=document.getElementById('mdsc');
+  if(mt)mt.textContent=(isLen?'Lengua: ':'Matematica: ')+(WORLDS[S.activeWorld||0].n)+' - Nivel '+d.level;
+  if(md)md.textContent=isLen?'Practica lectura, vocabulario, ortografia y gramatica.':'Operaciones: '+dl.ops.map(function(o){return{add:'Suma',sub:'Resta',mul:'Multiplicacion',div:'Division',table:'Tablas',frac:'Fracciones'}[o];}).join(', ')+'.';
+}
+
+function renderHub(){
+  var m=S.mode,d=S[m];
+  var gn=document.getElementById('gname');if(gn)gn.textContent=m==='exp'?'Explorador':'Guardian';
+  var gs=document.getElementById('gsub');if(gs)gs.textContent=d.streak>0?'Llevas '+d.streak+' dias de racha! No la rompas.':'Completala con 80+ para comenzar tu racha!';
+  renderHubMission();
+  var sc=d.scores,avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
+  var sm=document.getElementById('smis');if(sm)sm.textContent=d.missions;
+  var sa=document.getElementById('savg');if(sa)sa.textContent=avg?avg+'/100':'-';
+  var sb=document.getElementById('sbst');if(sb)sb.textContent=d.best+' dias';
+  var so=document.getElementById('sown');if(so)so.textContent=S.cat.filter(function(i){return i.owned===true||(i.type==='c'&&i.stock>0);}).length;
+  var sx=document.getElementById('sxp');if(sx)sx.textContent=d.xp+' XP';
+  var stn=document.getElementById('stnum');if(stn)stn.textContent=d.streak;
+  var dt=document.getElementById('stdots');if(dt){dt.innerHTML='';for(var i=0;i<14;i++){var dv=document.createElement('div');dv.className='dot '+(i<d.streak?'done':i===d.streak?'today':'empty');dt.appendChild(dv);}}
+  var grk=document.getElementById('grk');
+  if(m==='gua'&&grk){
+    grk.style.display='block';
+    var best=Math.max.apply(null,d.scores),last=d.scores[d.scores.length-1]||0;
+    document.getElementById('rb1').style.width=best+'%';document.getElementById('rv1').textContent=best+'/100';
+    document.getElementById('rb2').style.width=last+'%';document.getElementById('rv2').textContent=last?last+'/100':'-';
+    document.getElementById('rb3').style.width=avg+'%';document.getElementById('rv3').textContent=avg?avg+'/100':'-';
+  }else if(grk)grk.style.display='none';
+  var wg=document.getElementById('wg');
+  if(wg){wg.innerHTML='';WORLDS.forEach(function(w,i){var d2=document.createElement('div');d2.className='wc'+(w.lk?' lk':'')+(i===(S.activeWorld||0)?' act':'');d2.onmouseenter=function(){if(!w.lk)SND.hover();};d2.onclick=function(){if(!w.lk){SND.ui();S.activeWorld=i;renderHub();}};d2.innerHTML='<div class="wico">'+w.ico+'</div><div class="wn" style="color:'+w.c+'">'+w.n+'</div><div class="wt">'+w.t+'</div><div class="wp"><div class="wpf" style="width:'+w.p+'%;background:'+w.c+'"></div></div>'+(w.lk?'<div style="font-size:9px;color:var(--tx3);margin-top:4px;font-weight:800;">BLOQUEADO</div>':'');wg.appendChild(d2);});}
+  var ar=document.getElementById('achr');
+  if(ar){ar.innerHTML='';ACHS.forEach(function(a){var d2=document.createElement('div');d2.className='ac'+(a.lk?' lk':'');d2.innerHTML='<div class="ai">'+a.i+'</div><div class="an">'+a.n+'</div><div class="ad">'+(a.lk?'Bloq. ':'')+a.d+'</div>';ar.appendChild(d2);});}
+  updHdr();
+}
+
+// ═══ QUESTION GENERATORS ═══
+function genMat(diff){
+  var d=DLVLS[diff-1],ops=d.ops,op=ops[Math.floor(Math.random()*ops.length)],mx=d.maxN;
+  function shuf(arr){return arr.sort(function(){return Math.random()-0.5;});}
+  function wrap(res,pool){var all=[res].concat(pool.filter(function(x){return x!==res&&x>0;}).slice(0,3));while(all.length<4)all.push(res+all.length+Math.floor(Math.random()*4)+1);var s=shuf(all.slice(0,4));return{opts:s.map(String),ok:s.indexOf(res)};}
+  if(op==='table'){var a=Math.floor(Math.random()*10)+2,b=Math.floor(Math.random()*12)+1,res=a*b;var w=wrap(res,[a*(b+1),a*(b-1)||a+2,(a+1)*b]);return{q:a+' x '+b+' = ?',vis:null,opts:w.opts,ok:w.ok,top:'Tabla del '+a,ctx:'El guardian practica la tabla del '+a+'.'};}
+  if(op==='frac'){var dens=[2,3,4,5,6,8],den=dens[Math.floor(Math.random()*dens.length)],n1=Math.floor(Math.random()*(den-1))+1,n2=Math.floor(Math.random()*(den-1))+1,sum=n1+n2;var res2=sum>den?(Math.floor(sum/den)+(sum%den?' y '+(sum%den)+'/'+den:'')):(sum+'/'+den);var wrong=[(sum+1)+'/'+den,(sum>1?(sum-1):sum+2)+'/'+den,n1+n2+'/'+(den+1)];var all2=[res2].concat(wrong.filter(function(x){return x!==res2;}).slice(0,3));var s2=shuf(all2);return{q:'Cuanto es '+n1+'/'+den+' + '+n2+'/'+den+' ?',vis:{t:'op',a:n1+'/'+den,o:'+',b:n2+'/'+den},opts:s2,ok:s2.indexOf(res2),top:'Fracciones',ctx:'El guardian combina energias fraccionadas.'};}
+  if(op==='add'){var a2=Math.floor(Math.random()*mx)+1,b2=Math.floor(Math.random()*mx)+1,res3=a2+b2;var w2=wrap(res3,[res3+1,res3-1,res3+10,res3-10]);return{q:a2+' + '+b2+' = ?',vis:null,opts:w2.opts,ok:w2.ok,top:'Suma',ctx:'El guardian suma energia.'};}
+  if(op==='sub'){var a3=Math.floor(Math.random()*mx)+Math.ceil(mx/2)+1,b3=Math.floor(Math.random()*(a3-1))+1,res4=a3-b3;var w3=wrap(res4,[res4+1,res4-1,a3+b3,res4+5]);return{q:a3+' - '+b3+' = ?',vis:null,opts:w3.opts,ok:w3.ok,top:'Resta',ctx:'El guardian resta el poder del villano.'};}
+  if(op==='mul'){var mF=diff<=3?12:15,a4=Math.floor(Math.random()*mF)+2,b4=Math.floor(Math.random()*mF)+2,res5=a4*b4;var w4=wrap(res5,[a4*(b4+1),a4*(b4-1)||(res5+1),res5+a4,res5-b4||(res5+2)]);return{q:a4+' x '+b4+' = ?',vis:null,opts:w4.opts,ok:w4.ok,top:'Multiplicacion',ctx:'El guardian multiplica su poder.'};}
+  if(op==='div'){var b5=Math.floor(Math.random()*11)+2,res6=Math.floor(Math.random()*12)+1,a5=b5*res6;var w5=wrap(res6,[res6+1,res6-1||(res6+2),res6+2,Math.floor(a5/(b5+1))+1]);return{q:a5+' / '+b5+' = ?',vis:null,opts:w5.opts,ok:w5.ok,top:'Division',ctx:'El guardian divide los recursos.'};}
+  return genMat(1);
+}
+function genLen(){
+  var q=LENGUA_QS[Math.floor(Math.random()*LENGUA_QS.length)];
+  return JSON.parse(JSON.stringify(q));
+}
+
+// ═══ MISSION ═══
+function startMission(){
+  var d=S[S.mode],diff=d.level,isLen=S.area==='len';
+  var pool=[];
+  for(var i=0;i<8;i++){pool.push(isLen?genLen():genMat(diff));}
+  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area};
+  ans=[];cq=0;
+  var hub=document.getElementById('hub');if(hub)hub.style.display='none';
+  var mg=document.getElementById('mg');if(mg)mg.style.display='block';
+  // area badge
+  var ab=document.getElementById('areabadge');
+  if(ab)ab.innerHTML='<div class="area-badge '+(isLen?'len':'mat')+'">'+(isLen?'&#128218; Lengua Espanola':'&#129518; Matematica')+'</div>';
+  renderQ();
+}
+
+function renderQ(){
+  var s=S.ses;if(cq>=s.qs.length){endMission();return;}
+  var q=s.qs[cq],tot=s.qs.length,d=S[S.mode];
+  var pg=document.getElementById('pg');
+  if(pg){pg.innerHTML='';for(var i=0;i<tot;i++){var dv=document.createElement('div');dv.className='pd '+(i<cq?(ans[i]?'ok':'no'):i===cq?'now':'');pg.appendChild(dv);}}
+  var mglbl=document.getElementById('mgwl');if(mglbl)mglbl.textContent=(s.world||'Nexus')+' - Pregunta '+(cq+1)+'/'+tot;
+  var titles_mat=['Batalla de Energia','Constructor del Nexus','Mercado Decimal','Radar de Medidas'];
+  var titles_len=['Mision Lectora','Desafio de Palabras','Batalla Gramatical','Codigo Secreto'];
+  var isLen=s.area==='len';
+  var tit=document.getElementById('mgtit');if(tit)tit.textContent=isLen?titles_len[cq%4]:titles_mat[cq%4];
+  var vis='';
+  if(q.vis&&q.vis.t==='op'){var pa=q.vis.a.split('/'),pb=q.vis.b.split('/');vis='<div class="qvis"><span class="frac"><span class="fn">'+pa[0]+'</span><span class="fd">'+pa[1]+'</span></span><span class="fop">'+q.vis.o+'</span><span class="frac"><span class="fn">'+pb[0]+'</span><span class="fd">'+pb[1]+'</span></span><span class="fop">=</span><span class="fblank">?</span></div>';}
+  var passage=q.passage?'<div class="passage">'+q.passage+'</div>':'';
+  var optsHtml;
+  if(isLen){
+    optsHtml=q.opts.map(function(o,i){return '<button class="lopt" onclick="pick('+i+')">'+String.fromCharCode(65+i)+'. '+o+'</button>';}).join('');
+  }else{
+    optsHtml='<div class="opts">'+q.opts.map(function(o,i){return '<button class="opt" onclick="pick('+i+')">'+o+'</button>';}).join('')+'</div>';
+  }
+  var mgc=document.getElementById('mgc');
+  if(mgc)mgc.innerHTML='<div class="qcard"><div class="qlvl">Nivel '+d.level+' - '+DLVLS[d.level-1].name+'</div><div class="qctx">'+q.ctx+'</div>'+passage+'<div class="qtxt">'+q.q+'</div>'+vis+optsHtml+'</div>';
+  var t=DLVLS[d.level-1].timer;
+  startTimer(S.mode==='gua'?Math.max(10,t-3):t);
+}
+
+function startTimer(sec){
+  clearInterval(ti);tL=sec;tT=sec;updT();
+  ti=setInterval(function(){tL--;updT();if(tL<=5&&tL>0)SND.tick();if(tL<=0){clearInterval(ti);SND.expire();timeUp();}},1000);
+}
+function updT(){var pct=tL/tT*100;var tb=document.getElementById('tbar');if(tb){tb.style.width=pct+'%';tb.className='tbar '+(pct>60?'g':pct>30?'a':'r');}var tn=document.getElementById('tnum');if(tn)tn.textContent=tL;}
+function timeUp(){ans[cq]=false;showFB(false,null);}
+
+function pick(i){
+  clearInterval(ti);
+  var q=S.ses.qs[cq],isLen=S.ses.area==='len';
+  var btns=document.querySelectorAll(isLen?'.lopt':'.opt');
+  btns.forEach(function(b){b.style.pointerEvents='none';});
+  var ok=i===q.ok;
+  if(btns[i])btns[i].className=(isLen?'lopt ':'opt ')+(ok?'ok':'no');
+  if(!ok&&btns[q.ok])btns[q.ok].className=(isLen?'lopt ':'opt ')+' ok';
+  ans[cq]=ok;if(ok){S.ses.correct++;SND.correct();}else SND.wrong();
+  showFB(ok,q.top);
+}
+
+function showFB(ok,top){
+  var m=S.mode,msgs=['Poder desbloqueado!','Guardian veloz!','Escudo recargado!','Excelente!','Correcto!'];
+  var fbi=document.getElementById('fbi');if(fbi)fbi.innerHTML=ok?(m==='exp'?'&#9889;':'&#9989;'):'&#128162;';
+  var fbt=document.getElementById('fbt');if(fbt)fbt.textContent=ok?(m==='exp'?msgs[Math.floor(Math.random()*msgs.length)]:'Correcto!'):(m==='exp'?'Sigue entrenando!':'Incorrecto');
+  var fbs=document.getElementById('fbs');if(fbs)fbs.textContent=ok?'+10 XP - '+top:'Revisa este concepto';
+  var fbb=document.getElementById('fbb');if(fbb){fbb.style.background=m==='exp'?'var(--bl)':'var(--pu)';fbb.textContent=cq+1>=S.ses.qs.length?'Ver resultado':'Continuar';}
+  var fb=document.getElementById('fb');if(fb)fb.classList.add('on');
+  var fbo=document.getElementById('fboverlay');if(fbo)fbo.classList.add('on');
+  if(ok)confetti(8);
+}
+function nextQ(){
+  SND.ui();
+  var fb=document.getElementById('fb');if(fb)fb.classList.remove('on');
+  var fbo=document.getElementById('fboverlay');if(fbo)fbo.classList.remove('on');
+  cq++;if(cq>=S.ses.qs.length)endMission();else renderQ();
+}
+
+function endMission(){
+  clearInterval(ti);
+  var hub=document.getElementById('hub');if(hub)hub.style.display='block';
+  var mg=document.getElementById('mg');if(mg)mg.style.display='none';
+  var tot=S.ses.qs.length,cor=S.ses.correct,score=Math.round(cor/tot*100),passed=score>=80;
+  var tSec=Math.round((Date.now()-S.ses.t0)/1000),tMin=Math.max(1,Math.ceil(tSec/60));
+  var m=S.mode,d=S[m],isLen=S.ses.area==='len';
+  d.scores.push(score);d.missions++;
+  if(isLen){if(!d.lenScores)d.lenScores=[];d.lenScores.push(score);}
+  var earned=0;
+  if(passed){
+    d.streak++;if(d.streak>d.best)d.best=d.streak;
+    earned=addCoins(50+(score===100?25:0)+(d.streak>1?10:0),d);
+    if(d.streak%7===0){addCoins(70,d);SND.streak();}
+    addXP(100+(score===100?50:0),d);
+    actLog.unshift({m:m,s:score,p:true,t:'Hoy',area:isLen?'len':'mat'});
+    SND.win();checkT(d);
+  }else{
+    SND.fail();
+    actLog.unshift({m:m,s:score,p:false,t:'Hoy',area:isLen?'len':'mat'});
+  }
+  updHdr();showResult(score,passed,tMin,earned);
+}
+
+function showResult(score,passed,tMin,earned){
+  showScreen('res');
+  var m=S.mode,d=S[m];
+  var rico=document.getElementById('rico');if(rico)rico.innerHTML=passed?(score===100?'&#127942;':'&#127881;'):'&#9889;';
+  var rtit=document.getElementById('rtit');if(rtit)rtit.textContent=passed?(score===100?'Mision perfecta!':'Mision completada!'):(m==='exp'?'El guardian necesita mas poder!':'Mision no completada');
+  var rsc=document.getElementById('rscore');if(rsc){rsc.textContent=score;rsc.className='rscore '+(passed?'p':'f');}
+  var rsl=document.getElementById('rslbl');if(rsl)rsl.innerHTML='puntos de 100<br><span style="color:'+(passed?'var(--gr)':'var(--am)')+';font-weight:900">'+(passed?'Meta superada':'Necesitas 80+')+'</span><br><span style="font-weight:800">Tiempo: '+tMin+' min</span>';
+  // bars by topic
+  var tops={};S.ses.qs.forEach(function(q,i){if(!tops[q.top])tops[q.top]={c:0,t:0};tops[q.top].t++;if(ans[i])tops[q.top].c++;});
+  var rbars=document.getElementById('rbars');
+  if(rbars)rbars.innerHTML=Object.keys(tops).map(function(t){var v=tops[t],p=Math.round(v.c/v.t*100),col=p>=80?'var(--gr)':p>=50?'var(--am)':'var(--rd)';return'<div class="rbrow"><span class="rbl">'+t+'</span><div class="rbtrk"><div class="rbf" style="width:'+p+'%;background:'+col+'"></div></div><span style="font-size:13px;font-weight:900;color:'+col+'">'+p+'%</span></div>';}).join('');
+  var recsec=document.getElementById('recsec');
+  if(!passed&&recsec){
+    recsec.style.display='block';
+    var worst=Object.keys(tops).sort(function(a,b){return tops[a].c/tops[a].t-tops[b].c/tops[b].t;})[0];
+    var recmsg=document.getElementById('recmsg');if(recmsg)recmsg.textContent='No alcanzaste 80 puntos. La mision de recuperacion se enfoca en "'+( worst||'este tema')+'".';}
+  else if(recsec)recsec.style.display='none';
+  var rews=document.getElementById('rews');
+  if(rews)rews.innerHTML=passed?'<div class="rew">NC +'+earned+'</div><div class="rew">XP +100</div>'+(score===100?'<div class="rew">Score perfecto!</div>':'')+(d.streak%7===0&&d.streak>0?'<div class="rew" style="color:var(--am)">Racha '+d.streak+' dias!</div>':''):'<div class="rew" style="color:var(--am)">Intenta la recuperacion</div>';
+  // Share prompt if passed
+  var sp=document.getElementById('share-prompt');if(sp)sp.style.display=passed?'block':'none';
+  var rb=document.getElementById('rmbtn');
+  if(rb){rb.style.background=m==='exp'?'linear-gradient(135deg,#4DAFFF,#18CDB0)':'linear-gradient(135deg,#9B6FFF,#FF6EB4)';rb.style.color='#fff';}
+  if(!passed){if(rb)rb.textContent='Mision de recuperacion';if(rb)rb.onclick=startRec;}
+  else{if(rb)rb.textContent='Siguiente mision';if(rb)rb.onclick=function(){goHome();setTimeout(startMission,200);};}
+  if(passed)confetti(28);
+  setTimeout(function(){document.querySelectorAll('.rbf').forEach(function(b){var w=b.style.width;b.style.width='0';setTimeout(function(){b.style.width=w;},50);});},100);
+}
+
+function startRec(){
+  SND.ui();
+  var d=S[S.mode],isLen=S.ses.area==='len';
+  var pool=[];
+  for(var i=0;i<3;i++){pool.push(isLen?genLen():genMat(Math.max(1,d.level-1)));}
+  S.ses={qs:pool,correct:0,t0:Date.now(),world:S.ses.world,area:S.ses.area};
+  ans=[];cq=0;
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');s.style.display='';});
+  showScreen('game');
+  var hub=document.getElementById('hub');if(hub)hub.style.display='none';
+  var mg=document.getElementById('mg');if(mg)mg.style.display='block';
+  var mgtit=document.getElementById('mgtit');if(mgtit)mgtit.textContent='Mision de Recuperacion';
+  renderQ();
+}
+function nextAct(){goHome();}
+
+// ═══ PARENT ═══
+function renderParent(){
+  var exp=S.exp,gua=S.gua;
+  var pse=document.getElementById('pwse');if(pse)pse.textContent=exp.streak;
+  var psg=document.getElementById('pwsg');if(psg)psg.textContent=gua.streak;
+  var all=exp.scores.concat(gua.scores),avg=all.length?Math.round(all.reduce(function(a,b){return a+b;},0)/all.length):0;
+  var pwa=document.getElementById('pwavg');if(pwa)pwa.textContent=avg||'-';
+  var pwm=document.getElementById('pwmis');if(pwm)pwm.textContent=exp.missions+gua.missions;
+  // Today
+  var last=actLog[0];
+  var tdm=document.getElementById('td-mis');if(tdm)tdm.textContent=last&&last.t==='Hoy'?(last.p?'SI':'NO'):'-';
+  var tds=document.getElementById('td-score');if(tds)tds.textContent=last&&last.t==='Hoy'?last.s+'/100':'-';
+  var tdr=document.getElementById('td-streak');if(tdr)tdr.textContent=last?S[last.m].streak:'-';
+  // Recom
+  var rc=document.getElementById('par-recom');
+  if(rc){
+    var worst_mat=exp.scores.length?Math.min.apply(null,exp.scores):0;
+    rc.textContent=worst_mat<80?'El Explorador necesita refuerzo en Matematica. Practica con los ejercicios de nivel '+(S.exp.level)+' antes de avanzar.':'El Explorador va muy bien! Puede intentar el siguiente nivel pronto.';
+  }
+  // Levels
+  var ple=document.getElementById('plve'),ples=document.getElementById('plves');
+  if(ple)ple.textContent='Nivel '+exp.level;if(ples)ples.textContent=DLVLS[exp.level-1].name+' - XP: '+exp.xp;
+  var plg=document.getElementById('plvg'),plgs=document.getElementById('plvgs');
+  if(plg)plg.textContent='Nivel '+gua.level;if(plgs)plgs.textContent=DLVLS[gua.level-1].name+' - XP: '+gua.xp;
+  // Week grids
+  var days=['L','M','X','J','V','S','D'];
+  ['exp','gua'].forEach(function(m){
+    var el=document.getElementById(m==='exp'?'we':'wg2');if(!el)return;el.innerHTML='';
+    var sc=S[m].scores.slice(-7);
+    days.forEach(function(d,i){var s=sc[i],past=i<sc.length;el.innerHTML+='<div class="pday '+(past?(s>=80?'ok':'miss'):'fut')+'"><div class="pdn">'+d+'</div><div class="pds">'+(past?(s>=80?s:'X'):'-')+'</div></div>';});
+  });
+  // Topic bars Mat
+  var tdMat={
+    exp:[{n:'Suma y resta',p:Math.min(99,70+Math.floor(exp.level*8)),c:'var(--bl)'},{n:'Multiplicacion',p:Math.min(99,55+Math.floor(exp.level*7)),c:'var(--tl)'},{n:'Division',p:Math.min(99,45+Math.floor(exp.level*6)),c:'var(--am)'},{n:'Tablas',p:Math.min(99,60+Math.floor(exp.level*6)),c:'var(--pu)'},{n:'Fracciones',p:Math.min(99,40+Math.floor(exp.level*7)),c:'var(--rd)'}],
+    gua:[{n:'Suma y resta',p:Math.min(99,80+Math.floor(gua.level*4)),c:'var(--bl)'},{n:'Multiplicacion',p:Math.min(99,75+Math.floor(gua.level*5)),c:'var(--tl)'},{n:'Division',p:Math.min(99,65+Math.floor(gua.level*5)),c:'var(--am)'},{n:'Tablas',p:Math.min(99,78+Math.floor(gua.level*4)),c:'var(--pu)'},{n:'Fracciones',p:Math.min(99,60+Math.floor(gua.level*5)),c:'var(--rd)'}],
+  };
+  var tdLen={
+    exp:[{n:'Comprension lectora',p:82,c:'var(--bl)'},{n:'Vocabulario',p:75,c:'var(--tl)'},{n:'Ortografia',p:68,c:'var(--am)'},{n:'Gramatica',p:70,c:'var(--pu)'}],
+    gua:[{n:'Comprension lectora',p:88,c:'var(--bl)'},{n:'Vocabulario',p:85,c:'var(--tl)'},{n:'Ortografia',p:78,c:'var(--am)'},{n:'Gramatica',p:80,c:'var(--pu)'}],
+  };
+  function renderBars(elId,data){var el=document.getElementById(elId);if(!el)return;el.innerHTML='';data.forEach(function(t){var col=t.p>=80?'var(--gr)':t.p>=65?'var(--am)':'var(--rd)';el.innerHTML+='<div class="trow"><span class="tnm">'+t.n+'</span><div class="ttrk"><div class="tfill" style="width:'+t.p+'%;background:'+t.c+'"></div></div><span class="tpct" style="color:'+col+'">'+t.p+'%</span></div>';});}
+  renderBars('te-mat',tdMat.exp);renderBars('te-len',tdLen.exp);
+  renderBars('tg-mat',tdMat.gua);renderBars('tg-len',tdLen.gua);
+  var plog=document.getElementById('plog');
+  if(plog)plog.innerHTML=actLog.slice(0,6).map(function(l){return'<div class="logrow"><span style="font-weight:900;color:'+(l.m==='exp'?'var(--bl)':'var(--pu)')+'">'+( l.m==='exp'?'Explorador':'Guardian')+'</span><span style="color:var(--tx3);font-weight:700">'+l.t+' ('+(l.area==='len'?'Lengua':'Mat')+')</span><span style="font-weight:900;color:'+(l.p?'var(--gr)':'var(--am)')+'">'+l.s+'/100 '+(l.p?'OK':'X')+'</span></div>';}).join('');
+}
+
+// ═══ PIN ═══
+function renderPinUI(msg,hint){
+  var pm=document.getElementById('pinmsg');if(pm)pm.textContent=msg;
+  var ph=document.getElementById('pinhint');if(ph)ph.textContent=hint;
+  var pe=document.getElementById('pinerr');if(pe)pe.textContent='';
+  renderPinDots();
+  var kp=document.getElementById('pinkpad');if(!kp)return;kp.innerHTML='';
+  [1,2,3,4,5,6,7,8,9,'','0','DEL'].forEach(function(k){
+    var b=document.createElement('button');
+    if(k===''){b.className='pk pinempty';b.disabled=true;}
+    else{b.className='pk'+(k==='DEL'?' del':'');b.innerHTML=k==='DEL'?'&#9003;':k;b.onclick=function(){SND.ui();pinPr(String(k));};}
+    kp.appendChild(b);
+  });
+}
+function renderPinDots(){var d=document.getElementById('pindots');if(!d)return;d.innerHTML='';for(var i=0;i<4;i++){var dv=document.createElement('div');dv.className='pindot'+(i<pbuf.length?' filled':'');d.appendChild(dv);}}
+function pinPr(k){
+  if(k==='DEL'){pbuf.pop();renderPinDots();return;}
+  if(pbuf.length>=4)return;
+  pbuf.push(k);renderPinDots();
+  if(pbuf.length===4){
+    var ent=pbuf.join('');
+    if(S.pinChanging){
+      if(S.pinNew===''){S.pinNew=ent;pbuf=[];renderPinDots();var pm=document.getElementById('pinmsg');if(pm)pm.textContent='Confirma tu nuevo PIN.';}
+      else if(S.pinNew===ent){S.pin=ent;S.pinChanging=false;saveState();toast('PIN actualizado!');renderParent();showScreen('par');}
+      else{var pe=document.getElementById('pinerr');if(pe)pe.textContent='Los PINs no coinciden.';S.pinNew='';pbuf=[];setTimeout(renderPinDots,300);}
+    }else{
+      if(ent===S.pin){renderParent();showScreen('par');}
+      else{var pe2=document.getElementById('pinerr');if(pe2)pe2.textContent='PIN incorrecto.';pbuf=[];setTimeout(renderPinDots,300);}
+    }
+  }
+}
+
+// ═══ SHOP ═══
+function renderShop(){
+  var m=S.mode,d=S[m],c=coinCap(d),pct=Math.min(100,Math.round(d.coins/c*100));
+  var sc=document.getElementById('shcoins');if(sc)sc.textContent=d.coins;
+  var st=document.getElementById('shtier');if(st)st.textContent=TIERS[d.tier-1].lbl+' - '+d.tier+'/5';
+  var sb=document.getElementById('shbar');if(sb)sb.style.width=pct+'%';
+  var ss=document.getElementById('shcapsub');if(ss)ss.textContent=d.coins+' de '+c+' NC ('+pct+'%)';
+  var sn=document.getElementById('shcnote');if(sn)sn.textContent='Limite: '+c+' NC - Gastado: '+d.spent+' NC';
+  var sv=document.getElementById('shcapval');if(sv)sv.textContent=c+' NC';
+  var shen=document.getElementById('sheconote');var nr=TSPEND[d.tier]||null;
+  if(shen)shen.textContent=nr?'Siguiente cofre: gasta '+nr+' NC. Llevas '+d.spent+' NC.':'Tienes el cofre maximo (25000 NC)!';
+  var secs={};S.cat.forEach(function(it){if(!secs[it.sec])secs[it.sec]=[];secs[it.sec].push(it);});
+  var body=document.getElementById('shopbody');if(!body)return;body.innerHTML='';
+  Object.keys(secs).forEach(function(sec){
+    body.innerHTML+='<div class="sstit">'+sec+'</div>';
+    var grid=document.createElement('div');grid.className='shopg';
+    secs[sec].forEach(function(it){
+      var isO=it.type!=='c'?it.owned===true:false;
+      var isCon=it.type==='c',stock=isCon?(it.stock||0):0,full=isCon&&stock>=it.maxSt;
+      var poor=!isO&&!full&&it.price>d.coins,isTier=it.type==='tier',mTF=it.minTier&&d.tier<it.minTier;
+      var card=document.createElement('div');card.className='si'+(isO?' sio':poor?' sip':'');
+      var btn='',prH='';
+      if(isTier){var ul=d.spent>=(it.spendReq||0);btn='<button class="sibtn '+(it.owned?'ob':'lb')+'" disabled>'+(it.owned?'Desbloqueado':ul?'Automatico':'Gasta '+it.spendReq)+'</button>';}
+      else if(isO||full){btn='<button class="sibtn ob" disabled>'+(isCon?'Inventario: '+stock+'/'+it.maxSt:'Obtenido')+'</button>';if(isCon)prH='<div class="sipr">'+it.price+' NC</div>';}
+      else if(mTF){btn='<button class="sibtn lb" disabled>Requiere '+TIERS[(it.minTier||1)-1].lbl+'</button>';prH='<div class="sipr">'+it.price+' NC</div>';}
+      else if(poor){btn='<button class="sibtn lb" disabled>Faltan '+(it.price-d.coins)+'</button>';prH='<div class="sipr">'+it.price+' NC</div>';}
+      else{btn='<button class="sibtn" data-id="'+it.id+'" onclick="buyItem(this.dataset.id)">Comprar '+it.price+' NC</button>';prH='<div class="sipr">'+it.price+' NC</div>';}
+      card.innerHTML=(isO&&!isCon?'<div class="opip">OK</div>':'')+'<div class="siico">'+it.ico+'</div><div class="sinm">'+it.name+'</div><div class="sidsc">'+it.desc+'</div>'+prH+btn;
+      grid.appendChild(card);
+    });
+    body.appendChild(grid);
+  });
+}
+function buyItem(id){
+  var m=S.mode,d=S[m],it=S.cat.filter(function(i){return i.id===id;})[0];
+  if(!it||it.price>d.coins)return;
+  if(spend(it.price,d)){SND.buy();if(it.type==='c')it.stock=(it.stock||0)+1;else it.owned=true;updHdr();renderShop();confetti(10);toast(it.name+' obtenido!');}
+}
+
+// ═══ SHARE ═══
+function buildShareText(){
+  var m=S.mode,d=S[m];
+  var sc=d.scores,avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
+  return 'Soy un Guardian de NEXOS!\n'+'Misiones completadas: '+d.missions+'\nRacha: '+d.streak+' dias\nScore promedio: '+avg+'/100\nNexos Coins: '+d.coins+'\n\nReto de vacaciones: 15 minutos diarios para llegar mas preparado al proximo curso. Unete!';
+}
+function openShare(){
+  var m=S.mode,d=S[m];
+  var sc=d.scores,avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
+  var shm=document.getElementById('sh-mis');if(shm)shm.textContent=d.missions;
+  var shs=document.getElementById('sh-streak');if(shs)shs.textContent=d.streak;
+  var shsc=document.getElementById('sh-score');if(shsc)shsc.textContent=avg?avg+'/100':'-';
+  var shc=document.getElementById('sh-coins');if(shc)shc.textContent=d.coins;
+  var mo=document.getElementById('share-modal');if(mo)mo.classList.add('on');
+}
+function closeShare(){var mo=document.getElementById('share-modal');if(mo)mo.classList.remove('on');}
+function shareWhatsApp(){var txt=buildShareText();window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');closeShare();}
+function copyProgress(){
+  var txt=buildShareText();
+  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(function(){toast('Texto copiado! Pega en WhatsApp.');});}
+  else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Texto copiado!');}
+  closeShare();
+}
+
+// ═══ FX ═══
+function confetti(n){n=n||14;var cols=['#4DAFFF','#9B6FFF','#18CDB0','#FFB830','#FF6EB4','#2EDC7D'];for(var i=0;i<n;i++){setTimeout(function(j){return function(){var el=document.createElement('div');el.className='confp';el.style.cssText='left:'+(20+Math.random()*60)+'%;top:8%;width:'+(5+Math.random()*7)+'px;height:'+(5+Math.random()*7)+'px;background:'+cols[j%cols.length]+';animation-duration:'+(1+Math.random()*1.4)+'s;animation-delay:'+(Math.random()*0.3)+'s;';document.body.appendChild(el);setTimeout(function(){el.remove();},2400);};}(i),i*35);}}
+function toast(msg){var t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(function(){t.remove();},300);},3500);}
+</script>
+</body>
+</html>
