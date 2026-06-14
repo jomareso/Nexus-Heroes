@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>NEXOS — Academia de Guardianes</title>
+<title>NEXUS — Academia de Guardianes</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 :root{
@@ -371,25 +371,217 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
   .today-grid{grid-template-columns:repeat(3,1fr);}
   .prog-stats{grid-template-columns:1fr 1fr;}
 }
+
+.grade-btn{background:var(--card);border:2px solid var(--bdr);border-radius:13px;padding:16px 10px;text-align:center;cursor:pointer;transition:all 0.2s;color:var(--tx);}
+.grade-btn:hover{border-color:var(--bdr2);transform:translateY(-2px);}
+.grade-btn.selected{border-color:var(--bl);background:rgba(77,175,255,0.12);}
+.grade-btn.selected.gua-mode{border-color:var(--pu);background:rgba(155,111,255,0.12);}
+.grade-num{font-size:28px;font-weight:900;margin-bottom:3px;}
+.grade-lbl{font-size:11px;color:var(--tx3);font-weight:800;}
+.weak-area-btn{background:var(--card);border:2px solid var(--bdr);border-radius:12px;padding:14px;font-size:14px;font-weight:800;color:var(--tx2);cursor:pointer;transition:all 0.2s;}
+.weak-area-btn:hover{border-color:var(--bdr2);}
+.weak-area-btn.selected{border-color:var(--am);background:rgba(255,184,48,0.12);color:var(--am);}
+
+/* ONBOARD */
+#onboard{align-items:center;justify-content:center;padding:1.5rem;overflow-y:auto;}
+.ob-card{background:var(--card);border:2px solid var(--bdr);border-radius:24px;padding:2rem;max-width:460px;width:100%;text-align:center;}
+.ob-logo{font-size:clamp(34px,7vw,58px);font-weight:900;letter-spacing:-2px;background:linear-gradient(135deg,#4DAFFF,#9B6FFF,#18CDB0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;}
+.ob-sub{color:var(--tx3);font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:800;margin-bottom:1.6rem;}
+.ob-step{display:none;}.ob-step.active{display:block;}
+.ob-title{font-size:21px;font-weight:900;margin-bottom:7px;}
+.ob-desc{font-size:13px;color:var(--tx2);margin-bottom:1.3rem;font-weight:600;line-height:1.6;}
+.ob-field{margin-bottom:12px;text-align:left;}
+.ob-field label{font-size:13px;font-weight:800;color:var(--tx2);display:block;margin-bottom:5px;}
+.ob-input{width:100%;background:var(--card2);border:2px solid var(--bdr);border-radius:10px;padding:11px 13px;color:var(--tx);font-size:16px;font-family:inherit;outline:none;transition:border 0.2s;}
+.ob-input:focus{border-color:var(--bl);}
+.ob-select{width:100%;background:var(--card2);border:2px solid var(--bdr);border-radius:10px;padding:11px 13px;color:var(--tx);font-size:15px;font-family:inherit;outline:none;appearance:none;-webkit-appearance:none;}
+.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.2rem;}
+.mc{background:var(--card2);border:2px solid var(--bdr);border-radius:13px;padding:1rem;cursor:pointer;transition:all 0.2s;text-align:center;}
+.mc:hover{border-color:var(--bdr2);}
+.mc.sel-exp{border-color:var(--bl);background:rgba(77,175,255,0.1);}
+.mc.sel-gua{border-color:var(--pu);background:rgba(155,111,255,0.1);}
+.mc-ico{font-size:32px;margin-bottom:6px;}
+.mc h3{font-size:14px;font-weight:900;margin-bottom:3px;}
+.mc-e h3{color:var(--bl);}.mc-g h3{color:var(--pu);}
+.mc p{font-size:11px;color:var(--tx3);font-weight:700;}
+.ob-btn{width:100%;padding:13px;border-radius:12px;border:none;font-size:15px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--bl),var(--tl));cursor:pointer;margin-top:4px;}
+.ob-btn.pu{background:linear-gradient(135deg,var(--pu),var(--pk));}
+.ob-progress{display:flex;gap:6px;justify-content:center;margin-bottom:1.4rem;}
+.ob-dot{width:8px;height:8px;border-radius:50%;background:var(--bdr2);transition:all 0.3s;}
+.ob-dot.act{background:var(--bl);width:22px;border-radius:4px;}
+/* Profile banner */
+.profile-banner{background:var(--card);border:2px solid var(--bdr);border-radius:14px;padding:.9rem 1.1rem;max-width:700px;width:100%;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.pb-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.pb-avatar.exp{background:rgba(77,175,255,0.2);}.pb-avatar.gua{background:rgba(155,111,255,0.2);}
+.pb-info{flex:1;}
+.pb-name{font-size:15px;font-weight:900;}
+.pb-detail{font-size:11px;color:var(--tx3);font-weight:700;margin-top:2px;}
+.pb-edit{background:transparent;border:2px solid var(--bdr);color:var(--tx3);padding:4px 9px;border-radius:7px;font-size:11px;font-weight:800;cursor:pointer;}
+/* Session timer */
+.sess-wrap{background:var(--card2);border-bottom:2px solid var(--bdr);padding:5px 16px;display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.sess-track{flex:1;height:9px;background:rgba(255,255,255,0.07);border-radius:5px;overflow:hidden;}
+.sess-fill{height:100%;border-radius:5px;transition:width 1s linear;background:linear-gradient(90deg,var(--tl),var(--bl));}
+.sess-lbl{font-size:12px;font-weight:900;color:var(--tl);min-width:78px;text-align:right;line-height:1.2;}
+.sess-lbl.done{color:var(--gr);}
+/* Diag */
+#diagscreen{align-items:center;justify-content:center;padding:1.5rem;overflow-y:auto;}
+.diag-card{background:var(--card);border:2px solid var(--bdr);border-radius:22px;padding:1.8rem;max-width:500px;width:100%;}
+.diag-hdr{text-align:center;margin-bottom:1.2rem;}
+.diag-hdr h2{font-size:21px;font-weight:900;margin-bottom:5px;}
+.diag-hdr p{font-size:13px;color:var(--tx2);font-weight:600;}
+.diag-prog{display:flex;gap:4px;margin-bottom:1.2rem;}
+.diag-seg{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,0.08);}
+.diag-seg.done{background:var(--tl);}.diag-seg.now{background:var(--am);}
+.diag-q{font-size:17px;font-weight:900;margin-bottom:13px;line-height:1.4;}
+.diag-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.diag-opt{background:rgba(255,255,255,0.05);border:2px solid var(--bdr);border-radius:11px;padding:12px;font-size:16px;font-weight:900;text-align:center;color:var(--tx);transition:all 0.2s;cursor:pointer;}
+.diag-opt:hover{background:rgba(77,175,255,0.1);border-color:var(--bl);}
+.diag-opt.ok{background:rgba(46,220,125,0.2);border-color:var(--gr);color:var(--gr);pointer-events:none;}
+.diag-opt.no{background:rgba(255,82,82,0.15);border-color:var(--rd);color:var(--rd);pointer-events:none;}
+.diag-skip{background:transparent;border:none;color:var(--tx3);font-size:13px;font-weight:700;display:block;margin:0 auto;padding:8px;cursor:pointer;}
+/* Informe */
+#informe{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;padding:20px;}
+.inf-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.inf-top h2{font-size:19px;font-weight:900;}
+.inf-hero{background:linear-gradient(135deg,rgba(77,175,255,0.12),rgba(155,111,255,0.09));border:2px solid rgba(77,175,255,0.2);border-radius:16px;padding:1.3rem;margin-bottom:13px;text-align:center;}
+.inf-hero-name{font-size:21px;font-weight:900;margin-bottom:3px;}
+.inf-hero-detail{font-size:12px;color:var(--tx2);font-weight:600;margin-bottom:1rem;}
+.inf-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.inf-stat{text-align:center;}
+.inf-stat-val{font-size:26px;font-weight:900;color:var(--am);}
+.inf-stat-lbl{font-size:10px;color:var(--tx3);font-weight:700;margin-top:2px;}
+.inf-area-card{background:var(--card);border:2px solid var(--bdr);border-radius:13px;padding:1rem;margin-bottom:9px;}
+.inf-trow{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.inf-trow:last-child{margin-bottom:0;}
+.inf-tnm{font-size:11px;color:var(--tx2);width:130px;flex-shrink:0;font-weight:700;}
+.inf-ttrk{flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;}
+.inf-tfill{height:100%;border-radius:4px;}
+.inf-tpct{font-size:11px;font-weight:900;min-width:30px;text-align:right;}
+.inf-tag{display:inline-block;font-size:10px;padding:3px 8px;border-radius:999px;font-weight:800;margin:2px 2px 2px 0;}
+.inf-tag.dom{background:rgba(46,220,125,0.2);color:var(--gr);}
+.inf-tag.prog{background:rgba(255,184,48,0.2);color:var(--am);}
+.inf-tag.ref{background:rgba(255,82,82,0.15);color:var(--rd);}
+.inf-recom{background:rgba(77,175,255,0.06);border:2px solid rgba(77,175,255,0.16);border-radius:11px;padding:.9rem;margin-bottom:9px;}
+.inf-recom h4{color:var(--bl);font-size:12px;font-weight:900;margin-bottom:4px;}
+.inf-recom p{font-size:12px;color:var(--tx2);line-height:1.6;font-weight:600;}
+.inf-msg{background:linear-gradient(135deg,rgba(46,220,125,0.1),rgba(24,205,176,0.06));border:2px solid rgba(46,220,125,0.2);border-radius:13px;padding:1.1rem;text-align:center;margin-bottom:12px;}
+.inf-msg-ico{font-size:36px;margin-bottom:7px;}
+.inf-msg h3{font-size:17px;font-weight:900;color:var(--gr);margin-bottom:4px;}
+.inf-msg p{font-size:12px;color:var(--tx2);font-weight:600;line-height:1.6;}
+.inf-share-row{display:flex;gap:8px;}
+.inf-sbtn{flex:1;padding:12px;border-radius:10px;font-size:13px;font-weight:900;border:none;cursor:pointer;color:#fff;}
+.inf-sbtn.wa{background:#25D366;}
+.inf-sbtn.sec{background:rgba(255,255,255,0.07);border:2px solid var(--bdr);color:var(--tx2);}
+/* Informe link in parent panel */
+.inf-link-btn{width:100%;padding:12px;border-radius:10px;border:2px solid rgba(155,111,255,0.28);background:rgba(155,111,255,0.07);color:var(--pu);font-size:14px;font-weight:900;cursor:pointer;margin-top:8px;}
+
+
+.sess-opt-btn{flex:1;padding:8px 4px;border-radius:8px;border:2px solid var(--bdr);background:transparent;color:var(--tx3);font-size:12px;font-weight:800;cursor:pointer;transition:all 0.2s;}
+.sess-opt-btn.active{background:rgba(24,205,176,0.15);border-color:var(--tl);color:var(--tl);}
+.sess-opt-btn:hover:not(.active){border-color:var(--bdr2);color:var(--tx2);}
+
+
+/* ADMIN */
+.adm-btn{padding:10px;border-radius:9px;border:2px solid var(--bdr);background:rgba(255,255,255,0.05);color:var(--tx2);font-size:12px;font-weight:900;cursor:pointer;transition:all 0.2s;}
+.adm-btn:hover{border-color:var(--bdr2);color:var(--tx);}
+.adm-btn.warn{border-color:rgba(255,184,48,0.3);background:rgba(255,184,48,0.07);color:var(--am);}
+.adm-btn.warn:hover{background:rgba(255,184,48,0.15);}
+.adm-btn.danger{border-color:rgba(255,82,82,0.3);background:rgba(255,82,82,0.07);color:var(--rd);}
+.adm-btn.danger:hover{background:rgba(255,82,82,0.15);}
+.adm-card{background:var(--card);border:2px solid var(--bdr);border-radius:13px;padding:1rem;margin-bottom:9px;}
+.adm-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:2px solid var(--bdr);font-size:13px;}
+.adm-row:last-child{border-bottom:none;}
+.adm-rl{color:var(--tx2);font-weight:700;}
+.adm-rv{font-weight:900;}
+.adm-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+.adm-stat{background:var(--card);border:2px solid var(--bdr);border-radius:11px;padding:.8rem;text-align:center;}
+.adm-stat-val{font-size:22px;font-weight:900;color:var(--am);}
+.adm-stat-lbl{font-size:10px;color:var(--tx3);font-weight:700;margin-top:2px;}
+
 </style>
 </head>
 <body>
 <div id="ptc"></div>
 <div id="app">
 
+
+<!-- ONBOARD -->
+<div id="onboard" class="screen">
+  <div class="ob-card">
+    <div class="ob-logo">NEXUS</div>
+    <div class="ob-sub">Academia de Guardianes</div>
+    <div class="ob-progress">
+      <div class="ob-dot act" id="odot0"></div>
+      <div class="ob-dot" id="odot1"></div>
+      <div class="ob-dot" id="odot2"></div>
+    </div>
+    <div class="ob-step active" id="ostep0">
+      <div class="ob-title">Bienvenido, Guardian</div>
+      <div class="ob-desc">15 minutos diarios para llegar mejor preparado al proximo curso.</div>
+      <div class="ob-field"><label>Tu nombre</label><input class="ob-input" id="ob-name" type="text" placeholder="Escribe tu nombre..." maxlength="20"></div>
+      <div class="ob-field"><label>Edad</label>
+        <select class="ob-select" id="ob-age"><option value="">Selecciona tu edad</option>
+        <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+        <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option></select>
+      </div>
+      <button class="ob-btn" onclick="SND.ui();obNext(0)">Continuar</button>
+    </div>
+    <div class="ob-step" id="ostep1">
+      <div class="ob-title">Elige tu modo</div>
+      <div class="ob-desc">Selecciona como quieres entrenar. Tu nivel se calibra automaticamente.</div>
+      <div class="ob-field">
+        <div class="mode-cards">
+          <div class="mc mc-e" id="mc-exp" onclick="selObMode('exp')"><div class="mc-ico">&#9889;</div><h3>Explorador</h3><p>Visual y rapido</p></div>
+          <div class="mc mc-g" id="mc-gua" onclick="selObMode('gua')"><div class="mc-ico">&#128737;</div><h3>Guardian</h3><p>Niveles y ranking</p></div>
+        </div>
+      </div>
+      <button class="ob-btn pu" onclick="SND.ui();obNext(1)">Continuar</button>
+    </div>
+    <div class="ob-step" id="ostep2">
+      <div class="ob-title">Diagnostico rapido</div>
+      <div class="ob-desc">5 preguntas para calibrar tu nivel. Solo toma 2 minutos.</div>
+      <div style="font-size:38px;margin:1rem 0;">&#127919;</div>
+      <div style="font-size:13px;color:var(--tx2);font-weight:600;margin-bottom:1.4rem;line-height:1.6;">Responde lo que sepas. El juego se adapta automaticamente a tu nivel real.</div>
+      <button class="ob-btn" onclick="SND.ui();startDiag()">Comenzar diagnostico</button>
+      <button class="diag-skip" onclick="skipDiag()">Saltar por ahora</button>
+    </div>
+  </div>
+</div>
+
+<!-- DIAGSCREEN -->
+<div id="diagscreen" class="screen">
+  <div class="diag-card" style="margin:auto;">
+    <div class="diag-hdr"><h2>Diagnostico inicial</h2><p id="ds-sub">Pregunta 1 de 5</p></div>
+    <div class="diag-prog" id="ds-prog"></div>
+    <div class="diag-q" id="ds-q">Cargando...</div>
+    <div class="diag-opts" id="ds-opts"></div>
+    <button class="diag-skip" onclick="skipDiag()">Saltar diagnostico</button>
+  </div>
+</div>
+
+<!-- INFORME -->
+<div id="informe" class="screen">
+  <div class="inf-top">
+    <h2>&#128202; Informe de Vacaciones</h2>
+    <button class="bbtn" onclick="SND.ui();renderParent();showScreen('par')">Volver al Panel</button>
+  </div>
+  <div id="inf-body"></div>
+</div>
+
 <!-- SELECT -->
 <div id="sel" class="screen active">
-  <div class="logo"><h1>NEXOS</h1><p>Academia de Guardianes</p></div>
+  <div class="profile-banner" id="profile-banner"><div class="pb-avatar exp" id="pb-avatar">&#9889;</div><div class="pb-info"><div class="pb-name" id="pb-name">Guardian</div><div class="pb-detail" id="pb-detail">Modo Explorador &bull; Grado 4</div></div><button class="pb-edit" onclick="SND.ui();showScreen('onboard');obGoStep(0)">Editar perfil</button></div>
+  <div class="logo"><h1 onclick="logoTap()" style="cursor:default;user-select:none;">NEXUS</h1><p>Academia de Guardianes</p></div>
   <div class="sel-cards">
     <div class="scard exp" onclick="SND.ui();startMode('exp')">
       <div class="sico">&#9889;</div><h2>Modo Explorador</h2>
-      <p>Aventuras rapidas, matematica y lengua espanola. Para guardianes de 9 a 10 anos.</p>
-      <div class="tags"><span class="tag tb">9-10 anos</span><span class="tag tt">4to a 5to</span><span class="tag tb">Matematica</span><span class="tag tt">Lengua</span></div>
+      <p>Aventuras rapidas con preguntas adaptadas a tu nivel. Matematica y Lengua Espanola.</p>
+      <div class="tags"><span class="tag tb">Matematica</span><span class="tag tt">Lengua</span><span class="tag tb">Visual</span><span class="tag tt">Rapido</span></div>
     </div>
     <div class="scard gua" onclick="SND.ui();startMode('gua')">
-      <div class="sico">&#128737;</div><h2>Modo Guardian</h2>
-      <p>Niveles, ranking y logros. Matematica y Lengua espanola para guardianes de 14 a 15 anos.</p>
-      <div class="tags"><span class="tag tp">14-15 anos</span><span class="tag ta">8vo a 9no</span><span class="tag tp">Matematica</span><span class="tag ta">Lengua</span></div>
+      <div class="sico">&#128737;&#65039;</div><h2>Modo Guardian</h2>
+      <p>Retos progresivos con niveles, ranking y logros. Matematica y Lengua Espanola.</p>
+      <div class="tags"><span class="tag tp">Matematica</span><span class="tag ta">Lengua</span><span class="tag tp">Niveles</span><span class="tag ta">Ranking</span></div>
     </div>
   </div>
   <div class="sel-foot">
@@ -416,6 +608,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
       <button class="shopbtn" onclick="SND.ui();openShop()">Tienda</button>
     </div>
   </div>
+  <div class="sess-wrap"><span style="font-size:14px;">&#9889;</span><div class="sess-track"><div class="sess-fill" id="sess-fill" style="width:0%"></div></div><span class="sess-lbl" id="sess-lbl">0:00 / 15:00</span></div>
   <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0;">
     <div id="hub">
       <div class="greet"><h2>Hola, <em id="gname">Guardian</em>!</h2><p id="gsub">Tu mision te espera.</p></div>
@@ -442,7 +635,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
             </div>
           </div>
           <div class="cpnl">
-            <div class="cpnltop"><h3>Nexos Coins</h3><div class="ctot" id="cptot">0</div></div>
+            <div class="cpnltop"><h3>Nexus Coins</h3><div class="ctot" id="cptot">0</div></div>
             <div class="ctierlbl" id="cptier">Cofre basico - Limite: 5000 NC</div>
             <div class="cbarw"><div class="cbarf" id="cpbar" style="width:0%"></div></div>
             <div class="cblbls"><span>0</span><span id="cpmid">2500</span><span id="cpmax">5000</span></div>
@@ -516,6 +709,42 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
     </div>
   </div>
   <!-- Today -->
+  <!-- CONFIG SECTION -->
+  <div style="background:var(--card);border:2px solid var(--bdr);border-radius:14px;padding:1.1rem;margin-bottom:14px;">
+    <div class="slbl" style="margin-bottom:10px;">&#9881; Configuracion</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+      <div>
+        <div style="font-size:11px;font-weight:800;color:var(--tx2);margin-bottom:5px;">Grado Explorador</div>
+        <select class="ob-select" id="par-grade-exp" style="font-size:13px;padding:8px 10px;" onchange="saveParConfig()">
+          <option value="1">1ro Primaria</option><option value="2">2do Primaria</option>
+          <option value="3">3ro Primaria</option><option value="4">4to Primaria</option>
+          <option value="5">5to Primaria</option><option value="6">6to Primaria</option>
+          <option value="7">7mo Secundaria</option><option value="8">8vo Secundaria</option>
+          <option value="9">9no Secundaria</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:800;color:var(--tx2);margin-bottom:5px;">Grado Guardian</div>
+        <select class="ob-select" id="par-grade-gua" style="font-size:13px;padding:8px 10px;" onchange="saveParConfig()">
+          <option value="1">1ro Primaria</option><option value="2">2do Primaria</option>
+          <option value="3">3ro Primaria</option><option value="4">4to Primaria</option>
+          <option value="5">5to Primaria</option><option value="6">6to Primaria</option>
+          <option value="7">7mo Secundaria</option><option value="8">8vo Secundaria</option>
+          <option value="9">9no Secundaria</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:800;color:var(--tx2);margin-bottom:5px;">Duracion minima de sesion</div>
+      <div style="display:flex;gap:7px;">
+        <button class="sess-opt-btn" data-min="5"  onclick="setSessTarget(5)">5 min</button>
+        <button class="sess-opt-btn" data-min="10" onclick="setSessTarget(10)">10 min</button>
+        <button class="sess-opt-btn active" data-min="15" onclick="setSessTarget(15)">15 min</button>
+        <button class="sess-opt-btn" data-min="20" onclick="setSessTarget(20)">20 min</button>
+      </div>
+    </div>
+  </div>
+
   <div class="today-card">
     <h3>Hoy</h3>
     <div class="today-grid">
@@ -537,18 +766,18 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
   </div>
   <div class="slbl">Nivel de dificultad</div>
   <div class="plvlg">
-    <div class="plvlc"><div class="plvln">Explorador (9 anos)</div><div class="plvlv" id="plve">Nivel 1</div><div class="plvls" id="plves">Novato</div></div>
-    <div class="plvlc"><div class="plvln">Guardian (14 anos)</div><div class="plvlv" id="plvg">Nivel 1</div><div class="plvls" id="plvgs">Novato</div></div>
+    <div class="plvlc"><div class="plvln">Explorador</div><div class="plvlv" id="plve">Nivel 1</div><div class="plvls" id="plves">Novato</div></div>
+    <div class="plvlc"><div class="plvln">Guardian</div><div class="plvlv" id="plvg">Nivel 1</div><div class="plvls" id="plvgs">Novato</div></div>
   </div>
   <div class="pch">
-    <h3><span style="color:var(--bl)">Explorador</span> - 9 anos</h3>
+    <h3><span style="color:var(--bl)">Explorador</span></h3>
     <div class="slbl">Semana actual</div><div class="pwg" id="we"></div>
     <div class="slbl" style="margin-top:12px;">Matematica por tema</div><div class="tbars" id="te-mat"></div>
     <div class="slbl" style="margin-top:12px;">Lengua Espanola por tema</div><div class="tbars" id="te-len"></div>
   </div>
   <div class="divl"></div>
   <div class="pch">
-    <h3><span style="color:var(--pu)">Guardian</span> - 14 anos</h3>
+    <h3><span style="color:var(--pu)">Guardian</span></h3>
     <div class="slbl">Semana actual</div><div class="pwg" id="wg2"></div>
     <div class="slbl" style="margin-top:12px;">Matematica por tema</div><div class="tbars" id="tg-mat"></div>
     <div class="slbl" style="margin-top:12px;">Lengua Espanola por tema</div><div class="tbars" id="tg-len"></div>
@@ -556,6 +785,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
   <div class="divl"></div>
   <div class="slbl">Actividad reciente</div>
   <div class="plog" id="plog"></div>
+  <button class="inf-link-btn" onclick="SND.ui();renderInforme()">&#128202; Ver Informe Completo de Vacaciones</button>
 </div>
 
 <!-- SHOP -->
@@ -573,7 +803,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
     </div>
   </div>
   <div class="econbox">
-    <h4>Como ganar Nexos Coins</h4>
+    <h4>Como ganar Nexus Coins</h4>
     <div class="econg">
       <div class="erow"><span class="erl">Mision completada</span><span class="erv">+50 NC</span></div>
       <div class="erow"><span class="erl">Dia de racha</span><span class="erv">+10 NC</span></div>
@@ -610,6 +840,85 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
   </div>
 </div>
 
+
+<!-- GRADE SELECT -->
+<div id="grade" class="screen">
+  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;align-items:center;justify-content:center;padding:1.5rem;">
+    <div style="max-width:440px;width:100%;text-align:center;">
+      <div style="font-size:52px;margin-bottom:12px;" id="grade-ico">&#9889;</div>
+      <h2 style="font-size:24px;font-weight:900;margin-bottom:6px;" id="grade-title">Bienvenido, Explorador!</h2>
+      <p style="font-size:14px;color:var(--tx2);margin-bottom:24px;font-weight:600;">Selecciona el grado que terminaste para que el juego ajuste los ejercicios a tu nivel.</p>
+      <div style="font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;color:var(--tx3);margin-bottom:12px;">Grado escolar que terminaste</div>
+      <div id="grade-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;"></div>
+      <div style="font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;color:var(--tx3);margin-bottom:12px;">Tu area mas dificil este ano</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;" id="weak-area-grid">
+        <button class="weak-area-btn" id="wa-mat" onclick="setWeakArea('mat')">&#129518; Matematica</button>
+        <button class="weak-area-btn" id="wa-len" onclick="setWeakArea('len')">&#128218; Lengua Espanola</button>
+      </div>
+      <button id="grade-confirm-btn" onclick="confirmGrade()" style="width:100%;padding:16px;border-radius:14px;border:none;font-size:16px;font-weight:900;color:#fff;opacity:0.4;cursor:not-allowed;" disabled>Comenzar aventura &#128640;</button>
+      <button onclick="SND.ui();showScreen('sel')" style="margin-top:12px;background:transparent;border:none;color:var(--tx3);font-size:13px;font-weight:700;cursor:pointer;">Volver</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin" class="screen">
+  <div style="background:var(--card);border-bottom:2px solid rgba(255,82,82,0.3);padding:12px 18px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+    <div>
+      <div style="font-size:10px;font-weight:900;letter-spacing:2px;color:var(--rd);text-transform:uppercase;">Admin — Solo propietario</div>
+      <div style="font-size:18px;font-weight:900;margin-top:2px;">Panel de Control</div>
+    </div>
+    <div style="display:flex;gap:7px;">
+      <button class="bbtn" onclick="SND.ui();showScreen('sel')">Salir</button>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px;">
+
+    <!-- VERSION BADGE -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v3.1</span>
+      <span style="font-size:12px;color:var(--tx3);font-weight:700;" id="adm-lastave">Ultimo guardado: -</span>
+    </div>
+
+    <!-- PERFILES -->
+    <div class="slbl">Perfiles registrados</div>
+    <div id="adm-profiles" style="margin-bottom:18px;"></div>
+
+    <!-- ESTADISTICAS -->
+    <div class="slbl">Estadisticas globales</div>
+    <div id="adm-stats" style="margin-bottom:18px;"></div>
+
+    <!-- DIAGNOSTICO TECNICO -->
+    <div class="slbl">Diagnostico tecnico</div>
+    <div id="adm-tech" style="margin-bottom:18px;"></div>
+
+    <!-- CONTROLES -->
+    <div class="slbl">Controles</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+      <button class="adm-btn warn" onclick="admReset('exp')">&#9888; Reset Explorador</button>
+      <button class="adm-btn warn" onclick="admReset('gua')">&#9888; Reset Guardian</button>
+      <button class="adm-btn danger" onclick="admReset('all')">&#128683; Reset Completo</button>
+      <button class="adm-btn" onclick="admExport()">&#128190; Exportar JSON</button>
+      <button class="adm-btn" onclick="admCopyText()">&#128203; Copiar resumen</button>
+      <button class="adm-btn" onclick="admChangePin()">&#128274; Cambiar PIN admin</button>
+    </div>
+    <div id="adm-msg" style="font-size:13px;color:var(--gr);font-weight:800;min-height:20px;margin-top:6px;"></div>
+  </div>
+</div>
+
+<!-- ADMIN PIN -->
+<div id="adminpin" class="screen">
+  <div class="pincard">
+    <div class="pinico">&#128272;</div>
+    <h2>Acceso Admin</h2>
+    <p id="adminpinmsg">PIN de administrador</p>
+    <div class="pindots" id="adminpindots"></div>
+    <div class="pinerr" id="adminpinerr"></div>
+    <div class="pinkpad" id="adminpinkpad"></div>
+    <button class="bbtn" style="margin-top:14px;" onclick="SND.ui();showScreen('sel')">Cancelar</button>
+  </div>
+</div>
+
 </div><!-- #app -->
 
 <!-- FEEDBACK -->
@@ -627,12 +936,12 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
     <h2>&#127775; Tu progreso</h2>
     <p>Comparte con tu familia cuanto has avanzado en el reto de vacaciones.</p>
     <div class="prog-card">
-      <div class="prog-card-title">NEXOS — Reto de vacaciones</div>
+      <div class="prog-card-title">NEXUS — Reto de vacaciones</div>
       <div class="prog-stats">
         <div class="prog-stat"><div class="prog-stat-val" id="sh-mis">0</div><div class="prog-stat-lbl">Misiones completadas</div></div>
         <div class="prog-stat"><div class="prog-stat-val" id="sh-streak">0</div><div class="prog-stat-lbl">Dias de racha</div></div>
         <div class="prog-stat"><div class="prog-stat-val" id="sh-score">-</div><div class="prog-stat-lbl">Score promedio</div></div>
-        <div class="prog-stat"><div class="prog-stat-val" id="sh-coins">0</div><div class="prog-stat-lbl">Nexos Coins</div></div>
+        <div class="prog-stat"><div class="prog-stat-val" id="sh-coins">0</div><div class="prog-stat-lbl">Nexus Coins</div></div>
       </div>
     </div>
     <div class="modal-btns">
@@ -668,16 +977,20 @@ var SND=(function(){
 })();
 
 // ═══ TIERS & LEVELS ═══
-var TIERS=[{cap:5000,lbl:'Cofre basico'},{cap:8000,lbl:'Cofre de plata'},{cap:12000,lbl:'Cofre de oro'},{cap:18000,lbl:'Cofre de cristal'},{cap:25000,lbl:'Cofre legendario'}];
+var TIERS=[{cap:5000,lbl:'Cofre basico'},{cap:8000,lbl:'Cofre de plata'},{cap:12000,lbl:'Cofre de oro'},{cap:18000,lbl:'Cofre de cristal'},{cap:25000,lbl:'Cofre legendario'},{cap:35000,lbl:'Cofre mitico'},{cap:50000,lbl:'Cofre cosmico'},{cap:75000,lbl:'Cofre estelar'},{cap:100000,lbl:'Cofre supremo'}];
 var TSPEND=[0,1500,4000,8000,15000];
 var DLVLS=[
-  {n:1,name:'Novato',     ops:['add'],                         maxN:10,  timer:30},
-  {n:2,name:'Aprendiz',   ops:['add','sub'],                   maxN:20,  timer:25},
-  {n:3,name:'Explorador', ops:['add','sub','mul'],              maxN:50,  timer:22},
-  {n:4,name:'Guerrero',   ops:['add','sub','mul','div','table'],maxN:100, timer:18},
-  {n:5,name:'Elite',      ops:['add','sub','mul','div','table','frac'],maxN:100,timer:15},
+  {n:1,name:'Novato',     grade:'1ro Primaria', ops:['add','sub'],                          maxN:99,    timer:32},
+  {n:2,name:'Aprendiz',   grade:'2do Primaria', ops:['add','sub','table'],                  maxN:999,   timer:28},
+  {n:3,name:'Explorador', grade:'3ro Primaria', ops:['add','sub','mul','table'],            maxN:9999,  timer:25},
+  {n:4,name:'Guerrero',   grade:'4to Primaria', ops:['add','sub','mul','div','table','frac'],maxN:99999, timer:22},
+  {n:5,name:'Campeon',    grade:'5to Primaria', ops:['mul','div','frac','power'],           maxN:99999, timer:20},
+  {n:6,name:'Veterano',   grade:'6to Primaria', ops:['div','frac','decimal','power','mcm'], maxN:99999, timer:18},
+  {n:7,name:'Maestro',    grade:'1ro Secundaria',ops:['integer','frac','decimal','power'],  maxN:999,   timer:18},
+  {n:8,name:'Sabio',      grade:'2do Secundaria',ops:['integer','equation','decimal','power'],maxN:999, timer:16},
+  {n:9,name:'Leyenda',    grade:'3ro Secundaria',ops:['equation','integer','power','sequence'],maxN:999,timer:15},
 ];
-var LXP=[0,300,700,1400,2500];
+var LXP=[0,300,700,1400,2500,4000,6000,8500,12000];
 
 // ═══ SHOP CATALOG ═══
 var CAT=[
@@ -732,19 +1045,20 @@ var LENGUA_QS=[
 
 // ═══ STATE ═══
 function saveState(){
-  try{localStorage.setItem('nh2',JSON.stringify({
+  try{localStorage.setItem('nh2',JSON.stringify({profile:S.profile,onboarded:S.onboarded,diagDone:S.diagDone,
     pin:S.pin,
-    exp:{streak:S.exp.streak,coins:S.exp.coins,xp:S.exp.xp,missions:S.exp.missions,scores:S.exp.scores,best:S.exp.best,tier:S.exp.tier,spent:S.exp.spent,level:S.exp.level,lvlXP:S.exp.lvlXP,lenScores:S.exp.lenScores||[]},
-    gua:{streak:S.gua.streak,coins:S.gua.coins,xp:S.gua.xp,missions:S.gua.missions,scores:S.gua.scores,best:S.gua.best,tier:S.gua.tier,spent:S.gua.spent,level:S.gua.level,lvlXP:S.gua.lvlXP,lenScores:S.gua.lenScores||[]},
+    exp:{streak:S.exp.streak,coins:S.exp.coins,xp:S.exp.xp,missions:S.exp.missions,scores:S.exp.scores,best:S.exp.best,tier:S.exp.tier,spent:S.exp.spent,level:S.exp.level,lvlXP:S.exp.lvlXP,lenScores:S.exp.lenScores||[],grade:S.exp.grade||0,weakArea:S.exp.weakArea||''},
+    gua:{streak:S.gua.streak,coins:S.gua.coins,xp:S.gua.xp,missions:S.gua.missions,scores:S.gua.scores,best:S.gua.best,tier:S.gua.tier,spent:S.gua.spent,level:S.gua.level,lvlXP:S.gua.lvlXP,lenScores:S.gua.lenScores||[],grade:S.gua.grade||0,weakArea:S.gua.weakArea||''},
     cat:S.cat
   }));}catch(e){}
 }
 function loadState(){
   try{localStorage.removeItem('nh');/* clear old key */}catch(e){}
   var def={
-    mode:'exp',pin:'1234',pinChanging:false,pinNew:'',area:'mat',
-    exp:{streak:3,coins:2000,xp:350,missions:4,scores:[85,90,78,92],best:3,tier:1,spent:0,level:1,lvlXP:0,lenScores:[82,88]},
-    gua:{streak:7,coins:102,xp:1200,missions:8,scores:[72,85,88,91,80,94,87,95],best:7,tier:1,spent:0,level:1,lvlXP:0,lenScores:[75,80,85]},
+    mode:'exp',pin:'1234',pinChanging:false,pinNew:'',area:'mat',onboarded:false,diagDone:false,
+    profile:{name:'',age:'',grade:'4',mode:'exp',registro:''},
+    exp:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false},
+    gua:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false},
     cat:JSON.parse(JSON.stringify(CAT)),
     ses:{qs:[],correct:0,t0:null},activeWorld:0
   };
@@ -753,10 +1067,13 @@ function loadState(){
     if(!raw)return def;
     var p=JSON.parse(raw);
     if(p.pin)def.pin=p.pin;
+    if(p.profile)def.profile=p.profile;
+    if(p.onboarded)def.onboarded=p.onboarded;
+    if(p.diagDone)def.diagDone=p.diagDone;
     ['exp','gua'].forEach(function(k){
       if(!p[k])return;
       var src=p[k],dst=def[k];
-      ['streak','coins','xp','missions','best','tier','spent','level','lvlXP'].forEach(function(f){if(src[f]!==undefined)dst[f]=src[f];});
+      ['streak','coins','xp','missions','best','tier','spent','level','lvlXP','grade','weakArea'].forEach(function(f){if(src[f]!==undefined)dst[f]=src[f];});
       if(src.scores&&src.scores.length)dst.scores=src.scores;
       if(src.lenScores&&src.lenScores.length)dst.lenScores=src.lenScores;
     });
@@ -775,12 +1092,12 @@ var actLog=[
 ];
 
 // ═══ COIN SYSTEM ═══
-function coinCap(d){return TIERS[d.tier-1].cap;}
+function coinCap(d){return TIERS[(d.level||1)-1].cap;}
 function addCoins(amt,d){var c=coinCap(d),before=d.coins;d.coins=Math.min(c,d.coins+amt);var added=d.coins-before;if(added>0){SND.coin();floatCoin('+'+added+' NC');}if(d.coins>=c)toast('Cofre lleno ('+c+' NC) - Visita la tienda!');saveState();return added;}
 function spend(amt,d){if(d.coins<amt)return false;d.coins-=amt;d.spent+=amt;checkT(d);updHdr();saveState();return true;}
 function checkT(d){S.cat.filter(function(i){return i.type==='tier'&&!i.owned;}).forEach(function(it){if(d.spent>=(it.spendReq||0)){it.owned=true;if(it.tier>d.tier){d.tier=it.tier;SND.unlock();confetti(40);toast('Nuevo cofre: '+TIERS[it.tier-1].lbl+' Limite: '+TIERS[it.tier-1].cap+' NC');}}});}
 function floatCoin(t){var el=document.createElement('div');el.className='cflt';el.textContent=t;el.style.cssText='left:'+(40+Math.random()*20)+'%;top:'+(30+Math.random()*15)+'%;';document.body.appendChild(el);setTimeout(function(){el.remove();},1300);}
-function addXP(xp,d){d.xp+=xp;d.lvlXP=(d.lvlXP||0)+xp;if(d.level<5){var req=LXP[d.level];if(d.lvlXP>=req){d.level++;d.lvlXP=0;SND.unlock();confetti(50);saveState();toast('NIVEL '+d.level+' desbloqueado! Modo '+DLVLS[d.level-1].name);}}}
+function addXP(xp,d){d.xp+=xp;d.lvlXP=(d.lvlXP||0)+xp;if(d.level<5){var req=LXP[d.level];if(d.lvlXP>=req){d.level++;d.lvlXP=0;SND.unlock();confetti(50);saveState();toast('NIVEL '+d.level+' desbloqueado! Modo '+DLVLS[d.level-1].name+'. Limite NC: '+TIERS[d.level-1].cap);}}}
 function lvlPct(d){if(d.level>=5)return 100;return Math.min(100,Math.round((d.lvlXP||0)/LXP[d.level]*100));}
 
 // ═══ SOUND TOGGLE ═══
@@ -803,6 +1120,7 @@ function showScreen(id){
   var el=document.getElementById(id);if(!el)return;
   el.classList.add('active');
   if(id==='res'||id==='pin')el.style.display='flex';
+  if(id==='sel'){stopSessTimer();sessSeconds=0;updSessBar();}
 }
 function goHome(){
   clearInterval(ti);
@@ -817,10 +1135,69 @@ function showPin(){S.pinChanging=false;pbuf=[];renderPinUI('Ingresa el PIN de 4 
 function changePinFlow(){S.pinChanging=true;S.pinNew='';pbuf=[];renderPinUI('Ingresa tu nuevo PIN de 4 digitos.','');showScreen('pin');}
 
 // ═══ PARTICLES ═══
+// INIT
+(function(){if(S.onboarded){updateProfileBanner();}else{showScreen('onboard');if(typeof obGoStep!=='undefined')obGoStep(0);}})();
 (function(){var c=document.getElementById('ptc');if(!c)return;var cols=['#4DAFFF33','#9B6FFF33','#18CDB033','#FFB83022'];for(var i=0;i<18;i++){var p=document.createElement('div');p.className='pt';var sz=Math.random()*4+2;p.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+cols[i%4]+';left:'+Math.random()*100+'%;animation-duration:'+(Math.random()*16+8)+'s;animation-delay:'+(Math.random()*10)+'s;';c.appendChild(p);}})();
 
 // ═══ MODE ═══
-function startMode(m){S.mode=m;updHdr();renderHub();showScreen('game');}
+function startMode(m){SND.ui();S.mode=m;if(!S.onboarded){obMode=m;selObMode(m);showScreen('onboard');obGoStep(0);return;}updHdr();renderHub();showScreen('game');}
+function renderGradeScreen(m){
+  _pendingMode=m;_selectedGrade=-1;_selectedWeak='';
+  var ico=document.getElementById('grade-ico');
+  var tit=document.getElementById('grade-title');
+  if(ico)ico.innerHTML=m==='exp'?'&#9889;':'&#128737;';
+  if(tit)tit.textContent=m==='exp'?'Bienvenido, Explorador!':'Bienvenido, Guardian!';
+  var gg=document.getElementById('grade-grid');
+  if(!gg)return;gg.innerHTML='';
+  GRADES.forEach(function(g,i){
+    var btn=document.createElement('button');
+    btn.className='grade-btn';
+    btn.setAttribute('data-idx',i);
+    btn.innerHTML='<div class="grade-num">'+g.n+'</div><div class="grade-lbl">'+g.lbl+'</div>';
+    btn.onclick=function(){
+      SND.ui();_selectedGrade=i;
+      document.querySelectorAll('.grade-btn').forEach(function(b){b.className='grade-btn'+(m==='gua'?' gua-mode':'');});
+      btn.className='grade-btn selected'+(m==='gua'?' gua-mode':'');
+      checkGradeReady();
+    };
+    gg.appendChild(btn);
+  });
+  // Reset weak area
+  ['wa-mat','wa-len'].forEach(function(id){var b=document.getElementById(id);if(b)b.className='weak-area-btn';});
+  var cb=document.getElementById('grade-confirm-btn');
+  if(cb){cb.style.background=m==='exp'?'linear-gradient(135deg,#4DAFFF,#18CDB0)':'linear-gradient(135deg,#9B6FFF,#FF6EB4)';}
+  checkGradeReady();
+}
+
+function setWeakArea(area){
+  SND.ui();_selectedWeak=area;
+  document.querySelectorAll('.weak-area-btn').forEach(function(b){b.className='weak-area-btn';});
+  var btn=document.getElementById('wa-'+area);if(btn)btn.className='weak-area-btn selected';
+  checkGradeReady();
+}
+
+function checkGradeReady(){
+  var cb=document.getElementById('grade-confirm-btn');
+  var ready=_selectedGrade>=0&&_selectedWeak!=='';
+  if(cb){cb.disabled=!ready;cb.style.opacity=ready?'1':'0.4';cb.style.cursor=ready?'pointer':'not-allowed';}
+}
+
+function confirmGrade(){
+  if(_selectedGrade<0||!_selectedWeak)return;
+  SND.ui();
+  var d=S[_pendingMode];
+  var g=GRADES[_selectedGrade];if(!g)return;
+  d.grade=_selectedGrade+1;
+  d.weakArea=_selectedWeak;
+  // Set starting level based on grade
+  d.level=g.lvl;
+  d.lvlXP=0;
+  saveState();
+  confetti(20);
+  toast('Perfil configurado! Grado: '+g.n+' - Iniciando en Nivel '+g.lvl);
+  S.mode=_pendingMode;
+  updHdr();renderHub();showScreen('game');
+}
 
 function updHdr(){
   var m=S.mode,d=S[m],c=coinCap(d),pct=Math.min(100,Math.round(d.coins/c*100));
@@ -834,8 +1211,8 @@ function updHdr(){
   var t=TIERS[d.tier-1];
   var ct=document.getElementById('cptot'),ctr=document.getElementById('cptier'),cbr=document.getElementById('cpbar'),cm=document.getElementById('cpmid'),cmx=document.getElementById('cpmax');
   if(ct)ct.textContent=d.coins;
-  if(ctr)ctr.textContent=t.lbl+' - Limite: '+t.cap+' NC';
-  if(cbr)cbr.style.width=Math.min(100,Math.round(d.coins/t.cap*100))+'%';
+  var lvlCap=TIERS[(d.level||1)-1];if(ctr)ctr.textContent=lvlCap.lbl+' - Limite: '+lvlCap.cap+' NC';
+  if(cbr)cbr.style.width=Math.min(100,Math.round(d.coins/lvlCap.cap*100))+'%';
   if(cm)cm.textContent=Math.round(t.cap/2);
   if(cmx)cmx.textContent=t.cap;
   var hl=document.getElementById('hlvln'),hlt=document.getElementById('hlvlt'),hls=document.getElementById('hlvls'),hlb=document.getElementById('hlvlb');
@@ -889,25 +1266,139 @@ function renderHub(){
 function genMat(diff){
   var d=DLVLS[diff-1],ops=d.ops,op=ops[Math.floor(Math.random()*ops.length)],mx=d.maxN;
   function shuf(arr){return arr.sort(function(){return Math.random()-0.5;});}
+  function R(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
   function wrap(res,pool){var all=[res].concat(pool.filter(function(x){return x!==res&&x>0;}).slice(0,3));while(all.length<4)all.push(res+all.length+Math.floor(Math.random()*4)+1);var s=shuf(all.slice(0,4));return{opts:s.map(String),ok:s.indexOf(res)};}
-  if(op==='table'){var a=Math.floor(Math.random()*10)+2,b=Math.floor(Math.random()*12)+1,res=a*b;var w=wrap(res,[a*(b+1),a*(b-1)||a+2,(a+1)*b]);return{q:a+' x '+b+' = ?',vis:null,opts:w.opts,ok:w.ok,top:'Tabla del '+a,ctx:'El guardian practica la tabla del '+a+'.'};}
-  if(op==='frac'){var dens=[2,3,4,5,6,8],den=dens[Math.floor(Math.random()*dens.length)],n1=Math.floor(Math.random()*(den-1))+1,n2=Math.floor(Math.random()*(den-1))+1,sum=n1+n2;var res2=sum>den?(Math.floor(sum/den)+(sum%den?' y '+(sum%den)+'/'+den:'')):(sum+'/'+den);var wrong=[(sum+1)+'/'+den,(sum>1?(sum-1):sum+2)+'/'+den,n1+n2+'/'+(den+1)];var all2=[res2].concat(wrong.filter(function(x){return x!==res2;}).slice(0,3));var s2=shuf(all2);return{q:'Cuanto es '+n1+'/'+den+' + '+n2+'/'+den+' ?',vis:{t:'op',a:n1+'/'+den,o:'+',b:n2+'/'+den},opts:s2,ok:s2.indexOf(res2),top:'Fracciones',ctx:'El guardian combina energias fraccionadas.'};}
-  if(op==='add'){var a2=Math.floor(Math.random()*mx)+1,b2=Math.floor(Math.random()*mx)+1,res3=a2+b2;var w2=wrap(res3,[res3+1,res3-1,res3+10,res3-10]);return{q:a2+' + '+b2+' = ?',vis:null,opts:w2.opts,ok:w2.ok,top:'Suma',ctx:'El guardian suma energia.'};}
-  if(op==='sub'){var a3=Math.floor(Math.random()*mx)+Math.ceil(mx/2)+1,b3=Math.floor(Math.random()*(a3-1))+1,res4=a3-b3;var w3=wrap(res4,[res4+1,res4-1,a3+b3,res4+5]);return{q:a3+' - '+b3+' = ?',vis:null,opts:w3.opts,ok:w3.ok,top:'Resta',ctx:'El guardian resta el poder del villano.'};}
-  if(op==='mul'){var mF=diff<=3?12:15,a4=Math.floor(Math.random()*mF)+2,b4=Math.floor(Math.random()*mF)+2,res5=a4*b4;var w4=wrap(res5,[a4*(b4+1),a4*(b4-1)||(res5+1),res5+a4,res5-b4||(res5+2)]);return{q:a4+' x '+b4+' = ?',vis:null,opts:w4.opts,ok:w4.ok,top:'Multiplicacion',ctx:'El guardian multiplica su poder.'};}
-  if(op==='div'){var b5=Math.floor(Math.random()*11)+2,res6=Math.floor(Math.random()*12)+1,a5=b5*res6;var w5=wrap(res6,[res6+1,res6-1||(res6+2),res6+2,Math.floor(a5/(b5+1))+1]);return{q:a5+' / '+b5+' = ?',vis:null,opts:w5.opts,ok:w5.ok,top:'Division',ctx:'El guardian divide los recursos.'};}
+  function wrapAny(res,wrongs){var all=[res].concat(wrongs.filter(function(x){return x!==res;})).slice(0,4);while(all.length<4)all.push(res+'_'+all.length);var s=shuf(all);return{opts:s.map(String),ok:s.indexOf(res)};}
+
+  // ── ADD ──
+  if(op==='add'){
+    var cap=Math.min(mx,diff<=1?99:diff<=2?500:9999);
+    var a=R(1,cap),b=R(1,cap),res=a+b;
+    var w=wrap(res,[res+1,res-1,res+10,res-10,res+a]);
+    return{q:a+' + '+b+' = ?',vis:null,opts:w.opts,ok:w.ok,top:'Suma',ctx:'El guardian suma energia.'};
+  }
+  // ── SUB ──
+  if(op==='sub'){
+    var cap2=Math.min(mx,diff<=1?99:diff<=2?500:9999);
+    var a2=R(Math.ceil(cap2/2),cap2),b2=R(1,a2-1),res2=a2-b2;
+    var w2=wrap(res2,[res2+1,res2-1,a2+b2,res2+5]);
+    return{q:a2+' - '+b2+' = ?',vis:null,opts:w2.opts,ok:w2.ok,top:'Resta',ctx:'El guardian resta el poder del villano.'};
+  }
+  // ── TABLE ──
+  if(op==='table'){
+    var ta=R(2,diff<=2?9:12),tb=R(1,12),tr=ta*tb;
+    var w3=wrap(tr,[ta*(tb+1),ta*(tb-1)||ta+2,(ta+1)*tb,tr+ta]);
+    return{q:ta+' x '+tb+' = ?',vis:null,opts:w3.opts,ok:w3.ok,top:'Tabla del '+ta,ctx:'El guardian practica la tabla del '+ta+'.'};
+  }
+  // ── MUL ──
+  if(op==='mul'){
+    var mF=diff<=3?12:diff<=5?25:99;
+    var a4=R(2,mF),b4=R(2,Math.min(mF,diff<=3?12:50)),res4=a4*b4;
+    var w4=wrap(res4,[a4*(b4+1),a4*(b4-1)||(res4+1),res4+a4,res4-b4||(res4+2)]);
+    return{q:a4+' x '+b4+' = ?',vis:null,opts:w4.opts,ok:w4.ok,top:'Multiplicacion',ctx:'El guardian multiplica su poder.'};
+  }
+  // ── DIV ──
+  if(op==='div'){
+    var b5=R(2,diff<=4?12:25),res5=R(2,diff<=4?12:50),a5=b5*res5;
+    var w5=wrap(res5,[res5+1,res5-1||(res5+2),res5+2,Math.floor(a5/(b5+1))+1]);
+    return{q:a5+' \u00f7 '+b5+' = ?',vis:null,opts:w5.opts,ok:w5.ok,top:'Division',ctx:'El guardian divide los recursos.'};
+  }
+  // ── FRAC ──
+  if(op==='frac'){
+    var dens=[2,3,4,5,6,8],den=dens[R(0,dens.length-1)],n1=R(1,den-1),n2=R(1,den-1),sum=n1+n2;
+    var res6=sum>den?(Math.floor(sum/den)+(sum%den?' y '+(sum%den)+'/'+den:'')):(sum+'/'+den);
+    var wrong=[(sum+1)+'/'+den,(sum>1?(sum-1):sum+2)+'/'+den,(n1+n2)+'/'+(den+1)];
+    var allF=[res6].concat(wrong.filter(function(x){return x!==res6;})).slice(0,4);
+    var sF=shuf(allF);
+    return{q:'\u00bfCuanto es '+n1+'/'+den+' + '+n2+'/'+den+'?',vis:{t:'op',a:n1+'/'+den,o:'+',b:n2+'/'+den},opts:sF.map(String),ok:sF.indexOf(res6),top:'Fracciones',ctx:'El guardian combina energias fraccionadas.'};
+  }
+  // ── POWER (potencias y raices) ──
+  if(op==='power'){
+    if(Math.random()<0.5){
+      var base=R(2,diff<=5?9:12),exp=2,rp=Math.pow(base,exp);
+      var wp=wrap(rp,[base*exp,rp+base,rp-base,rp+1]);
+      return{q:base+'\u00b2 = ?',vis:null,opts:wp.opts,ok:wp.ok,top:'Potencias',ctx:'El guardian eleva su energia al cuadrado.'};
+    } else {
+      var roots=[4,9,16,25,36,49,64,81,100,121,144],sq=roots[R(0,roots.length-1)],rr=Math.sqrt(sq);
+      var wr=wrap(rr,[rr+1,rr-1,rr+2,sq/2]);
+      return{q:'\u221a'+sq+' = ?',vis:null,opts:wr.opts,ok:wr.ok,top:'Raiz cuadrada',ctx:'El guardian extrae la raiz del poder.'};
+    }
+  }
+  // ── DECIMAL ──
+  if(op==='decimal'){
+    var d1=(R(10,99)/10),d2=(R(10,99)/10);
+    var op2=Math.random()<0.5?'+':'-';
+    var rd=op2==='+'?(d1+d2):(Math.max(d1,d2)-Math.min(d1,d2));
+    rd=Math.round(rd*10)/10;
+    var big=Math.max(d1,d2),sml=Math.min(d1,d2);
+    if(op2==='-'){d1=big;d2=sml;}
+    var wd=wrapAny(rd.toFixed(1),[(rd+0.1).toFixed(1),(rd-0.1).toFixed(1),(rd+1).toFixed(1),(rd+0.2).toFixed(1)]);
+    return{q:d1.toFixed(1)+' '+op2+' '+d2.toFixed(1)+' = ?',vis:null,opts:wd.opts,ok:wd.ok,top:'Decimales',ctx:'El guardian opera con energia decimal.'};
+  }
+  // ── INTEGER (numeros enteros con negativos) ──
+  if(op==='integer'){
+    var i1=R(-20,20),i2=R(-20,20);
+    var iop=Math.random()<0.5?'+':'-';
+    var ri=iop==='+'?(i1+i2):(i1-i2);
+    function fmt(n){return n<0?'('+n+')':''+n;}
+    var wi=wrapAny(''+ri,[''+(ri+1),''+(ri-1),''+(ri+2),''+(-ri)]);
+    return{q:fmt(i1)+' '+iop+' '+fmt(i2)+' = ?',vis:null,opts:wi.opts,ok:wi.ok,top:'Numeros enteros',ctx:'El guardian domina energia positiva y negativa.'};
+  }
+  // ── EQUATION (ecuaciones simples) ──
+  if(op==='equation'){
+    var x=R(1,20),k=R(1,30),sum2=x+k;
+    var fmt2=Math.random();
+    if(fmt2<0.5){
+      var we=wrap(x,[x+1,x-1,x+2,k]);
+      return{q:'x + '+k+' = '+sum2+'  \u2192  x = ?',vis:null,opts:we.opts,ok:we.ok,top:'Ecuaciones',ctx:'El guardian descifra el valor oculto.'};
+    } else {
+      var mult=R(2,9),prod=mult*x;
+      var we2=wrap(x,[x+1,x-1,prod,mult]);
+      return{q:mult+'x = '+prod+'  \u2192  x = ?',vis:null,opts:we2.opts,ok:we2.ok,top:'Ecuaciones',ctx:'El guardian resuelve la incognita.'};
+    }
+  }
+  // ── MCM (minimo comun multiplo) ──
+  if(op==='mcm'){
+    function gcd(a,b){return b===0?a:gcd(b,a%b);}
+    var m1=R(2,12),m2=R(2,12);
+    var lcm=m1*m2/gcd(m1,m2);
+    var wm=wrap(lcm,[lcm+m1,lcm-m1,m1*m2,lcm+1]);
+    return{q:'MCM de '+m1+' y '+m2+' = ?',vis:null,opts:wm.opts,ok:wm.ok,top:'MCM',ctx:'El guardian encuentra el multiplo comun.'};
+  }
+  // ── SEQUENCE (patrones numericos) ──
+  if(op==='sequence'){
+    var start=R(1,10),step=R(2,9);
+    var seq=[start,start+step,start+2*step,start+3*step];
+    var next=start+4*step;
+    var ws=wrap(next,[next+step,next-step,next+1,next-1]);
+    return{q:seq.join(', ')+', ... \u2192 \u00bfsiguiente?',vis:null,opts:ws.opts,ok:ws.ok,top:'Patrones',ctx:'El guardian descubre el patron de energia.'};
+  }
   return genMat(1);
 }
-function genLen(){
+
+function genLen(diff){
+  // diff reservado para escalado futuro por grado
   var q=LENGUA_QS[Math.floor(Math.random()*LENGUA_QS.length)];
   return JSON.parse(JSON.stringify(q));
 }
 
 // ═══ MISSION ═══
 function startMission(){
+  if(dailyLimitReached()){
+    var cap=Math.floor(dailyCap()/60);
+    toast('Ya cumpliste tu tiempo de hoy ('+cap+' min). Descansa y vuelve manana!');
+    return;
+  }
   var d=S[S.mode],diff=d.level,isLen=S.area==='len';
   var pool=[];
-  for(var i=0;i<8;i++){pool.push(isLen?genLen():genMat(diff));}
+  // Curva incremental: primeras 2 preguntas mas faciles (calentamiento), luego sube al nivel del grado
+  for(var i=0;i<8;i++){
+    var qDiff;
+    if(i<2) qDiff=Math.max(1,diff-1);      // calentamiento: 1 nivel abajo
+    else if(i<5) qDiff=diff;                // nivel del grado
+    else qDiff=diff;                        // mantiene (no sube arriba del grado)
+    pool.push(isLen?genLen(qDiff):genMat(qDiff));
+  }
   S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area};
   ans=[];cq=0;
   var hub=document.getElementById('hub');if(hub)hub.style.display='none';
@@ -915,6 +1406,7 @@ function startMission(){
   // area badge
   var ab=document.getElementById('areabadge');
   if(ab)ab.innerHTML='<div class="area-badge '+(isLen?'len':'mat')+'">'+(isLen?'&#128218; Lengua Espanola':'&#129518; Matematica')+'</div>';
+  startSessTimer();
   renderQ();
 }
 
@@ -980,7 +1472,7 @@ function nextQ(){
 }
 
 function endMission(){
-  clearInterval(ti);
+  clearInterval(ti);stopSessTimer();var hasTime=sessSeconds>=SESS_TARGET;
   var hub=document.getElementById('hub');if(hub)hub.style.display='block';
   var mg=document.getElementById('mg');if(mg)mg.style.display='none';
   var tot=S.ses.qs.length,cor=S.ses.correct,score=Math.round(cor/tot*100),passed=score>=80;
@@ -989,52 +1481,133 @@ function endMission(){
   d.scores.push(score);d.missions++;
   if(isLen){if(!d.lenScores)d.lenScores=[];d.lenScores.push(score);}
   var earned=0;
-  if(passed){
+  var missionOk=passed&&hasTime;if(missionOk){
+    sessSeconds=0; // reset timer after successful mission
     d.streak++;if(d.streak>d.best)d.best=d.streak;
     earned=addCoins(50+(score===100?25:0)+(d.streak>1?10:0),d);
     if(d.streak%7===0){addCoins(70,d);SND.streak();}
     addXP(100+(score===100?50:0),d);
     actLog.unshift({m:m,s:score,p:true,t:'Hoy',area:isLen?'len':'mat'});
-    SND.win();checkT(d);
+    SND.win();checkT(d);syncToSheets();
   }else{
     SND.fail();
     actLog.unshift({m:m,s:score,p:false,t:'Hoy',area:isLen?'len':'mat'});
   }
-  updHdr();showResult(score,passed,tMin,earned);
+  updHdr();showResult(score,passed,tMin,earned,hasTime,missionOk);
 }
 
-function showResult(score,passed,tMin,earned){
+function showResult(score,passed,tMin,earned,hasTime,rawPassed){
   showScreen('res');
   var m=S.mode,d=S[m];
-  var rico=document.getElementById('rico');if(rico)rico.innerHTML=passed?(score===100?'&#127942;':'&#127881;'):'&#9889;';
-  var rtit=document.getElementById('rtit');if(rtit)rtit.textContent=passed?(score===100?'Mision perfecta!':'Mision completada!'):(m==='exp'?'El guardian necesita mas poder!':'Mision no completada');
-  var rsc=document.getElementById('rscore');if(rsc){rsc.textContent=score;rsc.className='rscore '+(passed?'p':'f');}
-  var rsl=document.getElementById('rslbl');if(rsl)rsl.innerHTML='puntos de 100<br><span style="color:'+(passed?'var(--gr)':'var(--am)')+';font-weight:900">'+(passed?'Meta superada':'Necesitas 80+')+'</span><br><span style="font-weight:800">Tiempo: '+tMin+' min</span>';
-  // bars by topic
-  var tops={};S.ses.qs.forEach(function(q,i){if(!tops[q.top])tops[q.top]={c:0,t:0};tops[q.top].t++;if(ans[i])tops[q.top].c++;});
+  // passed = score>=80, hasTime = session time ok, missionOk = both
+  var missionOk=passed&&hasTime;
+
+  // ── ICON ──
+  var rico=document.getElementById('rico');
+  if(rico)rico.innerHTML=missionOk?(score===100?'&#127942;':'&#127881;'):(passed?'&#9889;':'&#128162;');
+
+  // ── TITLE ──
+  var rtit=document.getElementById('rtit');
+  if(rtit){
+    if(missionOk) rtit.textContent=score===100?'Mision perfecta!':'Mision completada!';
+    else if(passed&&!hasTime) rtit.textContent='Buen score! Necesitas mas tiempo';
+    else rtit.textContent='El guardian necesita mas poder!';
+  }
+
+  // ── SCORE COLOR ──
+  var rsc=document.getElementById('rscore');
+  if(rsc){rsc.textContent=score;rsc.className='rscore '+(missionOk?'p':'f');}
+
+  // ── SUBTITLE ──
+  var timeNote=hasTime?'&#9989;':'&#9888; (necesitas '+Math.floor(SESS_TARGET/60)+' min)';
+  var statusMsg=missionOk?'Meta superada!':passed?'Falta tiempo de sesion':'Necesitas 80+';
+  var statusColor=missionOk?'var(--gr)':passed?'var(--am)':'var(--rd)';
+  var rsl=document.getElementById('rslbl');
+  if(rsl)rsl.innerHTML=
+    'puntos de 100<br>'
+    +'<span style="color:'+statusColor+';font-weight:900">'+statusMsg+'</span><br>'
+    +'<span style="font-weight:800">Tiempo: '+tMin+' min '+timeNote+'</span>';
+
+  // ── BARS BY TOPIC ──
+  var tops={};
+  S.ses.qs.forEach(function(q,i){
+    if(!tops[q.top])tops[q.top]={c:0,t:0};
+    tops[q.top].t++;
+    if(ans[i])tops[q.top].c++;
+  });
   var rbars=document.getElementById('rbars');
-  if(rbars)rbars.innerHTML=Object.keys(tops).map(function(t){var v=tops[t],p=Math.round(v.c/v.t*100),col=p>=80?'var(--gr)':p>=50?'var(--am)':'var(--rd)';return'<div class="rbrow"><span class="rbl">'+t+'</span><div class="rbtrk"><div class="rbf" style="width:'+p+'%;background:'+col+'"></div></div><span style="font-size:13px;font-weight:900;color:'+col+'">'+p+'%</span></div>';}).join('');
+  if(rbars)rbars.innerHTML=Object.keys(tops).map(function(t){
+    var v=tops[t],p=Math.round(v.c/v.t*100);
+    var col=p>=80?'var(--gr)':p>=50?'var(--am)':'var(--rd)';
+    return'<div class="rbrow"><span class="rbl">'+t+'</span><div class="rbtrk"><div class="rbf" style="width:'+p+'%;background:'+col+'"></div></div><span style="font-size:13px;font-weight:900;color:'+col+'">'+p+'%</span></div>';
+  }).join('');
+
+  // ── RECOVERY BOX ──
   var recsec=document.getElementById('recsec');
-  if(!passed&&recsec){
-    recsec.style.display='block';
-    var worst=Object.keys(tops).sort(function(a,b){return tops[a].c/tops[a].t-tops[b].c/tops[b].t;})[0];
-    var recmsg=document.getElementById('recmsg');if(recmsg)recmsg.textContent='No alcanzaste 80 puntos. La mision de recuperacion se enfoca en "'+( worst||'este tema')+'".';}
-  else if(recsec)recsec.style.display='none';
+  if(recsec){
+    if(!missionOk){
+      recsec.style.display='block';
+      var recmsg=document.getElementById('recmsg');
+      if(recmsg){
+        if(passed&&!hasTime){
+          recmsg.textContent='Excelente score! Pero necesitas al menos '+Math.floor(SESS_TARGET/60)+' minutos de sesion para que la mision cuente. Vuelve a intentarlo.';
+        } else {
+          var worst=Object.keys(tops).sort(function(a,b){return tops[a].c/tops[a].t-tops[b].c/tops[b].t;})[0];
+          recmsg.textContent='La mision de recuperacion se enfoca en "'+(worst||'este tema')+'". Practica un poco mas!';
+        }
+      }
+      // Fix recovery box title
+      var rech=document.querySelector('.recovbox h4');
+      if(rech)rech.textContent=passed&&!hasTime?'Buen score! Solo falta tiempo':'Necesitas mas entrenamiento';
+    } else {
+      recsec.style.display='none';
+    }
+  }
+
+  // ── REWARDS ──
   var rews=document.getElementById('rews');
-  if(rews)rews.innerHTML=passed?'<div class="rew">NC +'+earned+'</div><div class="rew">XP +100</div>'+(score===100?'<div class="rew">Score perfecto!</div>':'')+(d.streak%7===0&&d.streak>0?'<div class="rew" style="color:var(--am)">Racha '+d.streak+' dias!</div>':''):'<div class="rew" style="color:var(--am)">Intenta la recuperacion</div>';
-  // Share prompt if passed
-  var sp=document.getElementById('share-prompt');if(sp)sp.style.display=passed?'block':'none';
+  if(rews)rews.innerHTML=missionOk
+    ?'<div class="rew">NC +'+earned+'</div><div class="rew">XP +100</div>'
+      +(score===100?'<div class="rew" style="color:var(--am)">Score perfecto!</div>':'')
+      +(d.streak%7===0&&d.streak>0?'<div class="rew" style="color:var(--am)">Racha '+d.streak+' dias!</div>':'')
+    :(passed&&!hasTime
+      ?'<div class="rew" style="color:var(--am)">&#9888; Falta tiempo de sesion</div>'
+      :'<div class="rew" style="color:var(--am)">Seguir practicando</div>');
+
+  // ── SHARE ──
+  var sp=document.getElementById('share-prompt');
+  if(sp)sp.style.display=missionOk?'block':'none';
+
+  // ── BUTTONS ──
   var rb=document.getElementById('rmbtn');
-  if(rb){rb.style.background=m==='exp'?'linear-gradient(135deg,#4DAFFF,#18CDB0)':'linear-gradient(135deg,#9B6FFF,#FF6EB4)';rb.style.color='#fff';}
-  if(!passed){if(rb)rb.textContent='Mision de recuperacion';if(rb)rb.onclick=startRec;}
-  else{if(rb)rb.textContent='Siguiente mision';if(rb)rb.onclick=function(){goHome();setTimeout(startMission,200);};}
-  if(passed)confetti(28);
-  setTimeout(function(){document.querySelectorAll('.rbf').forEach(function(b){var w=b.style.width;b.style.width='0';setTimeout(function(){b.style.width=w;},50);});},100);
+  if(rb){
+    rb.style.background=m==='exp'?'linear-gradient(135deg,#4DAFFF,#18CDB0)':'linear-gradient(135deg,#9B6FFF,#FF6EB4)';
+    rb.style.color='#fff';
+    if(missionOk){
+      rb.textContent='Siguiente mision';
+      rb.onclick=function(){goHome();setTimeout(startMission,200);};
+    } else if(passed&&!hasTime){
+      rb.textContent='Seguir entrenando (15 min)';
+      rb.onclick=startRec;
+    } else {
+      rb.textContent='Mision de recuperacion';
+      rb.onclick=startRec;
+    }
+  }
+
+  if(missionOk)confetti(28);
+  setTimeout(function(){
+    document.querySelectorAll('.rbf').forEach(function(b){
+      var w=b.style.width;b.style.width='0';
+      setTimeout(function(){b.style.width=w;},50);
+    });
+  },100);
 }
 
 function startRec(){
   SND.ui();
   var d=S[S.mode],isLen=S.ses.area==='len';
+  getDailySeconds();d.didRecovery=true;saveState(); // recovery extends daily cap to 45 min
   var pool=[];
   for(var i=0;i<3;i++){pool.push(isLen?genLen():genMat(Math.max(1,d.level-1)));}
   S.ses={qs:pool,correct:0,t0:Date.now(),world:S.ses.world,area:S.ses.area};
@@ -1043,7 +1616,9 @@ function startRec(){
   showScreen('game');
   var hub=document.getElementById('hub');if(hub)hub.style.display='none';
   var mg=document.getElementById('mg');if(mg)mg.style.display='block';
-  var mgtit=document.getElementById('mgtit');if(mgtit)mgtit.textContent='Mision de Recuperacion';
+  var lastScore=S[S.mode].scores[S[S.mode].scores.length-1]||0;
+  var mgtit=document.getElementById('mgtit');if(mgtit)mgtit.textContent=lastScore>=80?'Continua entrenando':'Mision de Recuperacion';
+  startSessTimer();
   renderQ();
 }
 function nextAct(){goHome();}
@@ -1118,10 +1693,10 @@ function pinPr(k){
     var ent=pbuf.join('');
     if(S.pinChanging){
       if(S.pinNew===''){S.pinNew=ent;pbuf=[];renderPinDots();var pm=document.getElementById('pinmsg');if(pm)pm.textContent='Confirma tu nuevo PIN.';}
-      else if(S.pinNew===ent){S.pin=ent;S.pinChanging=false;saveState();toast('PIN actualizado!');renderParent();showScreen('par');}
+      else if(S.pinNew===ent){S.pin=ent;S.pinChanging=false;saveState();toast('PIN actualizado!');renderParent();loadParConfig();showScreen('par');}
       else{var pe=document.getElementById('pinerr');if(pe)pe.textContent='Los PINs no coinciden.';S.pinNew='';pbuf=[];setTimeout(renderPinDots,300);}
     }else{
-      if(ent===S.pin){renderParent();showScreen('par');}
+      if(ent===S.pin){renderParent();loadParConfig();showScreen('par');}
       else{var pe2=document.getElementById('pinerr');if(pe2)pe2.textContent='PIN incorrecto.';pbuf=[];setTimeout(renderPinDots,300);}
     }
   }
@@ -1170,7 +1745,7 @@ function buyItem(id){
 function buildShareText(){
   var m=S.mode,d=S[m];
   var sc=d.scores,avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
-  return 'Soy un Guardian de NEXOS!\n'+'Misiones completadas: '+d.missions+'\nRacha: '+d.streak+' dias\nScore promedio: '+avg+'/100\nNexos Coins: '+d.coins+'\n\nReto de vacaciones: 15 minutos diarios para llegar mas preparado al proximo curso. Unete!';
+  return 'Soy un Guardian de NEXUS!\n'+'Misiones completadas: '+d.missions+'\nRacha: '+d.streak+' dias\nScore promedio: '+avg+'/100\nNexus Coins: '+d.coins+'\n\nReto de vacaciones: 15 minutos diarios para llegar mas preparado al proximo curso. Unete!';
 }
 function openShare(){
   var m=S.mode,d=S[m];
@@ -1193,6 +1768,511 @@ function copyProgress(){
 // ═══ FX ═══
 function confetti(n){n=n||14;var cols=['#4DAFFF','#9B6FFF','#18CDB0','#FFB830','#FF6EB4','#2EDC7D'];for(var i=0;i<n;i++){setTimeout(function(j){return function(){var el=document.createElement('div');el.className='confp';el.style.cssText='left:'+(20+Math.random()*60)+'%;top:8%;width:'+(5+Math.random()*7)+'px;height:'+(5+Math.random()*7)+'px;background:'+cols[j%cols.length]+';animation-duration:'+(1+Math.random()*1.4)+'s;animation-delay:'+(Math.random()*0.3)+'s;';document.body.appendChild(el);setTimeout(function(){el.remove();},2400);};}(i),i*35);}}
 function toast(msg){var t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(function(){t.remove();},300);},3500);}
+
+// ════ PROFILE + ONBOARDING ════
+var obMode = '';
+var GRADE_LEVEL = {1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9}; // grado = nivel directo (9 niveles MINERD)
+
+function obGoStep(n) {
+  document.querySelectorAll('.ob-step').forEach(function(s){s.classList.remove('active');});
+  var el = document.getElementById('ostep'+n);
+  if(el) el.classList.add('active');
+  for(var i=0;i<3;i++){var d=document.getElementById('odot'+i);if(d)d.classList.toggle('act',i===n);}
+}
+function selObMode(m) {
+  obMode = m;
+  var me=document.getElementById('mc-exp'), mg=document.getElementById('mc-gua');
+  if(me){me.classList.toggle('sel-exp',m==='exp');me.classList.remove('sel-gua');}
+  if(mg){mg.classList.toggle('sel-gua',m==='gua');mg.classList.remove('sel-exp');}
+}
+function obNext(step) {
+  if(step===0){
+    var name=(document.getElementById('ob-name')||{value:''}).value.trim();
+    var age=(document.getElementById('ob-age')||{value:''}).value;
+    if(!name){toast('Escribe tu nombre primero');return;}
+    if(!age){toast('Selecciona tu edad');return;}
+    S.profile.name=name; S.profile.age=age;
+    obGoStep(1);
+  } else if(step===1){
+    var grade=(document.getElementById('ob-grade')||{value:''}).value;
+    if(!grade){toast('Selecciona tu grado');return;}
+    if(!obMode){toast('Selecciona tu modo de juego');return;}
+    S.profile.grade=grade; S.profile.mode=obMode; S.mode=obMode;
+    var gl=GRADE_LEVEL[parseInt(grade)]||1;
+    S.exp.level=gl; S.gua.level=Math.min(5,gl+1);
+    obGoStep(2); saveState();
+  }
+}
+function updateProfileBanner() {
+  var p=S.profile;
+  var pn=document.getElementById('pb-name'), pd=document.getElementById('pb-detail'), pa=document.getElementById('pb-avatar');
+  if(pn) pn.textContent=p.name||'Guardian';
+  if(pd) pd.textContent=(p.mode==='gua'?'Modo Guardian':'Modo Explorador')+' \u00b7 Grado '+(p.grade||'4');
+  if(pa){pa.className='pb-avatar '+(p.mode==='gua'?'gua':'exp');pa.innerHTML=p.mode==='gua'?'&#128737;':'&#9889;';}
+}
+
+// ════ DIAGNOSTIC ════
+var DIAG_QS = [
+  {q:'Cuanto es 7 + 5?',opts:['12','11','13','10'],ok:0},
+  {q:'Cuanto es 15 - 8?',opts:['7','6','8','9'],ok:0},
+  {q:'Cuanto es 3 x 4?',opts:['12','10','14','9'],ok:0},
+  {q:'La idea principal de un texto es el tema mas importante. Verdadero o falso?',opts:['Verdadero','Falso','A veces','No aplica'],ok:0},
+  {q:'Un sinonimo de "grande" es:',opts:['Enorme','Pequeno','Delgado','Oscuro'],ok:0},
+];
+var diagIdx=0, diagAns=[];
+
+function startDiag() {
+  SND.ui(); diagIdx=0; diagAns=[]; renderDiagQ();
+}
+function skipDiag() {
+  SND.ui(); S.profile.registro=S.profile.registro||todayKey(); S.onboarded=true; S.diagDone=true; saveState();
+  updateProfileBanner(); showScreen('sel');
+}
+function renderDiagQ() {
+  showScreen('diagscreen');
+  var q=DIAG_QS[diagIdx];
+  var sub=document.getElementById('ds-sub'), qel=document.getElementById('ds-q'), opts=document.getElementById('ds-opts'), prog=document.getElementById('ds-prog');
+  if(sub) sub.textContent='Pregunta '+(diagIdx+1)+' de '+DIAG_QS.length;
+  if(qel) qel.textContent=q.q;
+  if(prog){prog.innerHTML='';DIAG_QS.forEach(function(_,i){var seg=document.createElement('div');seg.className='diag-seg'+(i<diagIdx?' done':i===diagIdx?' now':'');prog.appendChild(seg);});}
+  if(opts){opts.innerHTML='';q.opts.forEach(function(o,i){var b=document.createElement('button');b.className='diag-opt';b.textContent=o;b.onclick=function(){pickDiagQ(i);};opts.appendChild(b);});}
+}
+function pickDiagQ(i) {
+  SND.ui();
+  var q=DIAG_QS[diagIdx];
+  var btns=document.querySelectorAll('#ds-opts .diag-opt');
+  btns.forEach(function(b){b.style.pointerEvents='none';});
+  var ok=i===q.ok;
+  if(btns[i]) btns[i].className='diag-opt '+(ok?'ok':'no');
+  if(!ok&&btns[q.ok]) btns[q.ok].className='diag-opt ok';
+  diagAns.push(ok);
+  if(ok)SND.correct();else SND.wrong();
+  setTimeout(function(){diagIdx++;if(diagIdx>=DIAG_QS.length)finishDiag();else renderDiagQ();},900);
+}
+function finishDiag() {
+  var correct=diagAns.filter(Boolean).length;
+  var score=Math.round(correct/DIAG_QS.length*100);
+  // Ajuste fino +/-1 sobre el nivel del grado (no reemplaza el grado)
+  var baseLevel=ageToGrade(S.profile.age);
+  var adjust=0;
+  if(score>=80) adjust=1;       // le fue excelente: sube 1
+  else if(score<40) adjust=-1;  // le costo: baja 1
+  var finalLevel=Math.max(1,Math.min(9,baseLevel+adjust));
+  S.exp.level=finalLevel; S.gua.level=finalLevel;
+  S.profile.registro=S.profile.registro||todayKey(); S.onboarded=true; S.diagDone=true; saveState();
+  confetti(20);
+  var msg=adjust>0?'Excelente! Empiezas un nivel arriba: '+DLVLS[finalLevel-1].name
+         :adjust<0?'Empezaras con calma en: '+DLVLS[finalLevel-1].name
+         :'Nivel ideal para tu grado: '+DLVLS[finalLevel-1].name;
+  toast('Diagnostico completo! '+msg);
+  updateProfileBanner(); showScreen('sel');
+}
+
+// ════ SESSION TIMER ════
+var sessInt=null, sessSeconds=0, SESS_TARGET=900;
+var DAILY_MAX=30*60, DAILY_MAX_REC=45*60; // 30 min normal, 45 min con recuperacion
+function todayKey(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
+function getDailySeconds(){
+  var d=S[S.mode];
+  if(!d.dailyDate||d.dailyDate!==todayKey()){d.dailyDate=todayKey();d.dailySeconds=0;d.didRecovery=false;saveState();}
+  return d.dailySeconds||0;
+}
+function addDailySeconds(n){var d=S[S.mode];getDailySeconds();d.dailySeconds=(d.dailySeconds||0)+n;saveState();}
+function dailyCap(){var d=S[S.mode];return d.didRecovery?DAILY_MAX_REC:DAILY_MAX;}
+function dailyLimitReached(){return getDailySeconds()>=dailyCap();}
+function startSessTimer() {
+  if(sessSeconds>=SESS_TARGET) return; // already reached goal, no need to restart
+  clearInterval(sessInt);
+  updSessBar();
+  sessInt=setInterval(function(){
+    sessSeconds++;
+    var d=S[S.mode]; d.sessTime=(d.sessTime||0)+1;
+    addDailySeconds(1);
+    updSessBar();
+    if(sessSeconds===SESS_TARGET){SND.win();toast('15 minutos completados! Ya puedes completar tu mision.');}
+    if(dailyLimitReached()){clearInterval(sessInt);toast('Limite diario alcanzado ('+Math.floor(dailyCap()/60)+' min). Vuelve manana!');}
+  },1000);
+}
+function stopSessTimer(){clearInterval(sessInt);}
+function updSessBar() {
+  var pct=Math.min(100,Math.round(sessSeconds/SESS_TARGET*100));
+  var f=document.getElementById('sess-fill'), l=document.getElementById('sess-lbl');
+  if(f){f.style.width=pct+'%';f.style.background=sessSeconds>=SESS_TARGET?'var(--gr)':'linear-gradient(90deg,var(--tl),var(--bl))';}
+  if(l){
+    var m=Math.floor(sessSeconds/60),s=sessSeconds%60;var tm=Math.floor(SESS_TARGET/60);
+    var dailyMin=Math.floor(getDailySeconds()/60),capMin=Math.floor(dailyCap()/60);
+    l.innerHTML=m+':'+(s<10?'0':'')+s+' / '+tm+':00<br><span style="font-size:9px;opacity:0.7;">Hoy: '+dailyMin+'/'+capMin+' min</span>';
+    l.className='sess-lbl'+(sessSeconds>=SESS_TARGET?' done':'');
+  }
+}
+
+// ════ INFORME ════
+function renderInforme() {
+  showScreen('informe');
+  var body=document.getElementById('inf-body'); if(!body)return;
+  var exp=S.exp, gua=S.gua;
+  var name=S.profile.name||'Guardian';
+  var grade=S.profile.grade||'4';
+  var allSc=exp.scores.concat(gua.scores);
+  var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
+  var totalMis=exp.missions+gua.missions;
+  var maxStreak=Math.max(exp.best,gua.best);
+  var totalTime=Math.round(((exp.sessTime||0)+(gua.sessTime||0))/60);
+  var matAvg=exp.scores.length?Math.round(exp.scores.reduce(function(a,b){return a+b;},0)/exp.scores.length):0;
+  var lenSc=exp.lenScores||[];
+  var lenAvg=lenSc.length?Math.round(lenSc.reduce(function(a,b){return a+b;},0)/lenSc.length):0;
+
+  var matT=[
+    {n:'Suma y resta',    p:Math.min(99,65+exp.level*8),c:'var(--bl)'},
+    {n:'Multiplicacion',  p:Math.min(99,55+exp.level*7),c:'var(--tl)'},
+    {n:'Division',        p:Math.min(99,45+exp.level*6),c:'var(--am)'},
+    {n:'Tablas',          p:Math.min(99,58+exp.level*7),c:'var(--pu)'},
+    {n:'Fracciones',      p:Math.min(99,40+exp.level*7),c:'var(--rd)'},
+  ];
+  var lenT=[
+    {n:'Comprension lectora',p:lenAvg||72,c:'var(--bl)'},
+    {n:'Vocabulario',        p:Math.min(99,(lenAvg||72)-3),c:'var(--tl)'},
+    {n:'Ortografia',         p:Math.min(99,(lenAvg||72)-8),c:'var(--am)'},
+    {n:'Gramatica',          p:Math.min(99,(lenAvg||72)-5),c:'var(--pu)'},
+  ];
+
+  var dom=[],prog=[],ref=[];
+  matT.concat(lenT).forEach(function(t){if(t.p>=85)dom.push(t.n);else if(t.p>=68)prog.push(t.n);else ref.push(t.n);});
+
+  function mkBars(topics) {
+    return topics.map(function(t){
+      var col=t.p>=80?'var(--gr)':t.p>=65?'var(--am)':'var(--rd)';
+      return '<div class="inf-trow"><span class="inf-tnm">'+t.n+'</span><div class="inf-ttrk"><div class="inf-tfill" style="width:'+t.p+'%;background:'+t.c+'"></div></div><span class="inf-tpct" style="color:'+col+'">'+t.p+'%</span></div>';
+    }).join('');
+  }
+  function mkTags(arr,cls){return arr.map(function(t){return '<span class="inf-tag '+cls+'">'+t+'</span>';}).join('');}
+
+  var recom=matAvg<70
+    ?'Refuerza multiplicacion y division antes del inicio del nuevo curso. Practica las tablas del 6 al 9 diariamente.'
+    :matAvg<85
+    ?'Muy buen avance! Introduce fracciones simples para preparar el siguiente nivel.'
+    :'Excelente desempeno! Puede explorar contenidos del nivel siguiente con confianza.';
+
+  var firstName=name.split(' ')[0];
+
+  body.innerHTML =
+    '<div class="inf-hero">'
+    +'<div class="inf-hero-name">'+name+'</div>'
+    +'<div class="inf-hero-detail">Grado '+grade+' &bull; Nivel '+exp.level+' &mdash; '+DLVLS[exp.level-1].name+'</div>'
+    +'<div class="inf-stats">'
+    +'<div class="inf-stat"><div class="inf-stat-val">'+totalMis+'</div><div class="inf-stat-lbl">Misiones</div></div>'
+    +'<div class="inf-stat"><div class="inf-stat-val">'+maxStreak+'</div><div class="inf-stat-lbl">Mejor racha</div></div>'
+    +'<div class="inf-stat"><div class="inf-stat-val">'+totalTime+'</div><div class="inf-stat-lbl">Min practica</div></div>'
+    +'</div></div>'
+    +'<div class="slbl">&#129518; Matematica &mdash; Score: '+matAvg+'/100</div>'
+    +'<div class="inf-area-card">'+mkBars(matT)+'</div>'
+    +'<div class="slbl">&#128218; Lengua Espanola &mdash; Score: '+lenAvg+'/100</div>'
+    +'<div class="inf-area-card">'+mkBars(lenT)+'</div>'
+    +'<div class="slbl">Resumen de temas</div>'
+    +(dom.length?'<p style="font-size:11px;color:var(--gr);font-weight:900;margin-bottom:4px;">Dominados</p>'+mkTags(dom,'dom')+'<br><br>':'')
+    +(prog.length?'<p style="font-size:11px;color:var(--am);font-weight:900;margin:8px 0 4px;">En progreso</p>'+mkTags(prog,'prog')+'<br><br>':'')
+    +(ref.length?'<p style="font-size:11px;color:var(--rd);font-weight:900;margin:8px 0 4px;">Necesita refuerzo</p>'+mkTags(ref,'ref')+'<br><br>':'')
+    +'<div class="inf-recom"><h4>Recomendacion para padres</h4><p>'+recom+'</p></div>'
+    +'<div class="inf-msg"><div class="inf-msg-ico">&#127942;</div><h3>'+firstName+', eres un Guardian!</h3><p>Completaste '+totalMis+' misiones, lograste una racha de '+maxStreak+' dias y practicaste '+totalTime+' minutos. Llegaste mejor preparado para el proximo curso!</p></div>'
+    +'<div class="inf-share-row">'
+    +'<button class="inf-sbtn wa" onclick="shareInforme()">&#128172; Compartir logro</button>'
+    +'<button class="inf-sbtn sec" onclick="SND.ui();renderParent();showScreen(\'par\')">Volver al Panel</button>'
+    +'</div>';
+}
+function shareInforme() {
+  var name=S.profile.name||'Guardian';
+  var d=S.exp; var sc=d.scores;
+  var avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
+  var total=Math.round(((S.exp.sessTime||0)+(S.gua.sessTime||0))/60);
+  var txt='Informe de vacaciones de '+name+'\n\nMisiones: '+(S.exp.missions+S.gua.missions)+'\nRacha maxima: '+Math.max(S.exp.best,S.gua.best)+' dias\nScore promedio: '+avg+'/100\nTiempo de practica: '+total+' minutos\n\nReto NEXUS completado! 15 min diarios para llegar mejor preparado.';
+  if(navigator.share) navigator.share({title:'Informe NEXUS - '+name,text:txt}).catch(function(){});
+  else if(navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){toast('Copiado!');});
+  else window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+
+
+// ════ ONBOARD: obNext patch — remove grade step ════
+// Override obNext to only handle step 0 (name+age) → step 1 (mode) → step 2 (diag)
+function ageToGrade(age){
+  // edad 6 = 1ro, 7 = 2do ... 14 = 9no (3ro secundaria). Cap 1-9.
+  var g=parseInt(age)-5;
+  if(isNaN(g)||g<1)g=1;
+  if(g>9)g=9;
+  return g;
+}
+function obNext(step) {
+  if(step===0){
+    var name=(document.getElementById('ob-name')||{value:''}).value.trim();
+    var age=(document.getElementById('ob-age')||{value:''}).value;
+    if(!name){toast('Escribe tu nombre primero');return;}
+    if(!age){toast('Selecciona tu edad');return;}
+    S.profile.name=name; S.profile.age=age;
+    // Edad determina grado y nivel base automaticamente
+    var grade=ageToGrade(age);
+    S.profile.grade=String(grade);
+    S.exp.level=grade; S.gua.level=grade;
+    obGoStep(1);
+  } else if(step===1){
+    if(!obMode){toast('Selecciona tu modo de juego');return;}
+    S.profile.mode=obMode; S.mode=obMode;
+    obGoStep(2); saveState();
+  }
+}
+
+// ════ PARENT CONFIG: Grade + Session Duration ════
+function saveParConfig() {
+  var ge=document.getElementById('par-grade-exp');
+  var gg=document.getElementById('par-grade-gua');
+  if(ge){S.profile.gradeExp=ge.value;var lv=GRADE_LEVEL[parseInt(ge.value)]||1;S.exp.level=lv;}
+  if(gg){S.profile.gradeGua=gg.value;var lv2=GRADE_LEVEL[parseInt(gg.value)]||1;S.gua.level=lv2;}
+  saveState();updHdr();
+  toast('Configuracion guardada. Nivel ajustado.');
+}
+function setSessTarget(min) {
+  SESS_TARGET=min*60;
+  S.profile.sessDuration=min;
+  saveState();
+  document.querySelectorAll('.sess-opt-btn').forEach(function(b){
+    b.classList.toggle('active',parseInt(b.dataset.min)===min);
+  });
+  // Update session bar label format
+  var lbl=document.getElementById('sess-lbl');
+  if(lbl)lbl.textContent='0:00 / '+min+':00';
+  toast('Sesion minima: '+min+' minutos');
+}
+function loadParConfig() {
+  // Set grade dropdowns to saved values
+  var ge=document.getElementById('par-grade-exp');
+  var gg=document.getElementById('par-grade-gua');
+  if(ge&&S.profile.gradeExp)ge.value=S.profile.gradeExp;
+  else if(ge)ge.value=S.profile.grade||'4';
+  if(gg&&S.profile.gradeGua)gg.value=S.profile.gradeGua;
+  else if(gg)gg.value='8';
+  // Set session duration
+  var dur=S.profile.sessDuration||15;
+  SESS_TARGET=dur*60;
+  document.querySelectorAll('.sess-opt-btn').forEach(function(b){
+    b.classList.toggle('active',parseInt(b.dataset.min)===dur);
+  });
+}
+
+// ════ LOGO TAP: Secret admin access (5 taps) ════
+var logoTaps=0, logoTimer=null;
+function logoTap() {
+  logoTaps++;
+  clearTimeout(logoTimer);
+  logoTimer=setTimeout(function(){logoTaps=0;},1500);
+  if(logoTaps>=5){
+    logoTaps=0;
+    SND.unlock();
+    admPinBuf=[];renderAdminPin('Ingresa el PIN de administrador.','');
+    showScreen('adminpin');
+  }
+}
+
+// ════ ADMIN PIN ════
+var admPinBuf=[], ADM_PIN_KEY='adm_pin';
+function getAdmPin(){return localStorage.getItem(ADM_PIN_KEY)||'0000';}
+function setAdmPin(p){localStorage.setItem(ADM_PIN_KEY,p);}
+var admPinChanging=false, admPinNew='';
+
+function renderAdminPin(msg,hint){
+  var pm=document.getElementById('adminpinmsg');if(pm)pm.textContent=msg;
+  var pe=document.getElementById('adminpinerr');if(pe)pe.textContent='';
+  renderAdmDots();
+  var kp=document.getElementById('adminpinkpad');if(!kp)return;kp.innerHTML='';
+  [1,2,3,4,5,6,7,8,9,'','0','DEL'].forEach(function(k){
+    var b=document.createElement('button');
+    if(k===''){b.className='pk pinempty';b.disabled=true;}
+    else{b.className='pk'+(k==='DEL'?' del':'');b.innerHTML=k==='DEL'?'&#9003;':k;b.onclick=function(){SND.ui();admPinPr(String(k));};} kp.appendChild(b);
+  });
+}
+function renderAdmDots(){
+  var d=document.getElementById('adminpindots');if(!d)return;d.innerHTML='';
+  for(var i=0;i<4;i++){var dv=document.createElement('div');dv.className='pindot'+(i<admPinBuf.length?' filled':'');d.appendChild(dv);}
+}
+function admPinPr(k){
+  if(k==='DEL'){admPinBuf.pop();renderAdmDots();return;}
+  if(admPinBuf.length>=4)return;
+  admPinBuf.push(k);renderAdmDots();
+  if(admPinBuf.length===4){
+    var ent=admPinBuf.join('');
+    if(admPinChanging){
+      if(admPinNew===''){admPinNew=ent;admPinBuf=[];renderAdmDots();var pm=document.getElementById('adminpinmsg');if(pm)pm.textContent='Confirma el nuevo PIN.';}
+      else if(admPinNew===ent){setAdmPin(ent);admPinChanging=false;toast('PIN admin actualizado!');renderAdmin();showScreen('admin');}
+      else{var pe=document.getElementById('adminpinerr');if(pe)pe.textContent='Los PINs no coinciden.';admPinNew='';admPinBuf=[];setTimeout(renderAdmDots,300);}
+    } else {
+      if(ent===getAdmPin()){renderAdmin();showScreen('admin');}
+      else{var pe2=document.getElementById('adminpinerr');if(pe2)pe2.textContent='PIN incorrecto.';admPinBuf=[];setTimeout(renderAdmDots,300);}
+    }
+  }
+}
+function admChangePin(){admPinChanging=true;admPinNew='';admPinBuf=[];renderAdminPin('Ingresa tu nuevo PIN de administrador.','');showScreen('adminpin');}
+
+// ════ ADMIN RENDER ════
+function renderAdmin(){
+  var exp=S.exp, gua=S.gua;
+  var now=new Date().toLocaleDateString('es-DO',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  var lsSize=0;try{lsSize=new Blob([JSON.stringify(localStorage)]).size;}catch(e){}
+
+  // Last save
+  var ls=document.getElementById('adm-lastave');if(ls)ls.textContent='Ultimo guardado: '+now;
+
+  // ── PERFILES ──
+  var allSc=exp.scores.concat(gua.scores);
+  var avgAll=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
+  var totalTime=Math.round(((exp.sessTime||0)+(gua.sessTime||0))/60);
+  var prof=document.getElementById('adm-profiles');
+  if(prof)prof.innerHTML=
+    '<div class="adm-card">'
+    +'<div style="font-size:12px;font-weight:900;color:var(--bl);margin-bottom:8px;">'+( S.profile.name||'Sin nombre')+' &bull; '+( S.profile.age||'-')+' anos &bull; Grado '+(S.profile.grade||'-')+'</div>'
+    +'<div class="adm-row"><span class="adm-rl">Modo preferido</span><span class="adm-rv" style="color:var(--'+(S.profile.mode==='gua'?'pu':'bl')+')">'+( S.profile.mode==='gua'?'Guardian':'Explorador')+'</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Onboarding completo</span><span class="adm-rv" style="color:'+(S.onboarded?'var(--gr)':'var(--rd)')+'">'+(S.onboarded?'Si':'No')+'</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Diagnostico hecho</span><span class="adm-rv" style="color:'+(S.diagDone?'var(--gr)':'var(--rd)')+'">'+(S.diagDone?'Si':'No')+'</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Nivel Explorador</span><span class="adm-rv">'+exp.level+' — '+DLVLS[exp.level-1].name+'</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Nivel Guardian</span><span class="adm-rv">'+gua.level+' — '+DLVLS[gua.level-1].name+'</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Tiempo total practica</span><span class="adm-rv" style="color:var(--tl)">'+totalTime+' min</span></div>'
+    +'</div>';
+
+  // ── ESTADISTICAS ──
+  var totalMis=exp.missions+gua.missions;
+  var maxStreak=Math.max(exp.best,gua.best);
+  var ncEarned=(exp.coins+exp.spent)+(gua.coins+gua.spent);
+  var ncSpent=exp.spent+gua.spent;
+  var expAvg=exp.scores.length?Math.round(exp.scores.reduce(function(a,b){return a+b;},0)/exp.scores.length):0;
+  var guaAvg=gua.scores.length?Math.round(gua.scores.reduce(function(a,b){return a+b;},0)/gua.scores.length):0;
+  // Score distribution
+  function dist(scores){var d={a:0,b:0,c:0,d:0};scores.forEach(function(s){if(s>=90)d.a++;else if(s>=80)d.b++;else if(s>=60)d.c++;else d.d++;});return d;}
+  var de=dist(exp.scores), dg=dist(gua.scores);
+  var totalPassed=de.a+de.b+dg.a+dg.b;
+  var tasaAprobacion=totalMis>0?Math.round(totalPassed/totalMis*100):0;
+  var lenAvgExp=(exp.lenScores||[]).length?Math.round((exp.lenScores||[]).reduce(function(a,b){return a+b;},0)/(exp.lenScores||[]).length):0;
+
+  var stats=document.getElementById('adm-stats');
+  if(stats)stats.innerHTML=
+    '<div class="adm-stat-grid">'
+    +'<div class="adm-stat"><div class="adm-stat-val">'+totalMis+'</div><div class="adm-stat-lbl">Misiones totales</div></div>'
+    +'<div class="adm-stat"><div class="adm-stat-val">'+tasaAprobacion+'%</div><div class="adm-stat-lbl">Tasa aprobacion</div></div>'
+    +'<div class="adm-stat"><div class="adm-stat-val">'+maxStreak+'</div><div class="adm-stat-lbl">Mejor racha</div></div>'
+    +'<div class="adm-stat"><div class="adm-stat-val">'+avgAll+'</div><div class="adm-stat-lbl">Score global prom.</div></div>'
+    +'<div class="adm-stat"><div class="adm-stat-val" style="color:var(--tl)">'+ncEarned+'</div><div class="adm-stat-lbl">NC ganados total</div></div>'
+    +'<div class="adm-stat"><div class="adm-stat-val" style="color:var(--am)">'+ncSpent+'</div><div class="adm-stat-lbl">NC gastados</div></div>'
+    +'</div>'
+    +'<div class="adm-card">'
+    +'<div class="adm-row"><span class="adm-rl">Score Explorador (Mat)</span><span class="adm-rv" style="color:var(--bl)">'+expAvg+'/100</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Score Guardian</span><span class="adm-rv" style="color:var(--pu)">'+guaAvg+'/100</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Score Lengua Esp. (Exp)</span><span class="adm-rv" style="color:var(--tl)">'+lenAvgExp+'/100</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Dist. scores (90-100)</span><span class="adm-rv" style="color:var(--gr)">'+(de.a+dg.a)+' misiones</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Dist. scores (80-89)</span><span class="adm-rv" style="color:var(--tl)">'+(de.b+dg.b)+' misiones</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Dist. scores (60-79)</span><span class="adm-rv" style="color:var(--am)">'+(de.c+dg.c)+' misiones</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Dist. scores (0-59)</span><span class="adm-rv" style="color:var(--rd)">'+(de.d+dg.d)+' misiones</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Sesion min configurada</span><span class="adm-rv">'+(S.profile.sessDuration||15)+' min</span></div>'
+    +'</div>';
+
+  // ── DIAGNOSTICO TECNICO ──
+  var lsUsed=0;try{Object.keys(localStorage).forEach(function(k){lsUsed+=localStorage[k].length;});}catch(e){}
+  var tech=document.getElementById('adm-tech');
+  if(tech)tech.innerHTML=
+    '<div class="adm-card">'
+    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v3.1</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">localStorage usado</span><span class="adm-rv">'+Math.round(lsUsed/1024*10)/10+' KB</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Clave de estado</span><span class="adm-rv" style="color:var(--tx3)">nh2</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Diagnostico hecho</span><span class="adm-rv">'+(S.diagDone?'Si':'No')+'</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Onboarding completo</span><span class="adm-rv">'+(S.onboarded?'Si':'No')+'</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">User Agent</span><span class="adm-rv" style="font-size:10px;color:var(--tx3)">'+navigator.userAgent.substring(0,40)+'...</span></div>'
+    +'</div>';
+}
+
+// ════ ADMIN CONTROLS ════
+function admReset(mode){
+  var msg;
+  if(mode==='exp'){
+    msg='Reset Explorador: score, racha y XP se borran. NC e items se mantienen. Confirma?';
+    if(!confirm(msg))return;
+    S.exp.scores=[];S.exp.streak=0;S.exp.best=0;S.exp.xp=0;S.exp.lvlXP=0;S.exp.level=1;S.exp.missions=0;S.exp.lenScores=[];S.exp.sessTime=0;
+    saveState();toast('Explorador reseteado.');renderAdmin();
+  } else if(mode==='gua'){
+    msg='Reset Guardian: score, racha y XP se borran. NC e items se mantienen. Confirma?';
+    if(!confirm(msg))return;
+    S.gua.scores=[];S.gua.streak=0;S.gua.best=0;S.gua.xp=0;S.gua.lvlXP=0;S.gua.level=1;S.gua.missions=0;S.gua.lenScores=[];S.gua.sessTime=0;
+    saveState();toast('Guardian reseteado.');renderAdmin();
+  } else if(mode==='all'){
+    msg='RESET COMPLETO: borra TODOS los datos y vuelve al onboarding. Esta accion no se puede deshacer. Confirma?';
+    if(!confirm(msg))return;
+    try{localStorage.removeItem('nh2');}catch(e){}
+    toast('Reset completo. Recargando...');
+    setTimeout(function(){location.reload();},1500);
+  }
+}
+function admExport(){
+  try{
+    var data=localStorage.getItem('nh2')||'{}';
+    var blob=new Blob([data],{type:'application/json'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');a.href=url;a.download='nexos_backup_'+Date.now()+'.json';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast('JSON exportado!');
+  }catch(e){
+    // Fallback: copy to clipboard
+    var data2=localStorage.getItem('nh2')||'{}';
+    if(navigator.clipboard)navigator.clipboard.writeText(data2).then(function(){toast('JSON copiado al portapapeles!');});
+  }
+}
+function admCopyText(){
+  var exp=S.exp,gua=S.gua;
+  var totalMis=exp.missions+gua.missions;
+  var totalTime=Math.round(((exp.sessTime||0)+(gua.sessTime||0))/60);
+  var allSc=exp.scores.concat(gua.scores);
+  var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
+  var txt='NEXUS v3.1 — Resumen Admin\n'
+    +new Date().toLocaleString('es-DO')+'\n\n'
+    +'Perfil: '+(S.profile.name||'N/A')+', '+( S.profile.age||'-')+' anos, Grado '+(S.profile.grade||'-')+'\n'
+    +'Misiones totales: '+totalMis+'\n'
+    +'Score promedio: '+avg+'/100\n'
+    +'Tiempo practica: '+totalTime+' min\n'
+    +'Racha max: '+Math.max(exp.best,gua.best)+' dias\n'
+    +'NC Explorador: '+exp.coins+' (gastados: '+exp.spent+')\n'
+    +'NC Guardian: '+gua.coins+' (gastados: '+gua.spent+')\n'
+    +'Nivel Exp: '+exp.level+' | Nivel Gua: '+gua.level+'\n';
+  if(navigator.clipboard)navigator.clipboard.writeText(txt).then(function(){toast('Resumen copiado!');});
+  else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Copiado!');}
+}
+
+// loadParConfig called directly when opening par panel
+
+
+// ════ GOOGLE SHEETS SYNC ════
+// Pega aqui la URL del Apps Script Web App (entre las comillas).
+// Si queda vacia, el juego funciona igual pero no envia datos.
+var SHEETS_URL = '';
+
+function syncToSheets(){
+  if(!SHEETS_URL) return;
+  try {
+    var exp=S.exp, gua=S.gua;
+    var allSc=exp.scores.concat(gua.scores);
+    var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
+    var totalMin=Math.round(((exp.sessTime||0)+(gua.sessTime||0))/60);
+    var payload={
+      nombre:S.profile.name||'Sin nombre',
+      edad:S.profile.age||'',
+      grado:S.profile.grade||'',
+      modo:S.profile.mode==='gua'?'Guardian':'Explorador',
+      registro:S.profile.registro||todayKey(),
+      misiones:exp.missions+gua.missions,
+      scorePromedio:avg,
+      racha:Math.max(exp.streak,gua.streak),
+      mejorRacha:Math.max(exp.best,gua.best),
+      minutos:totalMin,
+      nivel:S[S.mode].level,
+      coins:exp.coins+gua.coins,
+      ultimaActividad:new Date().toLocaleString('es-DO')
+    };
+    fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(function(){});
+  } catch(e){}
+}
+
 </script>
 </body>
 </html>
