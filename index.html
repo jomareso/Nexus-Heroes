@@ -154,10 +154,14 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 
 /* ═══ MINIGAME ═══ */
 #mg{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:20px;display:none;}
-.mghdr{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;}
-.mgwt{font-size:12px;font-weight:800;color:var(--tx3);margin-bottom:2px;}
-.mgtit{font-size:20px;font-weight:900;}
-.timw{display:flex;align-items:center;gap:7px;}
+.mghdr{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;}
+.mghdr-top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.mghdr-title{min-width:0;}
+.mgwt{font-size:12px;font-weight:800;color:var(--tx3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
+.mgtit{font-size:21px;font-weight:900;color:var(--tx);line-height:1.25;}
+
+
+.timw{display:flex;align-items:center;gap:7px;flex-shrink:0;}
 .tbw{width:110px;height:9px;background:rgba(255,255,255,0.1);border-radius:5px;overflow:hidden;}
 .tbar{height:100%;border-radius:5px;transition:width 0.1s linear;}
 .tbar.g{background:var(--gr);}
@@ -543,6 +547,25 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 .nc-float{position:fixed;font-size:22px;font-weight:900;color:var(--gr);pointer-events:none;z-index:9999;animation:ncFloat 1s ease-out forwards;text-shadow:0 2px 8px rgba(0,0,0,0.4);}
 @keyframes ncFloat{0%{opacity:0;transform:translateY(0) scale(0.5);}20%{opacity:1;transform:translateY(-10px) scale(1.2);}100%{opacity:0;transform:translateY(-60px) scale(1);}}
 
+
+/* ── Responsive: evitar que se corten titulos en movil ── */
+@media (max-width:480px){
+  .ghdr{padding:8px 12px;gap:6px;}
+  .hdrl{gap:6px;}
+  .hdrr{gap:8px;}
+  .mbdg{font-size:9px;padding:3px 8px;letter-spacing:0.5px;}
+  .hst{font-size:13px;}
+  .hl{font-size:10px;}
+  .bbtn{padding:6px 10px;font-size:12px;}
+  .mgtit{font-size:18px;}
+  .area-tab{font-size:12px;padding:7px 10px;}
+}
+@media (max-width:380px){
+  .hl{display:none;} /* ocultar etiquetas "Racha"/"NC"/"XP", dejar solo iconos+numeros */
+  .mbdg{font-size:8px;padding:3px 6px;}
+  .hdrr{gap:6px;}
+}
+
 </style>
 </head>
 <body>
@@ -723,10 +746,15 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
     </div>
     <div id="mg">
       <div class="mghdr">
-        <button class="pause-btn" onclick="pauseMission()" title="Pausar y salir">&#8592; Salir</button>
-        <div><div class="mgwt" id="mgwl">Pregunta 1/8</div><div class="mgtit" id="mgtit">Batalla de Energía</div></div>
-        <div class="mg-nc"><div class="mg-nc-val" id="mg-nc-val">0</div><div class="mg-nc-lbl">NC</div></div>
-        <div class="timw"><div class="tbw"><div class="tbar g" id="tbar" style="width:100%"></div></div><span class="tnum" id="tnum">25</span></div>
+        <div class="mghdr-top">
+          <button class="pause-btn" onclick="pauseMission()" title="Pausar y salir">&#8592; Salir</button>
+          <div class="mg-nc"><div class="mg-nc-val" id="mg-nc-val">0</div><div class="mg-nc-lbl">NC</div></div>
+          <div class="timw"><div class="tbw"><div class="tbar g" id="tbar" style="width:100%"></div></div><span class="tnum" id="tnum">25</span></div>
+        </div>
+        <div class="mghdr-title">
+          <div class="mgwt" id="mgwl">Pregunta 1/8</div>
+          <div class="mgtit" id="mgtit">Batalla de Energía</div>
+        </div>
       </div>
       <div id="areabadge"></div>
       <div class="pg" id="pg"></div>
@@ -1224,8 +1252,8 @@ function loadState(){
   var def={
     mode:'exp',pin:'1234',pinChanging:false,pinNew:'',area:'mat',onboarded:false,diagDone:false,
     profile:{name:'',age:'',grade:'4',mode:'exp',registro:''},
-    exp:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false,missionDate:'',missionSeconds:0,skills:{}},
-    gua:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false,missionDate:'',missionSeconds:0,skills:{}},
+    exp:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false,missionDate:'',missionSeconds:0,skills:{},grade:0,recentScores:[],rank:1,repasoInicial:0},
+    gua:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false,missionDate:'',missionSeconds:0,skills:{},grade:0,recentScores:[],rank:1,repasoInicial:0},
     cat:JSON.parse(JSON.stringify(CAT)),
     ses:{qs:[],correct:0,t0:null},activeWorld:0
   };
@@ -1240,9 +1268,22 @@ function loadState(){
     ['exp','gua'].forEach(function(k){
       if(!p[k])return;
       var src=p[k],dst=def[k];
-      ['streak','coins','xp','missions','best','tier','spent','level','lvlXP','grade','weakArea','sessTime','dailyDate','dailySeconds','didRecovery','missionDate','missionSeconds'].forEach(function(f){if(src[f]!==undefined)dst[f]=src[f];});
+      ['streak','coins','xp','missions','best','tier','spent','level','lvlXP','grade','weakArea','sessTime','dailyDate','dailySeconds','didRecovery','missionDate','missionSeconds','recentScores','rank','repasoInicial'].forEach(function(f){if(src[f]!==undefined)dst[f]=src[f];});
       if(src.scores&&src.scores.length)dst.scores=src.scores;
       if(src.lenScores&&src.lenScores.length)dst.lenScores=src.lenScores;
+      if(src.skills)dst.skills=src.skills;
+      // MIGRACION: corregir perfiles inflados por el bug viejo (nivel subia con XP)
+      var pAge=(p.profile&&p.profile.age)?p.profile.age:'';
+      var pGrade=(p.profile&&p.profile.grade)?parseInt(p.profile.grade):0;
+      if(!dst.grade||dst.grade<1){
+        if(pAge)dst.grade=ageToGrade(pAge);
+        else if(pGrade>=1)dst.grade=pGrade;
+        else dst.grade=Math.min(dst.level||1,9);
+      }
+      if(dst.grade>=1){
+        var maxOk=Math.min(9,dst.grade+3);
+        if(dst.level>maxOk){dst.level=dst.grade;dst.recentScores=[];} // re-anclar al grado
+      }
     });
     if(p.cat)def.cat=p.cat;
   }catch(e){}
@@ -1264,7 +1305,18 @@ function addCoins(amt,d){var c=coinCap(d),before=d.coins;d.coins=Math.min(c,d.co
 function spend(amt,d){if(d.coins<amt)return false;d.coins-=amt;d.spent+=amt;checkT(d);updHdr();saveState();return true;}
 function checkT(d){S.cat.filter(function(i){return i.type==='tier'&&!i.owned;}).forEach(function(it){if(d.spent>=(it.spendReq||0)){it.owned=true;if(it.tier>d.tier){d.tier=it.tier;SND.unlock();confetti(40);toast('Nuevo cofre: '+TIERS[it.tier-1].lbl+'. Limite: '+TIERS[it.tier-1].cap.toLocaleString('es-DO')+' NC');}}});}
 function floatCoin(t){var el=document.createElement('div');el.className='cflt';el.textContent=t;el.style.cssText='left:'+(40+Math.random()*20)+'%;top:'+(30+Math.random()*15)+'%;';document.body.appendChild(el);setTimeout(function(){el.remove();},1300);}
-function addXP(xp,d){d.xp+=xp;d.lvlXP=(d.lvlXP||0)+xp;while(d.level<9 && d.lvlXP>=LXP[d.level]){d.lvlXP-=LXP[d.level];d.level++;SND.unlock();confetti(50);saveState();toast('NIVEL '+d.level+' desbloqueado! '+DLVLS[d.level-1].name+' ('+DLVLS[d.level-1].grade+'). Limite NC: '+TIERS[d.level-1].cap.toLocaleString('es-DO'));}}
+function addXP(xp,d){
+  d.xp+=xp;d.lvlXP=(d.lvlXP||0)+xp;
+  // El XP sube el RANGO cosmético (título), NO el nivel de dificultad.
+  // El nivel de dificultad lo maneja el grado (edad) + desempeño (adaptarNivel).
+  var oldRank=d.rank||1;
+  var newRank=oldRank;
+  while(newRank<9 && (d.lvlXP)>=LXP[newRank]){d.lvlXP-=LXP[newRank];newRank++;}
+  if(newRank>oldRank){
+    d.rank=newRank;SND.unlock();confetti(50);saveState();
+    toast('Rango '+newRank+' alcanzado! '+DLVLS[newRank-1].name+'. Sigue así!');
+  }
+}
 function lvlPct(d){if(d.level>=9)return 100;return Math.min(100,Math.round((d.lvlXP||0)/LXP[d.level]*100));}
 
 // ═══ SOUND TOGGLE ═══
@@ -1386,7 +1438,7 @@ function updHdr(){
   var mb=document.getElementById('mbdg');if(mb){mb.textContent=m==='exp'?'EXPLORADOR':'GUARDIAN';mb.className='mbdg '+m;}
   var lb=document.getElementById('lvlb');if(lb)lb.textContent='Nv.'+d.level;
   var hst=document.getElementById('hst');if(hst)hst.textContent=d.streak;
-  var hco=document.getElementById('hco');if(hco)hco.textContent=d.coins;
+  var hco=document.getElementById('hco');if(hco)hco.textContent=d.coins.toLocaleString('es-DO');
   var hxp=document.getElementById('hxp');if(hxp)hxp.textContent=d.xp.toLocaleString('es-DO');
   var pb=document.getElementById('playbtn');if(pb)pb.style.background=m==='exp'?'linear-gradient(135deg,#4DAFFF,#18CDB0)':'linear-gradient(135deg,#9B6FFF,#FF6EB4)';
   var hbar=document.getElementById('hcobar');if(hbar)hbar.style.width=pct+'%';
@@ -1583,12 +1635,15 @@ function _genMatCore(diff){
   }
   // ── INTEGER (numeros enteros con negativos) ──
   if(op==='integer'){
-    var i1=R(-20,20),i2=R(-20,20);
+    // Siempre incluir al menos un negativo para que sea operacion con enteros (no suma trivial)
+    var i1=R(-30,-1); // primero siempre negativo
+    var i2=R(1,30);   // segundo positivo (o lo volvemos negativo a veces)
+    if(Math.random()<0.4)i2=R(-30,-1); // a veces ambos negativos
     var iop=Math.random()<0.5?'+':'-';
     var ri=iop==='+'?(i1+i2):(i1-i2);
     function fmt(n){return n<0?'('+n+')':''+n;}
     var wi=wrapAny(''+ri,[''+(ri+1),''+(ri-1),''+(ri+2),''+(-ri)]);
-    return{q:fmt(i1)+' '+iop+' '+fmt(i2)+' = ?',vis:null,opts:wi.opts,ok:wi.ok,top:'Números enteros',ctx:'El guardian domina energía positiva y negativa.'};
+    return{q:fmt(i1)+' '+iop+' '+fmt(i2)+' = ?',vis:null,opts:wi.opts,ok:wi.ok,top:'Números enteros',ctx:'El guardián domina energía positiva y negativa.'};
   }
   // ── EQUATION (ecuaciones simples) ──
   if(op==='equation'){
@@ -1613,13 +1668,24 @@ function _genMatCore(diff){
   }
   // ── SEQUENCE (patrones numericos) ──
   if(op==='sequence'){
+    // Niveles altos: incluir patrones geometricos (x2, x3) ademas de aritmeticos
+    if(diff>=6 && Math.random()<0.5){
+      var gstart=R(2,5),gmult=R(2,3);
+      var gseq=[gstart,gstart*gmult,gstart*gmult*gmult,gstart*gmult*gmult*gmult];
+      var gnext=gseq[3]*gmult;
+      var wg=wrap(gnext,[gnext+gmult,gnext-gmult,gseq[3]+gseq[2],gnext+1]);
+      return{q:gseq.join(', ')+', ... \u2192 \u00bfsiguiente?',vis:null,opts:wg.opts,ok:wg.ok,top:'Patrones',ctx:'El guardián descubre el patrón multiplicativo.'};
+    }
     var start=R(1,10),step=R(2,9);
     var seq=[start,start+step,start+2*step,start+3*step];
     var next=start+4*step;
     var ws=wrap(next,[next+step,next-step,next+1,next-1]);
-    return{q:seq.join(', ')+', ... \u2192 \u00bfsiguiente?',vis:null,opts:ws.opts,ok:ws.ok,top:'Patrones',ctx:'El guardian descubre el patron de energía.'};
+    return{q:seq.join(', ')+', ... \u2192 \u00bfsiguiente?',vis:null,opts:ws.opts,ok:ws.ok,top:'Patrones',ctx:'El guardián descubre el patrón de energía.'};
   }
-  return genMat(1);
+  // Fallback seguro: ecuacion simple del nivel actual (sin recursion)
+  var fa=R(1,Math.min(mx,diff<=3?12:50)),fb=R(1,Math.min(mx,diff<=3?12:50));
+  var fw=wrap(fa+fb,[fa+fb+1,fa+fb-1,fa+fb+2,fa+fb-2]);
+  return{q:fa+' + '+fb+' = ?',vis:null,opts:fw.opts,ok:fw.ok,top:'Suma',ctx:'Energía base.'};
 }
 function genMat(diff){
   var q=_genMatCore(diff);
@@ -1666,7 +1732,12 @@ function startMission(){
     pool.push(isLen?genLen(qDiff):genMat(qDiff));
   }
   S.ses.baseDiff=diff; // guardar nivel base para ajuste dinamico
-  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8),hotStreak:0,coldStreak:0,baseDiff:0,visNC:0,bonusNC:0,weekBonus:0};
+  // Si el niño viene de misiones dificiles, arrancar en modo repaso (invisible, no baja su nivel)
+  if(d.repasoInicial>0){
+    S.ses.repasoNivel=Math.max(1,diff-d.repasoInicial);
+    S.ses.repasoOk=0;
+  }
+  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8),hotStreak:0,coldStreak:0,baseDiff:0,visNC:0,bonusNC:0,weekBonus:0,repasoNivel:undefined,repasoOk:0};
   ans=[];cq=0;
   sessSeconds=getMissionProgress(); // retomar tiempo acumulado del dia
   var ncv=document.getElementById('mg-nc-val');if(ncv)ncv.textContent='0';
@@ -1679,16 +1750,27 @@ function startMission(){
   renderQ();
 }
 
+// Formatea numeros de 4+ digitos con separador de miles dentro de un texto
+function fmtNum(str){
+  if(str==null)return str;
+  return (''+str).replace(/\d{4,}/g,function(n){return parseInt(n,10).toLocaleString('es-DO');});
+}
+
 function renderQ(){
   var s=S.ses;if(cq>=s.qs.length){endMission();return;}
   var d=S[S.mode];
-  // Mecanismo 1: dificultad dinamica - regenerar pregunta segun desempeno reciente
-  if(cq>=2 && s.area!=='len' && s.baseDiff){
-    var adjDiff=s.baseDiff;
-    if((s.hotStreak||0)>=3)adjDiff=Math.min(9,s.baseDiff+1);   // 3 seguidas: sube
-    else if((s.coldStreak||0)>=2)adjDiff=Math.max(1,s.baseDiff-1); // 2 fallos: baja
-    // regenerar solo si el ajuste cambia el nivel y la pregunta no fue respondida
-    if(adjDiff!==s.baseDiff && ans[cq]===undefined){
+  // Mecanismo 1: dificultad dinamica con REPASO ADAPTATIVO FUERTE
+  // Si el niño falla, baja el nivel de repaso tanto como haga falta hasta que acierte.
+  // Cuando acierta, recupera gradualmente su nivel base.
+  if(cq>=1 && s.area!=='len' && s.baseDiff){
+    // s.repasoNivel = nivel actual de repaso (arranca en baseDiff)
+    if(s.repasoNivel===undefined)s.repasoNivel=s.baseDiff;
+    var adjDiff=s.repasoNivel;
+    // Si va en racha buena en su nivel base, puede subir 1 sobre el base
+    if((s.hotStreak||0)>=3 && s.repasoNivel>=s.baseDiff){
+      adjDiff=Math.min(9,s.baseDiff+1);
+    }
+    if(ans[cq]===undefined){
       s.qs[cq]=genMat(adjDiff);
     }
   }
@@ -1708,10 +1790,10 @@ function renderQ(){
   if(isLen){
     optsHtml=q.opts.map(function(o,i){return '<button class="lopt" onclick="pick('+i+')">'+String.fromCharCode(65+i)+'. '+o+'</button>';}).join('');
   }else{
-    optsHtml='<div class="opts">'+q.opts.map(function(o,i){return '<button class="opt" onclick="pick('+i+')">'+o+'</button>';}).join('')+'</div>';
+    optsHtml='<div class="opts">'+q.opts.map(function(o,i){return '<button class="opt" onclick="pick('+i+')">'+fmtNum(o)+'</button>';}).join('')+'</div>';
   }
   var mgc=document.getElementById('mgc');
-  if(mgc)mgc.innerHTML='<div class="qcard'+(isGolden?' golden':'')+'">'+(isGolden?'<div class="golden-badge">&#11088; PREGUNTA DORADA - Vale doble!</div>':'')+'<div class="qlvl">Nivel '+d.level+' - '+DLVLS[d.level-1].name+'</div><div class="qctx">'+q.ctx+'</div>'+passage+'<div class="qtxt">'+q.q+'</div>'+vis+optsHtml+'</div>';
+  if(mgc)mgc.innerHTML='<div class="qcard'+(isGolden?' golden':'')+'">'+(isGolden?'<div class="golden-badge">&#11088; PREGUNTA DORADA - Vale doble!</div>':'')+''+(function(){var rn=(s.repasoNivel!==undefined&&s.repasoNivel<s.baseDiff)?s.repasoNivel:d.level;var enRepaso=(s.repasoNivel!==undefined&&s.repasoNivel<s.baseDiff);return '<div class="qlvl">'+(enRepaso?'🌱 Modo Repaso':'Nivel '+rn+' - '+DLVLS[rn-1].name)+'</div>';})()+'<div class="qctx">'+q.ctx+'</div>'+passage+'<div class="qtxt">'+fmtNum(q.q)+'</div>'+vis+optsHtml+'</div>';
   var t=DLVLS[d.level-1].timer;
   startTimer(S.mode==='gua'?Math.max(10,t-3):t);
 }
@@ -1740,6 +1822,22 @@ function pick(i){
     S.ses.hotStreak=(S.ses.hotStreak||0)+1;S.ses.coldStreak=0;
   }else{
     S.ses.coldStreak=(S.ses.coldStreak||0)+1;S.ses.hotStreak=0;
+  }
+  // REPASO ADAPTATIVO FUERTE: ajustar el nivel de repaso segun acierto/fallo
+  if(S.ses.area!=='len' && S.ses.baseDiff){
+    if(S.ses.repasoNivel===undefined)S.ses.repasoNivel=S.ses.baseDiff;
+    if(!ok){
+      // Fallo: bajar el repaso (hasta nivel 1 si hace falta) para encontrar donde acierta
+      S.ses.repasoNivel=Math.max(1,S.ses.repasoNivel-1);
+    }else{
+      // Acierto: si estaba en repaso (debajo de su base), recuperar gradualmente
+      if(S.ses.repasoNivel<S.ses.baseDiff){
+        // Necesita 2 aciertos seguidos para subir un escalon de repaso
+        S.ses.repasoOk=(S.ses.repasoOk||0)+1;
+        if(S.ses.repasoOk>=2){S.ses.repasoNivel=Math.min(S.ses.baseDiff,S.ses.repasoNivel+1);S.ses.repasoOk=0;}
+      }
+    }
+    if(!ok)S.ses.repasoOk=0; // fallar reinicia el contador de recuperacion
   }
   if(ok){
     S.ses.correct++;
@@ -1827,6 +1925,44 @@ function pauseMission(){
   showScreen('sel');
 }
 
+// ════ ADAPTACION DE NIVEL POR DESEMPENO ════
+// El nivel se ancla al grado (edad) y se mueve segun desempeno sostenido.
+// Rango permitido: grado-2 a grado+2 (cap global 1-9).
+function adaptarNivel(d,score){
+  // Si no hay grado ancla (perfil viejo), usar la edad del perfil o el nivel actual
+  if(!d.grade){
+    if(S.profile&&S.profile.age)d.grade=ageToGrade(S.profile.age);
+    else d.grade=Math.min(d.level||1,9);
+  }
+  var grado=d.grade||1;
+  var minNivel=Math.max(1,grado-2);
+  var maxNivel=Math.min(9,grado+3); // hasta 3 grados arriba
+  // Rastrear desempeno reciente
+  d.recentScores=d.recentScores||[];
+  d.recentScores.push(score);
+  if(d.recentScores.length>3)d.recentScores.shift(); // ultimas 3 misiones
+  var n=d.recentScores.length;
+  var oldLevel=d.level;
+  // SUBIR: 3 misiones seguidas con score >=90 → el nivel SI sube visiblemente (motivacion)
+  if(n>=3 && d.recentScores.every(function(s){return s>=90;})){
+    if(d.level<maxNivel){
+      d.level++;d.recentScores=[];d.repasoInicial=0; // reiniciar
+      toast('Subiste a Nivel '+d.level+'! Lo estás dominando. 🚀');
+    }
+  }
+  // BAJAR: el nivel VISIBLE nunca baja. En su lugar, si le cuesta, las proximas
+  // misiones arrancan en modo repaso (mas facil) SIN cambiar el numero de nivel.
+  else if(n>=2 && d.recentScores.slice(-2).every(function(s){return s<50;})){
+    // repasoInicial = cuantos niveles abajo arranca la siguiente mision (invisible)
+    d.repasoInicial=Math.min(d.level-1,(d.repasoInicial||0)+1);
+    d.recentScores=[];
+    // sin toast negativo: el ajuste es silencioso para no desmotivar
+  }
+  // Si vuelve a ir bien, reducir el repaso inicial gradualmente
+  if(score>=70 && d.repasoInicial>0){d.repasoInicial--;}
+  if(d.level!==oldLevel||d.repasoInicial!==undefined)saveState();
+}
+
 function endMission(){
   clearInterval(ti);
   // Interpretacion A: el tiempo acumula todo el dia. Mision valida si el total del dia >= 15 min
@@ -1862,6 +1998,8 @@ function endMission(){
   var totalQ=(S.ses.totalQ||0)+S.ses.qs.length;
   var rounds=(S.ses.rounds||0)+1;
   var score=Math.round(totalCorrect/totalQ*100),passed=score>=80;
+  // Adaptar nivel de dificultad segun desempeno (solo si cumplio tiempo, para no penalizar salidas rapidas)
+  if(hasTime && S.ses.area!=='len')adaptarNivel(S[S.mode],score);
   var tSec=Math.round((Date.now()-S.ses.t0)/1000),tMin=Math.max(1,Math.ceil(tSec/60));
   var m=S.mode,d=S[m],isLen=S.ses.area==='len';
   d.scores.push(score);d.missions++;
@@ -2471,6 +2609,7 @@ function obNext(step) {
     var grade=ageToGrade(age);
     S.profile.grade=String(grade);
     S.exp.level=grade; S.gua.level=grade;
+    S.exp.grade=grade; S.gua.grade=grade; // ancla para adaptacion de nivel
     obGoStep(1);
   } else if(step===1){
     if(!obMode){toast('Selecciona tu modo de juego');return;}
