@@ -521,6 +521,28 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 .pause-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:var(--tx);padding:8px 14px;height:38px;border-radius:10px;font-size:13px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;transition:background 0.15s;flex-shrink:0;}
 .pause-btn:hover{background:rgba(255,255,255,0.2);color:var(--tx);}
 
+
+.edit-field{display:flex;flex-direction:column;font-size:10px;font-weight:800;color:var(--tx3);gap:3px;text-transform:uppercase;letter-spacing:0.5px;}
+.edit-input{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:var(--tx);padding:8px 10px;font-size:15px;font-weight:900;width:100%;box-sizing:border-box;}
+.edit-input:focus{outline:none;border-color:var(--tl);background:rgba(255,255,255,0.1);}
+
+
+.acc{background:var(--card);border:2px solid var(--bdr);border-radius:14px;margin-bottom:10px;overflow:hidden;}
+.acc-h{width:100%;background:none;border:none;color:var(--tx);padding:14px 16px;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;text-align:left;}
+.acc-h:hover{background:rgba(255,255,255,0.03);}
+.acc-x{font-size:20px;font-weight:900;color:var(--tl);width:24px;text-align:center;flex-shrink:0;}
+.acc-b{max-height:0;overflow:hidden;transition:max-height 0.35s ease;box-sizing:border-box;}
+.acc-b.exp{padding:4px 16px 16px;}
+
+
+
+.mg-nc{background:linear-gradient(135deg,rgba(46,220,125,0.15),rgba(255,193,7,0.1));border:2px solid rgba(46,220,125,0.3);border-radius:12px;padding:6px 12px;text-align:center;flex-shrink:0;transition:transform 0.2s;}
+.mg-nc.pulse{transform:scale(1.15);}
+.mg-nc-val{font-size:18px;font-weight:900;color:var(--gr);line-height:1;}
+.mg-nc-lbl{font-size:9px;font-weight:800;color:var(--tx3);letter-spacing:1px;}
+.nc-float{position:fixed;font-size:22px;font-weight:900;color:var(--gr);pointer-events:none;z-index:9999;animation:ncFloat 1s ease-out forwards;text-shadow:0 2px 8px rgba(0,0,0,0.4);}
+@keyframes ncFloat{0%{opacity:0;transform:translateY(0) scale(0.5);}20%{opacity:1;transform:translateY(-10px) scale(1.2);}100%{opacity:0;transform:translateY(-60px) scale(1);}}
+
 </style>
 </head>
 <body>
@@ -541,7 +563,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
     <div class="ob-step active" id="ostep0">
       <div class="ob-title">Bienvenido, Guardián</div>
       <div class="ob-desc">15 minutos diarios para llegar mejor preparado al proximo curso.</div>
-      <div class="ob-field"><label>Tu nombre</label><input class="ob-input" id="ob-name" type="text" placeholder="Escribe tu nombre..." maxlength="20"></div>
+      <div class="ob-field"><label>Tu nombre</label><input class="ob-input" id="ob-name" type="text" placeholder="Tu primer nombre o apodo..." maxlength="20"><div style="font-size:10px;color:var(--tx3);font-weight:700;margin-top:5px;line-height:1.4;">&#128274; Para tu privacidad, usa solo tu primer nombre o un apodo.</div></div>
       <div class="ob-field"><label>Edad</label>
         <select class="ob-select" id="ob-age"><option value="">Selecciona tu edad</option>
         <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
@@ -703,6 +725,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
       <div class="mghdr">
         <button class="pause-btn" onclick="pauseMission()" title="Pausar y salir">&#8592; Salir</button>
         <div><div class="mgwt" id="mgwl">Pregunta 1/8</div><div class="mgtit" id="mgtit">Batalla de Energía</div></div>
+        <div class="mg-nc"><div class="mg-nc-val" id="mg-nc-val">0</div><div class="mg-nc-lbl">NC</div></div>
         <div class="timw"><div class="tbw"><div class="tbar g" id="tbar" style="width:100%"></div></div><span class="tnum" id="tnum">25</span></div>
       </div>
       <div id="areabadge"></div>
@@ -730,122 +753,125 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 <div id="par" class="screen">
   <div class="parhdr">
     <h2>&#128202; Panel de Padres</h2>
-    <div style="display:flex;gap:7px;flex-wrap:wrap;">
-      <button class="bbtn" onclick="SND.ui();changePinFlow()">Cambiar PIN</button>
-      <button class="bbtn" onclick="openShare()">Compartir</button>
-      <button class="bbtn" onclick="SND.ui();showScreen('sel')">Salir</button>
+    <button class="bbtn" onclick="SND.ui();showScreen('sel')">&#8592; Salir</button>
+  </div>
+
+  <!-- ▼ ESENCIAL: Tiempo de hoy + cumplimiento -->
+  <div class="today-card" style="margin-bottom:12px;">
+    <h3>&#9201;&#65039; ¿Jugaron hoy?</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="background:rgba(46,220,125,0.08);border:2px solid rgba(46,220,125,0.2);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:10px;color:var(--tx3);font-weight:800;">EXPLORADOR</div>
+        <div style="font-size:22px;font-weight:900;" id="time-exp">0 min</div>
+        <div style="font-size:11px;font-weight:800;" id="time-exp-status">-</div>
+      </div>
+      <div style="background:rgba(180,120,255,0.08);border:2px solid rgba(180,120,255,0.2);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:10px;color:var(--tx3);font-weight:800;">GUARDIÁN</div>
+        <div style="font-size:22px;font-weight:900;" id="time-gua">0 min</div>
+        <div style="font-size:11px;font-weight:800;" id="time-gua-status">-</div>
+      </div>
     </div>
   </div>
-  <!-- Today -->
-  <!-- CONFIG SECTION -->
-  <div style="background:var(--card);border:2px solid var(--bdr);border-radius:14px;padding:1.1rem;margin-bottom:14px;">
-    <div class="slbl" style="margin-bottom:10px;">&#9881; Configuracion</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-      <div>
-        <div style="font-size:11px;font-weight:800;color:var(--tx2);margin-bottom:5px;">Grado Explorador</div>
-        <select class="ob-select" id="par-grade-exp" style="font-size:13px;padding:8px 10px;" onchange="saveParConfig()">
-          <option value="1">1ro Primaria</option><option value="2">2do Primaria</option>
-          <option value="3">3ro Primaria</option><option value="4">4to Primaria</option>
-          <option value="5">5to Primaria</option><option value="6">6to Primaria</option>
-          <option value="7">7mo Secundaria</option><option value="8">8vo Secundaria</option>
-          <option value="9">9no Secundaria</option>
-        </select>
+
+  <!-- ▼ ESENCIAL: Resumen rápido -->
+  <div class="pgrid" style="margin-bottom:12px;">
+    <div class="pst"><div class="psn" style="color:var(--bl)" id="pwmis">0</div><div class="psl">Misiones</div></div>
+    <div class="pst"><div class="psn" style="color:var(--gr)" id="pwavg">-</div><div class="psl">Score prom.</div></div>
+    <div class="pst"><div class="psn" style="color:var(--am)" id="pwse">0</div><div class="psl">Racha Expl.</div></div>
+    <div class="pst"><div class="psn" style="color:var(--pu)" id="pwsg">0</div><div class="psl">Racha Guard.</div></div>
+  </div>
+
+  <!-- ▼ ESENCIAL: Qué reforzar -->
+  <div class="recom-card" style="margin-bottom:12px;">
+    <h4>&#128161; Qué está reforzando</h4>
+    <p id="par-recom">Aún sin datos. Necesitan jugar algunas misiones.</p>
+  </div>
+
+  <button class="inf-link-btn" onclick="SND.ui();renderInforme()" style="margin-bottom:16px;">&#128202; Ver Informe Completo de Vacaciones</button>
+
+  <!-- ▼ COLAPSABLE: Premios y canje -->
+  <div class="acc">
+    <button class="acc-h" onclick="toggleAcc(this)"><span>&#128176; Premios y canje (RD$)</span><span class="acc-x">+</span></button>
+    <div class="acc-b">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div><div style="font-size:11px;color:var(--tx3);font-weight:700;">1 NC equivale a</div><div style="font-size:22px;font-weight:900;color:var(--gr);" id="par-rate">RD$0.025</div></div>
+        <div style="text-align:right;"><div style="font-size:11px;color:var(--tx3);font-weight:700;">Tendencia hoy</div><div style="font-size:16px;font-weight:900;" id="par-trend">-</div></div>
       </div>
-      <div>
-        <div style="font-size:11px;font-weight:800;color:var(--tx2);margin-bottom:5px;">Grado Guardián</div>
-        <select class="ob-select" id="par-grade-gua" style="font-size:13px;padding:8px 10px;" onchange="saveParConfig()">
-          <option value="1">1ro Primaria</option><option value="2">2do Primaria</option>
-          <option value="3">3ro Primaria</option><option value="4">4to Primaria</option>
-          <option value="5">5to Primaria</option><option value="6">6to Primaria</option>
-          <option value="7">7mo Secundaria</option><option value="8">8vo Secundaria</option>
-          <option value="9">9no Secundaria</option>
-        </select>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div style="background:rgba(255,255,255,0.04);border-radius:9px;padding:8px;text-align:center;"><div style="font-size:10px;color:var(--tx3);font-weight:700;">Explorador</div><div style="font-size:13px;font-weight:900;color:var(--bl);" id="par-exp-nc">0 NC</div><div style="font-size:14px;font-weight:900;color:var(--gr);" id="par-exp-dop">RD$0.00</div></div>
+        <div style="background:rgba(255,255,255,0.04);border-radius:9px;padding:8px;text-align:center;"><div style="font-size:10px;color:var(--tx3);font-weight:700;">Guardián</div><div style="font-size:13px;font-weight:900;color:var(--pu);" id="par-gua-nc">0 NC</div><div style="font-size:14px;font-weight:900;color:var(--gr);" id="par-gua-dop">RD$0.00</div></div>
       </div>
-    </div>
-    <div>
-      <div style="font-size:11px;font-weight:800;color:var(--tx2);margin-bottom:5px;">Duracion minima de sesión</div>
       <div style="display:flex;gap:7px;">
-        <button class="sess-opt-btn" data-min="5"  onclick="setSessTarget(5)">5 min</button>
-        <button class="sess-opt-btn" data-min="10" onclick="setSessTarget(10)">10 min</button>
-        <button class="sess-opt-btn active" data-min="15" onclick="setSessTarget(15)">15 min</button>
-        <button class="sess-opt-btn" data-min="20" onclick="setSessTarget(20)">20 min</button>
+        <button class="bbtn" style="flex:1;" onclick="redeemNC('exp')">Canjear Expl.</button>
+        <button class="bbtn" style="flex:1;" onclick="redeemNC('gua')">Canjear Guard.</button>
+      </div>
+      <p style="font-size:10px;color:var(--tx3);font-weight:700;margin-top:7px;line-height:1.5;">La tasa fluctúa ±10% cada día. El canje convierte las NC en su premio acordado y reinicia el saldo.</p>
+    </div>
+  </div>
+
+  <!-- ▼ COLAPSABLE: Detalle por tema -->
+  <div class="acc">
+    <button class="acc-h" onclick="toggleAcc(this)"><span>&#128200; Detalle por tema</span><span class="acc-x">+</span></button>
+    <div class="acc-b">
+      <div class="plvlg" style="margin-bottom:12px;">
+        <div class="plvlc"><div class="plvln">Explorador</div><div class="plvlv" id="plve">Nivel 1</div><div class="plvls" id="plves">Novato</div></div>
+        <div class="plvlc"><div class="plvln">Guardián</div><div class="plvlv" id="plvg">Nivel 1</div><div class="plvls" id="plvgs">Novato</div></div>
+      </div>
+      <div class="pch">
+        <h3><span style="color:var(--bl)">Explorador</span></h3>
+        <div class="slbl">Semana actual</div><div class="pwg" id="we"></div>
+        <div class="slbl" style="margin-top:12px;">Matemática por tema</div><div class="tbars" id="te-mat"></div>
+        <div class="slbl" style="margin-top:12px;">Lengua por tema</div><div class="tbars" id="te-len"></div>
+      </div>
+      <div class="divl"></div>
+      <div class="pch">
+        <h3><span style="color:var(--pu)">Guardián</span></h3>
+        <div class="slbl">Semana actual</div><div class="pwg" id="wg2"></div>
+        <div class="slbl" style="margin-top:12px;">Matemática por tema</div><div class="tbars" id="tg-mat"></div>
+        <div class="slbl" style="margin-top:12px;">Lengua por tema</div><div class="tbars" id="tg-len"></div>
+      </div>
+      <div class="divl"></div>
+      <div class="slbl">Actividad reciente</div>
+      <div class="plog" id="plog"></div>
+    </div>
+  </div>
+
+  <!-- ▼ COLAPSABLE: Configuración -->
+  <div class="acc">
+    <button class="acc-h" onclick="toggleAcc(this)"><span>&#9881; Configuración</span><span class="acc-x">+</span></button>
+    <div class="acc-b">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div><div style="font-size:11px;font-weight:800;color:var(--tx2);margin-bottom:5px;">Grado Explorador</div>
+          <select class="ob-select" id="par-grade-exp" style="font-size:13px;padding:8px 10px;" onchange="saveParConfig()">
+            <option value="1">1ro Primaria</option><option value="2">2do Primaria</option><option value="3">3ro Primaria</option><option value="4">4to Primaria</option><option value="5">5to Primaria</option><option value="6">6to Primaria</option><option value="7">1ro Secundaria</option><option value="8">2do Secundaria</option><option value="9">3ro Secundaria</option>
+          </select></div>
+        <div><div style="font-size:11px;font-weight:800;color:var(--tx2);margin-bottom:5px;">Grado Guardián</div>
+          <select class="ob-select" id="par-grade-gua" style="font-size:13px;padding:8px 10px;" onchange="saveParConfig()">
+            <option value="1">1ro Primaria</option><option value="2">2do Primaria</option><option value="3">3ro Primaria</option><option value="4">4to Primaria</option><option value="5">5to Primaria</option><option value="6">6to Primaria</option><option value="7">1ro Secundaria</option><option value="8">2do Secundaria</option><option value="9">3ro Secundaria</option>
+          </select></div>
+      </div>
+      <div><div style="font-size:11px;font-weight:800;color:var(--tx2);margin-bottom:5px;">Duración mínima de sesión</div>
+        <div style="display:flex;gap:7px;">
+          <button class="sess-opt-btn" data-min="5" onclick="setSessTarget(5)">5</button>
+          <button class="sess-opt-btn" data-min="10" onclick="setSessTarget(10)">10</button>
+          <button class="sess-opt-btn active" data-min="15" onclick="setSessTarget(15)">15</button>
+          <button class="sess-opt-btn" data-min="20" onclick="setSessTarget(20)">20</button>
+        </div>
+      </div>
+      <p style="font-size:10px;color:var(--tx3);font-weight:700;margin-top:10px;">Mínimo 15 min/día · Máximo 30 min (45 con recuperación).</p>
+      <div style="display:flex;gap:7px;margin-top:12px;">
+        <button class="bbtn" style="flex:1;" onclick="SND.ui();changePinFlow()">Cambiar PIN</button>
+        <button class="bbtn" style="flex:1;" onclick="openShare()">Compartir</button>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border-radius:9px;padding:10px;margin-top:12px;">
+        <div style="font-size:11px;font-weight:800;color:var(--tx2);margin-bottom:4px;">&#128274; Privacidad</div>
+        <p style="font-size:10px;color:var(--tx3);font-weight:700;line-height:1.5;margin:0;">El progreso (nombre, edad, puntajes) se guarda en este dispositivo y, si está activo, se sincroniza con una hoja privada del organizador para dar seguimiento. Recomendamos usar el primer nombre o un apodo del niño. No se comparte con terceros ni se usa publicidad.</p>
       </div>
     </div>
   </div>
 
-  <!-- TASA DE CAMBIO Y CANJE -->
-  <div style="background:linear-gradient(135deg,rgba(46,220,125,0.08),rgba(24,205,176,0.04));border:2px solid rgba(46,220,125,0.2);border-radius:14px;padding:1.1rem;margin-bottom:14px;">
-    <div class="slbl" style="color:var(--gr);margin-bottom:10px;">&#128176; Tasa de cambio del día</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-      <div>
-        <div style="font-size:11px;color:var(--tx3);font-weight:700;">1 NC equivale a</div>
-        <div style="font-size:22px;font-weight:900;color:var(--gr);" id="par-rate">RD$0.025</div>
-      </div>
-      <div style="text-align:right;">
-        <div style="font-size:11px;color:var(--tx3);font-weight:700;">Tendencia hoy</div>
-        <div style="font-size:16px;font-weight:900;" id="par-trend">-</div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
-      <div style="background:rgba(255,255,255,0.04);border-radius:9px;padding:8px;text-align:center;">
-        <div style="font-size:10px;color:var(--tx3);font-weight:700;">Explorador</div>
-        <div style="font-size:13px;font-weight:900;color:var(--bl);" id="par-exp-nc">0 NC</div>
-        <div style="font-size:14px;font-weight:900;color:var(--gr);" id="par-exp-dop">RD$0.00</div>
-      </div>
-      <div style="background:rgba(255,255,255,0.04);border-radius:9px;padding:8px;text-align:center;">
-        <div style="font-size:10px;color:var(--tx3);font-weight:700;">Guardián</div>
-        <div style="font-size:13px;font-weight:900;color:var(--pu);" id="par-gua-nc">0 NC</div>
-        <div style="font-size:14px;font-weight:900;color:var(--gr);" id="par-gua-dop">RD$0.00</div>
-      </div>
-    </div>
-    <div style="display:flex;gap:7px;">
-      <button class="bbtn" style="flex:1;" onclick="redeemNC('exp')">Canjear Explorador</button>
-      <button class="bbtn" style="flex:1;" onclick="redeemNC('gua')">Canjear Guardián</button>
-    </div>
-    <p style="font-size:10px;color:var(--tx3);font-weight:700;margin-top:7px;line-height:1.5;">La tasa fluctua +/-10% cada día. El canje convierte las NC del niño en su premio acordado y reinicia su saldo.</p>
-  </div>
-
-  <div class="today-card">
-    <h3>Hoy</h3>
-    <div class="today-grid">
-      <div class="today-item"><div class="today-val" id="td-mis" style="color:var(--gr)">-</div><div class="today-lbl">Misión</div></div>
-      <div class="today-item"><div class="today-val" id="td-score" style="color:var(--bl)">-</div><div class="today-lbl">Score</div></div>
-      <div class="today-item"><div class="today-val" id="td-streak" style="color:var(--am)">-</div><div class="today-lbl">Racha</div></div>
-    </div>
-  </div>
-  <div class="pgrid">
-    <div class="pst"><div class="psn" style="color:var(--bl)" id="pwmis">0</div><div class="psl">Misiones totales</div></div>
-    <div class="pst"><div class="psn" style="color:var(--gr)" id="pwavg">-</div><div class="psl">Score promedio</div></div>
-    <div class="pst"><div class="psn" style="color:var(--am)" id="pwse">0</div><div class="psl">Racha Explorador</div></div>
-    <div class="pst"><div class="psn" style="color:var(--pu)" id="pwsg">0</div><div class="psl">Racha Guardián</div></div>
-  </div>
-  <!-- Recomendacion -->
-  <div class="recom-card">
-    <h4>&#128161; Recomendacion del día</h4>
-    <p id="par-recom">Completa los datos jugando una misión para ver la recomendacion.</p>
-  </div>
-  <div class="slbl">Nivel de dificultad</div>
-  <div class="plvlg">
-    <div class="plvlc"><div class="plvln">Explorador</div><div class="plvlv" id="plve">Nivel 1</div><div class="plvls" id="plves">Novato</div></div>
-    <div class="plvlc"><div class="plvln">Guardián</div><div class="plvlv" id="plvg">Nivel 1</div><div class="plvls" id="plvgs">Novato</div></div>
-  </div>
-  <div class="pch">
-    <h3><span style="color:var(--bl)">Explorador</span></h3>
-    <div class="slbl">Semana actual</div><div class="pwg" id="we"></div>
-    <div class="slbl" style="margin-top:12px;">Matemática por tema</div><div class="tbars" id="te-mat"></div>
-    <div class="slbl" style="margin-top:12px;">Lengua Española por tema</div><div class="tbars" id="te-len"></div>
-  </div>
-  <div class="divl"></div>
-  <div class="pch">
-    <h3><span style="color:var(--pu)">Guardián</span></h3>
-    <div class="slbl">Semana actual</div><div class="pwg" id="wg2"></div>
-    <div class="slbl" style="margin-top:12px;">Matemática por tema</div><div class="tbars" id="tg-mat"></div>
-    <div class="slbl" style="margin-top:12px;">Lengua Española por tema</div><div class="tbars" id="tg-len"></div>
-  </div>
-  <div class="divl"></div>
-  <div class="slbl">Actividad reciente</div>
-  <div class="plog" id="plog"></div>
-  <button class="inf-link-btn" onclick="SND.ui();renderInforme()">&#128202; Ver Informe Completo de Vacaciones</button>
+  <!-- Mantener td-mis/td-score/td-streak ocultos para compatibilidad con renderParent -->
+  <div style="display:none;"><span id="td-mis"></span><span id="td-score"></span><span id="td-streak"></span></div>
 </div>
 
 <!-- SHOP -->
@@ -953,7 +979,23 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
     <div id="adm-tech" style="margin-bottom:18px;"></div>
 
     <!-- CONTROLES -->
-    <div class="slbl">Controles</div>
+    <div class="slbl">Edición Manual</div>
+    <div style="margin-bottom:10px;">
+      <div style="display:flex;gap:6px;margin-bottom:8px;">
+        <button class="adm-btn" id="edit-tab-exp" onclick="setEditProfile('exp')" style="flex:1;">Explorador</button>
+        <button class="adm-btn" id="edit-tab-gua" onclick="setEditProfile('gua')" style="flex:1;">Guardián</button>
+      </div>
+      <div class="edit-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <label class="edit-field">Monedas (NC)<input type="number" id="edit-coins" class="edit-input"></label>
+        <label class="edit-field">Nivel (1-9)<input type="number" id="edit-level" class="edit-input" min="1" max="9"></label>
+        <label class="edit-field">Misiones<input type="number" id="edit-missions" class="edit-input"></label>
+        <label class="edit-field">Racha actual<input type="number" id="edit-streak" class="edit-input"></label>
+        <label class="edit-field">Mejor racha<input type="number" id="edit-best" class="edit-input"></label>
+        <label class="edit-field">XP<input type="number" id="edit-xp" class="edit-input"></label>
+      </div>
+      <button class="adm-btn" onclick="saveManualEdit()" style="width:100%;margin-top:8px;background:var(--gr);color:#04210f;">&#128190; Guardar cambios</button>
+    </div>
+    <div class="adm-slbl" style="margin-top:14px;">Controles</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
       <button class="adm-btn warn" onclick="admReset('exp')">&#9888; Reset Explorador</button>
       <button class="adm-btn warn" onclick="admReset('gua')">&#9888; Reset Guardián</button>
@@ -1102,6 +1144,71 @@ var LENGUA_QS=[
   {ctx:'Lee el texto.',q:'"Ana tiene un perro llamado Max. Max es muy jugueton y le gusta correr." El perro se llama:',passage:null,opts:['Max','Ana','Rex','Tomas'],ok:0,top:'Comprension lectora'},
   {ctx:'Uso correcto de la tilde.',q:'Cual de estas palabras lleva tilde?',passage:null,opts:['arbol','casa','perro','libro'],ok:0,top:'Ortografia'},
 ];
+LENGUA_BY_LEVEL={
+1:[
+  {ctx:'Lee y responde.',q:'¿Con qué letra empieza la palabra "sol"?',passage:null,opts:['s','o','l','a'],ok:0,top:'Sonido inicial'},
+  {ctx:'Identifica la sílaba.',q:'¿Cuántas sílabas tiene "gato"?',passage:null,opts:['2','1','3','4'],ok:0,top:'Sílabas'},
+  {ctx:'Vocabulario.',q:'Un sinónimo de "casa" es:',passage:null,opts:['hogar','árbol','perro','agua'],ok:0,top:'Vocabulario'},
+  {ctx:'Lee el texto.',q:'"El perro corre." ¿Quién corre?',passage:null,opts:['El perro','El gato','El niño','La pelota'],ok:0,top:'Comprensión lectora'},
+  {ctx:'Ortografía.',q:'¿Cuál palabra está bien escrita?',passage:null,opts:['mamá','mamma','mama a','manma'],ok:0,top:'Ortografía'},
+],
+2:[
+  {ctx:'Comprensión.',q:'"Ana tiene una flor roja." ¿De qué color es la flor?',passage:null,opts:['Roja','Azul','Verde','Amarilla'],ok:0,top:'Comprensión lectora'},
+  {ctx:'Ortografía.',q:'¿Cuál palabra está bien escrita?',passage:null,opts:['vaca','baca','vaka','bacca'],ok:0,top:'Ortografía'},
+  {ctx:'Vocabulario.',q:'Lo contrario de "grande" es:',passage:null,opts:['pequeño','enorme','alto','ancho'],ok:0,top:'Antónimos'},
+  {ctx:'Gramática.',q:'En "El sol brilla", la palabra "sol" es un:',passage:null,opts:['Sustantivo','Verbo','Color','Número'],ok:0,top:'Gramática'},
+  {ctx:'Ordena.',q:'Orden correcto: (juega / niño / el)',passage:null,opts:['El niño juega','Juega el niño','Niño el juega','El juega niño'],ok:0,top:'Estructura de oraciones'},
+],
+3:[
+  {ctx:'Idea principal.',q:'"El sol sale cada mañana y da luz al mundo." La idea principal es:',passage:null,opts:['El sol da luz al mundo','El sol sale de noche','El mundo es oscuro','La luna brilla'],ok:0,top:'Idea principal'},
+  {ctx:'Comprensión.',q:'"María compró manzanas, peras y uvas." María compró:',passage:null,opts:['Frutas','Verduras','Juguetes','Ropa'],ok:0,top:'Comprensión lectora'},
+  {ctx:'Vocabulario.',q:'"El cielo estaba nublado." Nublado significa que había:',passage:null,opts:['Nubes','Sol fuerte','Estrellas','Viento'],ok:0,top:'Vocabulario'},
+  {ctx:'Gramática.',q:'En "El niño juega en el parque", los sustantivos son:',passage:null,opts:['niño y parque','juega y en','el y en','juega y parque'],ok:0,top:'Gramática'},
+  {ctx:'Ortografía.',q:'¿Cuál palabra lleva tilde?',passage:null,opts:['árbol','casa','mesa','libro'],ok:0,top:'Ortografía'},
+],
+4:[
+  {ctx:'Comprensión.',q:'"El león es el rey de la selva por su fuerza." ¿Por qué el león es el rey?',passage:null,opts:['Por su fuerza','Por su color','Por su tamaño','Por su voz'],ok:0,top:'Comprensión lectora'},
+  {ctx:'Gramática.',q:'En "Ella corre rápido", la palabra "corre" es un:',passage:null,opts:['Verbo','Sustantivo','Adjetivo','Artículo'],ok:0,top:'Gramática'},
+  {ctx:'Vocabulario.',q:'Un sinónimo de "veloz" es:',passage:null,opts:['rápido','lento','grande','fuerte'],ok:0,top:'Sinónimos'},
+  {ctx:'Ortografía.',q:'¿Cuál oración usa bien la "h"?',passage:null,opts:['Hoy hace calor','Oy ace calor','Hoi ase calor','Oy hace calor'],ok:0,top:'Ortografía'},
+  {ctx:'Estructura.',q:'¿Cuál es una oración completa?',passage:null,opts:['El gato duerme en la cama','El gato en la','Duerme cama','En la cama gato'],ok:0,top:'Estructura de oraciones'},
+],
+5:[
+  {ctx:'Comprensión.',q:'"Aunque llovía, salieron a jugar." ¿Qué hicieron a pesar de la lluvia?',passage:null,opts:['Salieron a jugar','Se quedaron','Durmieron','Estudiaron'],ok:0,top:'Comprensión lectora'},
+  {ctx:'Gramática.',q:'¿Cuál es un adjetivo en "La casa grande es bonita"?',passage:null,opts:['grande','casa','es','la'],ok:0,top:'Gramática'},
+  {ctx:'Vocabulario.',q:'"Fue una decisión acertada." Acertada significa:',passage:null,opts:['Correcta','Equivocada','Rápida','Difícil'],ok:0,top:'Vocabulario'},
+  {ctx:'Ortografía.',q:'¿Cuál palabra está bien acentuada?',passage:null,opts:['rápido','rapido','rapído','rrápido'],ok:0,top:'Ortografía'},
+  {ctx:'Gramática.',q:'El plural de "lápiz" es:',passage:null,opts:['lápices','lápizes','lápiz','lapices'],ok:0,top:'Gramática'},
+],
+6:[
+  {ctx:'Comprensión.',q:'"El reciclaje ayuda al planeta reduciendo la basura." El texto trata sobre:',passage:null,opts:['El reciclaje','La basura solamente','Los planetas','Los animales'],ok:0,top:'Comprensión lectora'},
+  {ctx:'Gramática.',q:'En "Corrió velozmente", la palabra "velozmente" es un:',passage:null,opts:['Adverbio','Sustantivo','Verbo','Adjetivo'],ok:0,top:'Gramática'},
+  {ctx:'Vocabulario.',q:'Un antónimo de "generoso" es:',passage:null,opts:['tacaño','amable','rico','alto'],ok:0,top:'Antónimos'},
+  {ctx:'Ortografía.',q:'¿Cuál usa bien la coma?',passage:null,opts:['Compré pan, leche y huevos','Compré pan leche, y huevos','Compré, pan leche y huevos','Compré pan leche y, huevos'],ok:0,top:'Ortografía'},
+  {ctx:'Texto.',q:'Un texto que cuenta una historia se llama:',passage:null,opts:['Narrativo','Informativo','Instructivo','Publicitario'],ok:0,top:'Tipos de texto'},
+],
+7:[
+  {ctx:'Comprensión.',q:'"La tecnología transformó la comunicación, pero generó nuevos retos." El autor sugiere que la tecnología:',passage:null,opts:['Tiene ventajas y desventajas','Es solo positiva','Es solo negativa','No cambió nada'],ok:0,top:'Comprensión lectora'},
+  {ctx:'Gramática.',q:'¿Cuál es el sujeto en "Los estudiantes presentaron su proyecto"?',passage:null,opts:['Los estudiantes','presentaron','su proyecto','proyecto'],ok:0,top:'Gramática'},
+  {ctx:'Vocabulario.',q:'"Su argumento fue contundente." Contundente significa:',passage:null,opts:['Convincente','Débil','Confuso','Breve'],ok:0,top:'Vocabulario'},
+  {ctx:'Ortografía.',q:'¿Cuál palabra es esdrújula (lleva tilde)?',passage:null,opts:['teléfono','cancion','reloj','pared'],ok:0,top:'Ortografía'},
+  {ctx:'Gramática.',q:'"Había" en "Había mucha gente" es del verbo:',passage:null,opts:['haber','hablar','hacer','hallar'],ok:0,top:'Gramática'},
+],
+8:[
+  {ctx:'Comprensión.',q:'"El protagonista superó sus miedos para alcanzar su meta." El tema central es:',passage:null,opts:['La superación personal','El miedo eterno','El fracaso','La rutina'],ok:0,top:'Comprensión lectora'},
+  {ctx:'Gramática.',q:'En "Quiero que vengas", el verbo "vengas" está en modo:',passage:null,opts:['Subjuntivo','Indicativo','Imperativo','Infinitivo'],ok:0,top:'Gramática'},
+  {ctx:'Vocabulario.',q:'"Una mirada efímera." Efímera significa:',passage:null,opts:['Breve','Eterna','Intensa','Triste'],ok:0,top:'Vocabulario'},
+  {ctx:'Figuras.',q:'"Sus ojos eran dos luceros" es una:',passage:null,opts:['Metáfora','Comparación','Rima','Exageración'],ok:0,top:'Figuras literarias'},
+  {ctx:'Ortografía.',q:'¿Cuál oración está bien puntuada?',passage:null,opts:['Llegó, vio y venció.','Llegó vio, y venció','Llegó vio y, venció','Llegó, vio y, venció'],ok:0,top:'Ortografía'},
+],
+9:[
+  {ctx:'Comprensión.',q:'"Si bien la propuesta es ambiciosa, carece de fundamento." El autor expresa:',passage:null,opts:['Una crítica con reconocimiento','Total acuerdo','Indiferencia','Entusiasmo'],ok:0,top:'Comprensión lectora'},
+  {ctx:'Gramática.',q:'En "El libro fue leído por todos", la voz es:',passage:null,opts:['Pasiva','Activa','Reflexiva','Impersonal'],ok:0,top:'Gramática'},
+  {ctx:'Vocabulario.',q:'"Un discurso elocuente." Elocuente significa:',passage:null,opts:['Persuasivo','Aburrido','Corto','Confuso'],ok:0,top:'Vocabulario'},
+  {ctx:'Figuras.',q:'"El viento susurraba" es un ejemplo de:',passage:null,opts:['Personificación','Metáfora','Hipérbole','Símil'],ok:0,top:'Figuras literarias'},
+  {ctx:'Texto.',q:'Un texto que defiende una postura con razones es:',passage:null,opts:['Argumentativo','Narrativo','Descriptivo','Dialogado'],ok:0,top:'Tipos de texto'},
+]
+};
 
 // ═══ STATE ═══
 function saveState(){
@@ -1531,9 +1638,15 @@ function _topToOp(top){
 
 
 function genLen(diff){
-  // diff reservado para escalado futuro por grado
-  var q=LENGUA_QS[Math.floor(Math.random()*LENGUA_QS.length)];
-  return JSON.parse(JSON.stringify(q));
+  // Banco escalado por nivel (grado MINERD). diff = nivel 1-9
+  var lvl=Math.max(1,Math.min(9,diff||S[S.mode].level||1));
+  var bank=(typeof LENGUA_BY_LEVEL!=='undefined'&&LENGUA_BY_LEVEL[lvl])?LENGUA_BY_LEVEL[lvl]:LENGUA_QS;
+  var q=JSON.parse(JSON.stringify(bank[Math.floor(Math.random()*bank.length)]));
+  // Barajar opciones para que la correcta no quede siempre en la misma posicion
+  var correctVal=q.opts[q.ok];
+  for(var k=q.opts.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=q.opts[k];q.opts[k]=q.opts[j];q.opts[j]=t;}
+  q.ok=q.opts.indexOf(correctVal);
+  return q;
 }
 
 // ═══ MISSION ═══
@@ -1553,9 +1666,10 @@ function startMission(){
     pool.push(isLen?genLen(qDiff):genMat(qDiff));
   }
   S.ses.baseDiff=diff; // guardar nivel base para ajuste dinamico
-  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8),hotStreak:0,coldStreak:0,baseDiff:0};
+  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8),hotStreak:0,coldStreak:0,baseDiff:0,visNC:0,bonusNC:0,weekBonus:0};
   ans=[];cq=0;
   sessSeconds=getMissionProgress(); // retomar tiempo acumulado del dia
+  var ncv=document.getElementById('mg-nc-val');if(ncv)ncv.textContent='0';
   var hub=document.getElementById('hub');if(hub)hub.style.display='none';
   var mg=document.getElementById('mg');if(mg)mg.style.display='block';
   // area badge
@@ -1634,11 +1748,34 @@ function pick(i){
     if(S.ses.combo>S.ses.maxCombo)S.ses.maxCombo=S.ses.combo;
     SND.correct();
     showCombo(S.ses.combo,isGolden);
+    // Recompensa visible por pregunta (contador sube, no afecta economia real)
+    var qNC=100+(S.ses.combo>=5?100:S.ses.combo>=3?50:0)+(isGolden?300:0);
+    S.ses.visNC=(S.ses.visNC||0)+qNC;
+    bumpNCCounter(S.ses.visNC,qNC);
   }else{
     S.ses.combo=0; // romper combo
     SND.wrong();
   }
   showFB(ok,q.top,isGolden);
+}
+
+// ── CONTADOR NC POR PREGUNTA ──
+function bumpNCCounter(total,gain){
+  var el=document.getElementById('mg-nc-val');
+  var box=el?el.parentElement:null;
+  if(el)el.textContent=total.toLocaleString('es-DO');
+  if(box){box.classList.add('pulse');setTimeout(function(){box.classList.remove('pulse');},200);}
+  // Texto flotante "+X NC" cerca del contador
+  if(box){
+    var r;try{r=box.getBoundingClientRect();}catch(e){r=null;}
+    var f=document.createElement('div');
+    f.className='nc-float';
+    f.textContent='+'+gain+' NC';
+    if(r){f.style.left=(r.left+r.width/2-20)+'px';f.style.top=(r.bottom-5)+'px';}
+    else{f.style.left='50%';f.style.top='80px';}
+    document.body.appendChild(f);
+    setTimeout(function(){if(f&&f.remove)f.remove();},1000);
+  }
 }
 
 // ── COMBO POPUP ──
@@ -1735,12 +1872,16 @@ function endMission(){
     saveMissionProgress(sessSeconds);
     d.streak++;if(d.streak>d.best)d.best=d.streak;
     addXP(100+(score===100?50:0),d);
-    // Bono por rondas extra completadas (niño rápido práctica mas = mas recompensa)
+    // Base = lo que el niño vio acumular pregunta por pregunta (contador visual)
+    var baseNC=S.ses.visNC||0;
+    // Bonos adicionales que se revelan al final
     var roundBonus=Math.max(0,(rounds-1))*150;
-    var scoreBonus=score===100?800:(score>=90?400:0);
-    var goldenBonus=S.ses.goldenHit?300:0; // bono por acertar la pregunta dorada
-    earned=addCoins(800+scoreBonus+(d.streak>1?200:0)+roundBonus+goldenBonus,d);
-    if(d.streak%7===0){addCoins(1000,d);SND.streak();}
+    var scoreBonus=score===100?400:(score>=90?200:0);
+    var streakBonus=(d.streak>1?200:0);
+    var goldenBonus=0; // la dorada ya se contó en el contador visual
+    earned=addCoins(baseNC+scoreBonus+streakBonus+roundBonus+goldenBonus,d);
+    S.ses.bonusNC=scoreBonus+streakBonus+roundBonus; // para mostrar desglose
+    if(d.streak%7===0){addCoins(1000,d);SND.streak();S.ses.weekBonus=1000;}
     actLog.unshift({m:m,s:score,p:true,t:'Hoy',area:isLen?'len':'mat'});
     SND.win();checkT(d);syncToSheets();
   }else{
@@ -1820,10 +1961,13 @@ function showResult(score,passed,tMin,earned,hasTime,rawPassed,rounds){
 
   // ── REWARDS ──
   var rews=document.getElementById('rews');
+  var baseNC=S.ses.visNC||0;var bonusNC=S.ses.bonusNC||0;var weekBonus=S.ses.weekBonus||0;
   if(rews)rews.innerHTML=missionOk
-    ?'<div class="rew">NC +'+earned.toLocaleString('es-DO')+'</div><div class="rew">XP +100</div>'
+    ?'<div class="rew" style="font-size:1.3em;color:var(--gr)">&#127881; NC +'+earned.toLocaleString('es-DO')+'</div>'
+      +'<div class="rew" style="font-size:0.85em;color:var(--tx3)">'+baseNC.toLocaleString('es-DO')+' por tus respuestas'+(bonusNC>0?' + '+bonusNC.toLocaleString('es-DO')+' de bonos':'')+'</div>'
+      +'<div class="rew">XP +100</div>'
       +(score===100?'<div class="rew" style="color:var(--am)">Score perfecto!</div>':'')
-      +(d.streak%7===0&&d.streak>0?'<div class="rew" style="color:var(--am)">Racha '+d.streak+' dias!</div>':'')
+      +(weekBonus>0?'<div class="rew" style="color:var(--am)">&#128293; Semana perfecta +'+weekBonus.toLocaleString('es-DO')+' NC!</div>':'')
     :(passed&&!hasTime
       ?'<div class="rew" style="color:var(--am)">&#9888; Falta tiempo de sesión</div>'
       :'<div class="rew" style="color:var(--am)">Seguir practicando</div>');
@@ -1878,9 +2022,35 @@ function startRec(){
 function nextAct(){goHome();}
 
 // ═══ PARENT ═══
+function toggleAcc(btn){
+  if(typeof SND!=='undefined'&&SND.ui)SND.ui();
+  var body=btn.nextElementSibling;
+  var x=btn.querySelector('.acc-x');
+  var open=body.classList.contains('exp');
+  if(open){body.style.maxHeight='0px';body.classList.remove('exp');if(x)x.textContent='+';}
+  else{body.classList.add('exp');body.style.maxHeight=body.scrollHeight+'px';if(x)x.textContent='\u2212';}
+}
+
 function renderParent(){
   var exp=S.exp,gua=S.gua;
   if(typeof renderExchangePanel==='function')renderExchangePanel();
+  // ── Tiempo de hoy por perfil ──
+  ['exp','gua'].forEach(function(mode){
+    var d=S[mode];
+    // Calcular segundos de hoy (respetando reset diario)
+    var todaySecs=(d.dailyDate===todayKey())?(d.dailySeconds||0):0;
+    var mins=Math.floor(todaySecs/60);
+    var cap=d.didRecovery?45:30;
+    var te=document.getElementById('time-'+mode);
+    var ts=document.getElementById('time-'+mode+'-status');
+    if(te)te.textContent=mins+' min';
+    if(ts){
+      if(todaySecs>=900){ts.textContent='\u2705 Cumplió el mínimo';ts.style.color='var(--gr)';}
+      else if(todaySecs>0){ts.textContent='\u23f3 '+(15-mins)+' min para el mínimo';ts.style.color='var(--am)';}
+      else{ts.textContent='Sin actividad hoy';ts.style.color='var(--tx3)';}
+    }
+    if(te)te.style.color=todaySecs>=900?'var(--gr)':(todaySecs>0?'var(--am)':'var(--tx3)');
+  });
   var pse=document.getElementById('pwse');if(pse)pse.textContent=exp.streak;
   var psg=document.getElementById('pwsg');if(psg)psg.textContent=gua.streak;
   var all=exp.scores.concat(gua.scores),avg=all.length?Math.round(all.reduce(function(a,b){return a+b;},0)/all.length):0;
@@ -2474,9 +2644,50 @@ function renderAdmin(){
     +'<div class="adm-row"><span class="adm-rl">Onboarding completo</span><span class="adm-rv">'+(S.onboarded?'Si':'No')+'</span></div>'
     +'<div class="adm-row"><span class="adm-rl">User Agent</span><span class="adm-rv" style="font-size:10px;color:var(--tx3)">'+navigator.userAgent.substring(0,40)+'...</span></div>'
     +'</div>';
+  if(typeof setEditProfile==='function')setEditProfile(_editProfile||'exp');
 }
 
 // ════ ADMIN CONTROLS ════
+var _editProfile='exp';
+function setEditProfile(mode){
+  _editProfile=mode;
+  var d=S[mode];
+  var set=function(id,v){var el=document.getElementById(id);if(el)el.value=v;};
+  set('edit-coins',d.coins);
+  set('edit-level',d.level);
+  set('edit-missions',d.missions);
+  set('edit-streak',d.streak);
+  set('edit-best',d.best);
+  set('edit-xp',d.xp);
+  // Resaltar pestana activa
+  var te=document.getElementById('edit-tab-exp'),tg=document.getElementById('edit-tab-gua');
+  if(te)te.style.background=mode==='exp'?'var(--bl)':'';
+  if(tg)tg.style.background=mode==='gua'?'var(--pu)':'';
+  if(te)te.style.color=mode==='exp'?'#fff':'';
+  if(tg)tg.style.color=mode==='gua'?'#fff':'';
+}
+function saveManualEdit(){
+  var d=S[_editProfile];
+  var get=function(id,fallback){var el=document.getElementById(id);if(!el)return fallback;var v=parseInt(el.value);return isNaN(v)?fallback:v;};
+  var newCoins=Math.max(0,get('edit-coins',d.coins));
+  var newLevel=Math.max(1,Math.min(9,get('edit-level',d.level)));
+  var newMissions=Math.max(0,get('edit-missions',d.missions));
+  var newStreak=Math.max(0,get('edit-streak',d.streak));
+  var newBest=Math.max(0,get('edit-best',d.best));
+  var newXP=Math.max(0,get('edit-xp',d.xp));
+  var nombre=_editProfile==='exp'?'Explorador':'Guardián';
+  if(!confirm('Aplicar cambios al '+nombre+'?\n\nMonedas: '+newCoins.toLocaleString('es-DO')+'\nNivel: '+newLevel+'\nMisiones: '+newMissions+'\nRacha: '+newStreak+'\nMejor racha: '+newBest+'\nXP: '+newXP)) return;
+  // Aplicar respetando el techo de monedas del nivel
+  d.level=newLevel;
+  d.coins=Math.min(newCoins,coinCap(d));
+  d.missions=newMissions;
+  d.streak=newStreak;
+  d.best=Math.max(newBest,newStreak);
+  d.xp=newXP;
+  saveState();updHdr();renderAdmin();
+  toast('Cambios aplicados al '+nombre+'!');
+}
+
 function admReset(mode){
   var msg;
   if(mode==='exp'){
