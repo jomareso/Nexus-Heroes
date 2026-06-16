@@ -3,12 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
 <title>NEXUS — Academia de Guardianes</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 :root{
+  color-scheme: dark;
   --bg:#09091A;--card:#13132A;--card2:#1A1A38;--bdr:rgba(255,255,255,0.08);--bdr2:rgba(255,255,255,0.18);
-  --tx:#EEEEFF;--tx2:#A8A8D0;--tx3:#5A5A88;
+  --tx:#EEEEFF;--tx2:#A8A8D0;--tx3:#8888B0;
   --bl:#4DAFFF;--pu:#9B6FFF;--tl:#18CDB0;--am:#FFB830;--rd:#FF5252;--gr:#2EDC7D;--pk:#FF6EB4;
   --exp:linear-gradient(135deg,#4DAFFF,#18CDB0);
   --gua:linear-gradient(135deg,#9B6FFF,#FF6EB4);
@@ -268,7 +271,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 .pgrid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:20px;}
 .pst{background:var(--card);border:2px solid var(--bdr);border-radius:14px;padding:1.1rem;}
 .psn{font-size:32px;font-weight:900;line-height:1;}
-.psl{font-size:12px;color:var(--tx3);margin-top:3px;font-weight:700;}
+.psl{font-size:12px;color:#A8A8D0;margin-top:3px;font-weight:800;}
 .pch{margin-bottom:20px;}
 .pch h3{font-size:16px;font-weight:900;margin-bottom:10px;}
 .pwg{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:12px;}
@@ -461,10 +464,10 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 .inf-ttrk{flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;}
 .inf-tfill{height:100%;border-radius:4px;}
 .inf-tpct{font-size:11px;font-weight:900;min-width:30px;text-align:right;}
-.inf-tag{display:inline-block;font-size:10px;padding:3px 8px;border-radius:999px;font-weight:800;margin:2px 2px 2px 0;}
-.inf-tag.dom{background:rgba(46,220,125,0.2);color:var(--gr);}
-.inf-tag.prog{background:rgba(255,184,48,0.2);color:var(--am);}
-.inf-tag.ref{background:rgba(255,82,82,0.15);color:var(--rd);}
+.inf-tag{display:inline-block;font-size:11px;padding:4px 10px;border-radius:999px;font-weight:800;margin:3px 3px 3px 0;}
+.inf-tag.dom{background:rgba(46,220,125,0.18);color:#7CF2B0;border:1px solid rgba(46,220,125,0.4);}
+.inf-tag.prog{background:rgba(255,184,48,0.18);color:#FFD27A;border:1px solid rgba(255,184,48,0.45);}
+.inf-tag.ref{background:rgba(255,82,82,0.18);color:#FF8A8A;border:1px solid rgba(255,82,82,0.45);}
 .inf-recom{background:rgba(77,175,255,0.06);border:2px solid rgba(77,175,255,0.16);border-radius:11px;padding:.9rem;margin-bottom:9px;}
 .inf-recom h4{color:var(--bl);font-size:12px;font-weight:900;margin-bottom:4px;}
 .inf-recom p{font-size:12px;color:var(--tx2);line-height:1.6;font-weight:600;}
@@ -531,8 +534,8 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 .edit-input:focus{outline:none;border-color:var(--tl);background:rgba(255,255,255,0.1);}
 
 
-.acc{background:var(--card);border:2px solid var(--bdr);border-radius:14px;margin-bottom:10px;overflow:hidden;}
-.acc-h{width:100%;background:none;border:none;color:var(--tx);padding:14px 16px;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;text-align:left;}
+.acc{background:#1A1A38;border:2px solid rgba(255,255,255,0.18);border-radius:14px;margin-bottom:10px;overflow:hidden;}
+.acc-h{width:100%;background:#1A1A38;border:none;color:#EEEEFF;padding:16px;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;text-align:left;}
 .acc-h:hover{background:rgba(255,255,255,0.03);}
 .acc-x{font-size:20px;font-weight:900;color:var(--tl);width:24px;text-align:center;flex-shrink:0;}
 .acc-b{max-height:0;overflow:hidden;transition:max-height 0.35s ease;box-sizing:border-box;}
@@ -566,6 +569,56 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
   .hdrr{gap:6px;}
 }
 
+
+/* ════ MASCOTA NEXUS ════ */
+.mascota{position:fixed;right:14px;bottom:20px;z-index:150;display:none;flex-direction:column;align-items:center;pointer-events:none;}
+.mascota.activa{display:flex;}
+.masc-stage{position:relative;width:90px;height:78px;display:flex;align-items:flex-end;justify-content:center;}
+.masc-body{width:62px;height:58px;border-radius:50% 50% 45% 45%/55% 55% 45% 45%;position:relative;background:var(--exp);box-shadow:0 6px 20px rgba(77,175,255,0.45),inset 0 -8px 14px rgba(0,0,0,0.18),inset 0 6px 12px rgba(255,255,255,0.35);transition:transform 0.2s ease;animation:mascFloat 2.8s ease-in-out infinite;z-index:2;}
+.masc-body::after{content:'';position:absolute;top:8px;left:12px;width:16px;height:11px;border-radius:50%;background:rgba(255,255,255,0.5);filter:blur(1px);}
+.gua-mode .masc-body{background:var(--gua);box-shadow:0 6px 20px rgba(155,111,255,0.45),inset 0 -8px 14px rgba(0,0,0,0.18),inset 0 6px 12px rgba(255,255,255,0.35);}
+.masc-antenna{position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:3px;height:16px;background:rgba(255,255,255,0.5);border-radius:2px;}
+.masc-bolt{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:18px;animation:mascBolt 1.4s ease-in-out infinite;}
+.masc-face{position:absolute;inset:0;}
+.masc-eyes{position:absolute;top:20px;left:0;right:0;display:flex;justify-content:center;gap:12px;}
+.masc-eye{width:15px;height:17px;border-radius:50%;background:#fff;position:relative;transition:all 0.18s;box-shadow:inset 0 -2px 3px rgba(0,0,0,0.1);}
+.masc-pupil{position:absolute;top:5px;left:50%;transform:translateX(-50%);width:8px;height:9px;border-radius:50%;background:#0A0A1A;transition:all 0.18s;animation:mascBlink 4s infinite;}
+.masc-cheeks{position:absolute;top:34px;left:0;right:0;display:flex;justify-content:center;gap:24px;opacity:0;transition:opacity 0.2s;}
+.masc-cheek{width:8px;height:5px;border-radius:50%;background:#FF8AC0;filter:blur(0.5px);}
+.masc-mouth{position:absolute;bottom:13px;left:50%;transform:translateX(-50%);width:14px;height:7px;border-radius:0 0 14px 14px;background:#0A0A1A;transition:all 0.18s;}
+.masc-shadow{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:46px;height:8px;border-radius:50%;background:rgba(0,0,0,0.25);filter:blur(3px);animation:mascShadow 2.8s ease-in-out infinite;z-index:1;}
+.masc-spark{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--am);opacity:0;pointer-events:none;z-index:3;}
+.masc-spark.s1{top:6px;left:14px;}.masc-spark.s2{top:2px;right:16px;}.masc-spark.s3{top:22px;right:8px;}
+/* FELIZ (acierto) */
+.masc-body.happy{animation:mascHappy 0.6s ease;}
+.masc-body.happy .masc-mouth{height:13px;width:24px;border-radius:0 0 16px 16px;background:#0A0A1A;}
+.masc-body.happy .masc-eye{height:13px;border-radius:50% 50% 50% 50%;}
+.masc-body.happy .masc-cheeks{opacity:1;}
+.masc-body.happy~.masc-shadow{}
+.masc-body.happy .masc-spark,.masc-stage.happy .masc-spark{animation:mascSparkle 0.6s ease;}
+/* TRISTE (fallo) */
+.masc-body.sad{animation:mascSad 0.6s ease;}
+.masc-body.sad .masc-mouth{border-radius:14px 14px 0 0;bottom:9px;height:6px;width:14px;}
+.masc-body.sad .masc-eye{height:11px;}
+.masc-body.sad .masc-pupil{top:7px;}
+.masc-body.sad .masc-antenna{transform:translateX(-50%) rotate(12deg);}
+/* CELEBRA (mision completa) */
+.masc-body.celebrate{animation:mascCelebrate 0.6s ease infinite;}
+.masc-body.celebrate .masc-mouth{height:14px;width:26px;}
+.masc-body.celebrate .masc-cheeks{opacity:1;}
+.masc-msg{order:-1;margin-bottom:8px;font-size:14px;font-weight:900;color:#fff;max-width:180px;opacity:0;transform:translateY(8px) scale(0.85);transition:all 0.28s cubic-bezier(0.34,1.56,0.64,1);text-align:center;background:var(--exp);padding:9px 16px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,0.35);position:relative;line-height:1.2;}
+.gua-mode .masc-msg{background:var(--gua);}
+.masc-msg::after{content:'';position:absolute;bottom:-7px;right:28px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid #4DAFFF;}
+.gua-mode .masc-msg::after{border-top-color:#9B6FFF;}
+.masc-msg.show{opacity:1;transform:translateY(0) scale(1);}
+@keyframes mascFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+@keyframes mascShadow{0%,100%{transform:translateX(-50%) scale(1);opacity:0.25;}50%{transform:translateX(-50%) scale(0.82);opacity:0.15;}}
+@keyframes mascBolt{0%,100%{transform:translateX(-50%) scale(1);opacity:0.9;}50%{transform:translateX(-50%) scale(1.2);opacity:1;}}
+@keyframes mascBlink{0%,92%,100%{transform:translateX(-50%) scaleY(1);}96%{transform:translateX(-50%) scaleY(0.1);}}
+@keyframes mascHappy{0%{transform:scale(1) translateY(0);}30%{transform:scale(1.18) translateY(-12px);}55%{transform:scale(0.95) translateY(0);}75%{transform:scale(1.08) translateY(-5px);}100%{transform:scale(1) translateY(0);}}
+@keyframes mascSad{0%{transform:scale(1);}30%{transform:scale(0.88) translateY(4px) rotate(-3deg);}60%{transform:scale(0.92) rotate(3deg);}100%{transform:scale(1) rotate(0);}}
+@keyframes mascCelebrate{0%,100%{transform:scale(1.05) rotate(-10deg) translateY(0);}25%{transform:scale(1.15) rotate(10deg) translateY(-8px);}50%{transform:scale(1.05) rotate(-10deg) translateY(0);}75%{transform:scale(1.15) rotate(10deg) translateY(-8px);}}
+@keyframes mascSparkle{0%{opacity:0;transform:scale(0) translateY(0);}40%{opacity:1;transform:scale(1.4) translateY(-8px);}100%{opacity:0;transform:scale(0.5) translateY(-16px);}}
 </style>
 </head>
 <body>
@@ -662,7 +715,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 <div id="game" class="screen">
   <div class="ghdr">
     <div class="hdrl">
-      <button class="bbtn" onclick="SND.ui();goHome()">Inicio</button>
+      <button class="bbtn" onclick="SND.ui();goToHomepage()">Inicio</button>
       <span class="mbdg" id="mbdg">EXP</span>
       <span class="lvlbdg" id="lvlb">Nv.1</span>
     </div>
@@ -758,6 +811,21 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
       </div>
       <div id="areabadge"></div>
       <div class="pg" id="pg"></div>
+      <div class="mascota" id="mascota">
+        <div class="masc-stage">
+          <div class="masc-spark s1"></div><div class="masc-spark s2"></div><div class="masc-spark s3"></div>
+          <div class="masc-body" id="masc-body">
+            <div class="masc-antenna"><span class="masc-bolt">&#9889;</span></div>
+            <div class="masc-face">
+              <div class="masc-eyes"><span class="masc-eye"><span class="masc-pupil"></span></span><span class="masc-eye"><span class="masc-pupil"></span></span></div>
+              <div class="masc-cheeks"><span class="masc-cheek"></span><span class="masc-cheek"></span></div>
+              <div class="masc-mouth" id="masc-mouth"></div>
+            </div>
+          </div>
+          <div class="masc-shadow"></div>
+        </div>
+        <div class="masc-msg" id="masc-msg"></div>
+      </div>
       <div id="mgc"></div>
     </div>
   </div>
@@ -799,6 +867,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
         <div style="font-size:11px;font-weight:800;" id="time-gua-status">-</div>
       </div>
     </div>
+    <p style="font-size:11px;color:#A8A8D0;font-weight:700;margin-top:10px;text-align:center;">Meta diaria: mínimo <b>15 min</b> · máximo <b>30 min</b> (45 con recuperación)</p>
   </div>
 
   <!-- ▼ ESENCIAL: Resumen rápido -->
@@ -990,7 +1059,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 
     <!-- VERSION BADGE -->
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v3.1</span>
+      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v5.0</span>
       <span style="font-size:12px;color:var(--tx3);font-weight:700;" id="adm-lastave">Ultimo guardado: -</span>
     </div>
 
@@ -1064,7 +1133,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 <div class="modal-overlay" id="share-modal">
   <div class="modal">
     <h2>&#127775; Tu progreso</h2>
-    <p>Comparte con tu familia cuanto has avanzado en el reto de vacaciones.</p>
+    <p>Comparte tu progreso con tu familia: imagen y mensaje en un toque.</p>
     <div class="prog-card">
       <div class="prog-card-title">NEXUS — Reto de vacaciones</div>
       <div class="prog-stats">
@@ -1075,14 +1144,16 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
       </div>
     </div>
     <div class="modal-btns">
-      <button class="modal-btn wa" onclick="shareWhatsApp()">&#128172; WhatsApp</button>
-      <button class="modal-btn cp" style="background:rgba(255,255,255,0.08);border:2px solid var(--bdr);color:var(--tx2);" onclick="copyProgress()">&#128203; Copiar texto</button>
+      <button class="modal-btn wa" onclick="compartirProgreso()">&#128228; Compartir mi progreso</button>
       <button class="modal-btn close-btn" onclick="closeShare()">Cerrar</button>
     </div>
   </div>
 </div>
 
 <script>
+// ═══ CONFIG ═══
+var GAME_URL='https://nexus-heroes.netlify.app/';
+
 // ═══ SOUND ═══
 var SND=(function(){
   var ctx=null,muted=false;
@@ -1125,7 +1196,7 @@ var LXP=[0,300,700,1400,2500,4000,6000,8500,12000];
 // ═══ SHOP CATALOG ═══
 var CAT=[
   {id:'p1',sec:'Poderes',name:'Pausa del tiempo',ico:'&#9208;',desc:'Congela el timer 5 seg',price:80,type:'c',maxSt:3,stock:0},
-  {id:'p2',sec:'Poderes',name:'Escudo de racha',ico:'&#128737;',desc:'Protege tu racha 1 día',price:150,type:'c',maxSt:2,stock:0},
+  {id:'p2',sec:'Poderes',name:'Escudo de racha',ico:'&#128737;',desc:'Si faltas un día, protege tu racha automáticamente',price:150,type:'c',maxSt:5,stock:0},
   {id:'p3',sec:'Poderes',name:'Doble monedas',ico:'&#127775;',desc:'2x NC proxima misión',price:200,type:'c',maxSt:2,stock:0},
   {id:'p4',sec:'Poderes',name:'Pista magica',ico:'&#128161;',desc:'Elimina 2 opciones incorrectas',price:60,type:'c',maxSt:5,stock:0},
   {id:'s1',sec:'Skins',name:'Armadura Nexus',ico:'&#128309;',desc:'Skin azul electrico',price:300,type:'s',owned:false},
@@ -1252,8 +1323,8 @@ function loadState(){
   var def={
     mode:'exp',pin:'1234',pinChanging:false,pinNew:'',area:'mat',onboarded:false,diagDone:false,
     profile:{name:'',age:'',grade:'4',mode:'exp',registro:''},
-    exp:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false,missionDate:'',missionSeconds:0,skills:{},grade:0,recentScores:[],rank:1,repasoInicial:0},
-    gua:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false,missionDate:'',missionSeconds:0,skills:{},grade:0,recentScores:[],rank:1,repasoInicial:0},
+    exp:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false,missionDate:'',missionSeconds:0,skills:{},grade:0,recentScores:[],rank:1,repasoInicial:0,streakDate:'',streakShields:0,streakShieldUsedMsg:false},
+    gua:{streak:0,coins:0,xp:0,missions:0,scores:[],best:0,tier:1,spent:0,level:1,lvlXP:0,lenScores:[],grade:0,weakArea:'',sessTime:0,dailyDate:'',dailySeconds:0,didRecovery:false,missionDate:'',missionSeconds:0,skills:{},grade:0,recentScores:[],rank:1,repasoInicial:0,streakDate:'',streakShields:0,streakShieldUsedMsg:false},
     cat:JSON.parse(JSON.stringify(CAT)),
     ses:{qs:[],correct:0,t0:null},activeWorld:0
   };
@@ -1268,7 +1339,7 @@ function loadState(){
     ['exp','gua'].forEach(function(k){
       if(!p[k])return;
       var src=p[k],dst=def[k];
-      ['streak','coins','xp','missions','best','tier','spent','level','lvlXP','grade','weakArea','sessTime','dailyDate','dailySeconds','didRecovery','missionDate','missionSeconds','recentScores','rank','repasoInicial'].forEach(function(f){if(src[f]!==undefined)dst[f]=src[f];});
+      ['streak','coins','xp','missions','best','tier','spent','level','lvlXP','grade','weakArea','sessTime','dailyDate','dailySeconds','didRecovery','missionDate','missionSeconds','recentScores','rank','repasoInicial','streakDate','streakShields'].forEach(function(f){if(src[f]!==undefined)dst[f]=src[f];});
       if(src.scores&&src.scores.length)dst.scores=src.scores;
       if(src.lenScores&&src.lenScores.length)dst.lenScores=src.lenScores;
       if(src.skills)dst.skills=src.skills;
@@ -1335,12 +1406,28 @@ function setArea(area){
 
 // ═══ NAV ═══
 function showScreen(id){
+  // Limpiar cualquier overlay de feedback colgado que pueda tapar la pantalla y bloquear toques
+  var fb=document.getElementById('fb');if(fb)fb.classList.remove('on');
+  var fbo=document.getElementById('fboverlay');if(fbo){fbo.classList.remove('on');fbo.style.display='none';}
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');s.style.display='';});
   var el=document.getElementById(id);if(!el)return;
   el.classList.add('active');
   if(id==='res'||id==='pin')el.style.display='flex';
   if(id==='sel'){stopSessTimer();saveMissionProgress(sessSeconds);updSessBar();}
 }
+function goToHomepage(){
+  clearInterval(ti);
+  if(typeof ocultarMascota==='function')ocultarMascota();
+  if(typeof stopSessTimer==='function')stopSessTimer();
+  saveMissionProgress(sessSeconds);
+  // Ocultar elementos de juego activos
+  var mg=document.getElementById('mg');if(mg)mg.style.display='none';
+  var fb=document.getElementById('fb');if(fb)fb.classList.remove('on');
+  var fbo=document.getElementById('fboverlay');if(fbo)fbo.classList.remove('on');
+  saveState();
+  showScreen('sel'); // homepage: seleccion de modo con logo NEXUS
+}
+
 function goHome(){
   clearInterval(ti);
   var mg=document.getElementById('mg');if(mg)mg.style.display='none';
@@ -1374,7 +1461,18 @@ function changePinFlow(){S.pinChanging=true;S.pinNew='';pbuf=[];renderPinUI('Ing
 (function(){var c=document.getElementById('ptc');if(!c)return;var cols=['#4DAFFF33','#9B6FFF33','#18CDB033','#FFB83022'];for(var i=0;i<18;i++){var p=document.createElement('div');p.className='pt';var sz=Math.random()*4+2;p.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+cols[i%4]+';left:'+Math.random()*100+'%;animation-duration:'+(Math.random()*16+8)+'s;animation-delay:'+(Math.random()*10)+'s;';c.appendChild(p);}})();
 
 // ═══ MODE ═══
-function startMode(m){SND.ui();S.mode=m;if(!S.onboarded){obMode=m;selObMode(m);showScreen('onboard');obGoStep(0);return;}updHdr();renderHub();showScreen('game');}
+function startMode(m){
+  SND.ui();S.mode=m;
+  if(typeof ocultarMascota==='function')ocultarMascota();
+  if(!S.onboarded){obMode=m;selObMode(m);showScreen('onboard');obGoStep(0);return;}
+  // Asegurar que se vea el HUB y no el área de misión vacía (bug al salir/volver)
+  clearInterval(ti);if(typeof stopSessTimer==='function')stopSessTimer();
+  var mg=document.getElementById('mg');if(mg)mg.style.display='none';
+  var hub=document.getElementById('hub');if(hub)hub.style.display='block';
+  var fb=document.getElementById('fb');if(fb)fb.classList.remove('on');
+  var fbo=document.getElementById('fboverlay');if(fbo)fbo.classList.remove('on');
+  updHdr();renderHub();showScreen('game');
+}
 function renderGradeScreen(m){
   _pendingMode=m;_selectedGrade=-1;_selectedWeak='';
   var ico=document.getElementById('grade-ico');
@@ -1435,6 +1533,8 @@ function confirmGrade(){
 
 function updHdr(){
   var m=S.mode,d=S[m],c=coinCap(d),pct=Math.min(100,Math.round(d.coins/c*100));
+  if(typeof checkStreakAlive==='function')checkStreakAlive(d);
+  if(d.streakShieldUsedMsg){d.streakShieldUsedMsg=false;saveState();setTimeout(function(){toast('🛡️ Un escudo protegió tu racha de '+d.streak+' días! Sigue así.');},600);}
   var mb=document.getElementById('mbdg');if(mb){mb.textContent=m==='exp'?'EXPLORADOR':'GUARDIAN';mb.className='mbdg '+m;}
   var lb=document.getElementById('lvlb');if(lb)lb.textContent='Nv.'+d.level;
   var hst=document.getElementById('hst');if(hst)hst.textContent=d.streak;
@@ -1462,7 +1562,7 @@ function updHdr(){
   }
   var hl=document.getElementById('hlvln'),hlt=document.getElementById('hlvlt'),hls=document.getElementById('hlvls'),hlb=document.getElementById('hlvlb');
   if(hl)hl.textContent=d.level;
-  if(hlt)hlt.textContent='Guardián '+DLVLS[d.level-1].name;
+  if(hlt)hlt.textContent=DLVLS[d.level-1].name; // solo el rango (el modo ya se ve en el header)
   if(hls)hls.textContent=d.level<9?'XP para nivel '+(d.level+1)+': '+(d.lvlXP||0).toLocaleString('es-DO')+'/'+LXP[d.level].toLocaleString('es-DO'):'Nivel máximo!';
   if(hlb)hlb.style.width=lvlPct(d)+'%';
   // area tabs
@@ -1545,16 +1645,53 @@ function getWeakTopics(mode){
 }
 
 // Elegir operacion con sesgo hacia temas debiles (refuerzo dirigido)
+// ════ MECANISMO 3: SECUENCIACIÓN POR PREREQUISITOS ════
+// Cada tema tiene prerequisitos. Un tema "nuevo" se introduce gradualmente
+// solo cuando sus prerequisitos están razonablemente dominados (>=75%).
+// Enfoque suave: no bloquea del todo, pero da muy baja probabilidad a temas
+// cuyos prerequisitos aún no se dominan.
+var TEMA_PREREQ={
+  add:[],                    // suma: base, sin prerequisitos
+  sub:['add'],               // resta: requiere suma
+  table:['add'],             // tablas: requiere suma (es suma repetida)
+  mul:['add','table'],       // multiplicación: requiere suma y tablas
+  div:['mul'],               // división: requiere multiplicación
+  frac:['div'],              // fracciones: requiere división
+  decimal:['div'],           // decimales: requiere división
+  power:['mul'],             // potencias: requiere multiplicación
+  integer:['sub'],           // enteros (negativos): requiere resta
+  mcm:['mul','div'],         // mcm: requiere multiplicación y división
+  equation:['sub','div'],    // ecuaciones: requiere resta y división
+  sequence:['add','mul']     // patrones: requiere suma y multiplicación
+};
+// Devuelve true si los prerequisitos del tema están dominados (>=75%)
+function prereqListos(op){
+  var pre=TEMA_PREREQ[op];
+  if(!pre||pre.length===0)return true; // tema base: siempre listo
+  for(var i=0;i<pre.length;i++){
+    var m=skillMastery(pre[i]);
+    // Si no hay datos del prerequisito o está por debajo de 75%, aún no listo
+    if(m===null||m<0.75)return false;
+  }
+  return true;
+}
+
 function pickWeightedOp(ops){
   var weights=ops.map(function(op){
     var m=skillMastery(op);
-    if(m===null)return 1.5;        // tema nuevo: peso medio-alto (explorar)
-    if(m<0.5)return 3.0;           // muy debil: triple probabilidad
-    if(m<0.7)return 2.0;           // debil: doble
-    if(m<0.85)return 1.0;          // en progreso: normal
-    return 0.4;                    // dominado: baja frecuencia
+    var w;
+    if(m===null)w=1.5;             // tema nuevo: peso medio-alto (explorar)
+    else if(m<0.5)w=3.0;           // muy debil: triple probabilidad
+    else if(m<0.7)w=2.0;           // debil: doble
+    else if(m<0.85)w=1.0;          // en progreso: normal
+    else w=0.4;                    // dominado: baja frecuencia
+    // MECANISMO 3: si los prerequisitos NO están dominados, reducir mucho el peso
+    // (introducción gradual: el tema aparece muy poco hasta dominar su base).
+    if(!prereqListos(op))w*=0.12;
+    return w;
   });
   var total=weights.reduce(function(a,b){return a+b;},0);
+  if(total<=0)return ops[0]; // seguridad
   var r=Math.random()*total,acc=0;
   for(var i=0;i<ops.length;i++){acc+=weights[i];if(r<=acc)return ops[i];}
   return ops[ops.length-1];
@@ -1688,6 +1825,7 @@ function _genMatCore(diff){
   return{q:fa+' + '+fb+' = ?',vis:null,opts:fw.opts,ok:fw.ok,top:'Suma',ctx:'Energía base.'};
 }
 function genMat(diff){
+  diff=Math.max(1,Math.min(9,diff||1)); // proteger rango 1-9 (evita crash con datos corruptos)
   var q=_genMatCore(diff);
   if(q && !q.op){
     // inferir op desde el top si el core no lo expone
@@ -1704,6 +1842,7 @@ function _topToOp(top){
 
 
 function genLen(diff){
+  diff=Math.max(1,Math.min(9,diff||1)); // proteger rango 1-9
   // Banco escalado por nivel (grado MINERD). diff = nivel 1-9
   var lvl=Math.max(1,Math.min(9,diff||S[S.mode].level||1));
   var bank=(typeof LENGUA_BY_LEVEL!=='undefined'&&LENGUA_BY_LEVEL[lvl])?LENGUA_BY_LEVEL[lvl]:LENGUA_QS;
@@ -1737,7 +1876,7 @@ function startMission(){
     S.ses.repasoNivel=Math.max(1,diff-d.repasoInicial);
     S.ses.repasoOk=0;
   }
-  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8),hotStreak:0,coldStreak:0,baseDiff:0,visNC:0,bonusNC:0,weekBonus:0,repasoNivel:undefined,repasoOk:0};
+  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8),hotStreak:0,coldStreak:0,baseDiff:0,visNC:0,bonusNC:0,weekBonus:0,repasoNivel:undefined,repasoOk:0,failStreak:0,lastFailOp:null};
   ans=[];cq=0;
   sessSeconds=getMissionProgress(); // retomar tiempo acumulado del dia
   var ncv=document.getElementById('mg-nc-val');if(ncv)ncv.textContent='0';
@@ -1748,6 +1887,8 @@ function startMission(){
   if(ab)ab.innerHTML='<div class="area-badge '+(isLen?'len':'mat')+'">'+(isLen?'&#128218; Lengua Española':'&#129518; Matemática')+'</div>';
   startSessTimer();
   renderQ();
+  if(typeof setMascotaModo==='function')setMascotaModo();
+  if(typeof reaccionMascota==='function')reaccionMascota('welcome');
 }
 
 // Formatea numeros de 4+ digitos con separador de miles dentro de un texto
@@ -1854,7 +1995,17 @@ function pick(i){
     S.ses.combo=0; // romper combo
     SND.wrong();
   }
-  showFB(ok,q.top,isGolden);
+  if(typeof reaccionMascota==='function')reaccionMascota(ok?'happy':'sad');
+  // ENTRENAMIENTO GUIADO: rastrear fallos seguidos en el mismo tema
+  var mostrarGuia=false;
+  if(!ok && q.op){
+    if(S.ses.lastFailOp===q.op){S.ses.failStreak=(S.ses.failStreak||1)+1;}
+    else{S.ses.lastFailOp=q.op;S.ses.failStreak=1;}
+    if(S.ses.failStreak>=2)mostrarGuia=true; // 2 fallos seguidos en el tema
+  }else if(ok){
+    S.ses.failStreak=0;S.ses.lastFailOp=null; // acertó: reiniciar
+  }
+  showFB(ok,q.top,isGolden,mostrarGuia?q.op:null);
 }
 
 // ── CONTADOR NC POR PREGUNTA ──
@@ -1896,17 +2047,106 @@ function showCombo(combo,golden){
   el._t=setTimeout(function(){el.className='combo-pop';},1100);
 }
 
-function showFB(ok,top,golden){
+// ════ MASCOTA NEXUS: reacciones ════
+var MASC_HAPPY=['BOOM! Correcto','Eres imparable!','Energia al maximo!','Asi se hace, crack!','Nivel genio!','Me dejaste sin palabras!','Otra mas asi!','Estas on fire!'];
+var MASC_SAD=['Uy, casi!','Respira y vamos!','Yo creo en ti!','La proxima es tuya!','Equivocarse es aprender!','No pasa nada, sigue!'];
+var MASC_WELCOME=['A cargar energia!','Modo heroe activado!','Vamos con todo!','Hoy la rompemos!'];
+function reaccionMascota(tipo){
+  var body=document.getElementById('masc-body');
+  var msg=document.getElementById('masc-msg');
+  if(!body||!msg)return;
+  body.classList.remove('happy','sad','celebrate');
+  // forzar reflow para reiniciar animacion
+  void body.offsetWidth;
+  // chispas (sparks) reinician su animacion
+  var sparks=document.querySelectorAll('.masc-spark');
+  var texto='';
+  if(tipo==='happy'){
+    body.classList.add('happy');
+    texto=MASC_HAPPY[Math.floor(Math.random()*MASC_HAPPY.length)];
+    // disparar chispas
+    if(sparks&&sparks.forEach)sparks.forEach(function(sp){sp.style.animation='none';void sp.offsetWidth;sp.style.animation='';});
+  }
+  else if(tipo==='sad'){body.classList.add('sad');texto=MASC_SAD[Math.floor(Math.random()*MASC_SAD.length)];}
+  else if(tipo==='celebrate'){body.classList.add('celebrate');texto='MISION CUMPLIDA!';if(sparks&&sparks.forEach)sparks.forEach(function(sp){sp.style.animation='none';void sp.offsetWidth;sp.style.animation='';});}
+  else if(tipo==='welcome'){texto=MASC_WELCOME[Math.floor(Math.random()*MASC_WELCOME.length)];}
+  msg.textContent=texto;msg.classList.add('show');
+  // ocultar el mensaje despues de un momento (la animacion del cuerpo se limpia sola)
+  if(window._mascTimer)clearTimeout(window._mascTimer);
+  window._mascTimer=setTimeout(function(){
+    msg.classList.remove('show');
+    if(tipo!=='celebrate')body.classList.remove('happy','sad');
+  },2200);
+}
+function setMascotaModo(){
+  var masc=document.getElementById('mascota');
+  if(masc){ if(S.mode==='gua')masc.classList.add('gua-mode'); else masc.classList.remove('gua-mode'); masc.classList.add('activa'); }
+}
+function ocultarMascota(){
+  var masc=document.getElementById('mascota');
+  if(masc)masc.classList.remove('activa');
+}
+
+// ════ ENTRENAMIENTO GUIADO: explicaciones paso a paso por tema ════
+function getExplicacion(op,q){
+  var ex={
+    add:{titulo:'Cómo sumar',pasos:['Alinea los números por la derecha (unidades con unidades).','Suma columna por columna, de derecha a izquierda.','Si una columna pasa de 9, "llevas" 1 a la siguiente.'],tip:'Ejemplo: 27 + 15 → 7+5=12, escribo 2 y llevo 1 → 2+1+1=4 → 42'},
+    sub:{titulo:'Cómo restar',pasos:['Alinea los números por la derecha.','Resta columna por columna, de derecha a izquierda.','Si arriba es menor, "pides prestado" 1 a la columna de la izquierda.'],tip:'Ejemplo: 42 - 15 → 2 es menor que 5, pido prestado → 12-5=7 → 27'},
+    mul:{titulo:'Cómo multiplicar',pasos:['Multiplica el primer número por cada cifra del segundo.','Recuerda las tablas de multiplicar.','Suma los resultados parciales.'],tip:'Ejemplo: 6 × 4 = sumar 6 cuatro veces = 6+6+6+6 = 24'},
+    table:{titulo:'Las tablas de multiplicar',pasos:['Multiplicar es sumar el mismo número varias veces.','5 × 3 significa "5 sumado 3 veces".','Practica la tabla de a poco, una cada día.'],tip:'Ejemplo: 5 × 3 = 5+5+5 = 15'},
+    div:{titulo:'Cómo dividir',pasos:['Pregunta: ¿cuántas veces cabe el divisor en el dividendo?','Es lo contrario de multiplicar.','Verifica: el resultado × divisor debe dar el dividendo.'],tip:'Ejemplo: 12 ÷ 3 → ¿cuántos 3 caben en 12? → 4, porque 4×3=12'},
+    frac:{titulo:'Cómo sumar fracciones',pasos:['Si el número de abajo (denominador) es igual, suma solo los de arriba.','El denominador se mantiene igual.','Si son distintos, primero búscales un denominador común.'],tip:'Ejemplo: 1/4 + 2/4 = 3/4 (sumo arriba, abajo queda igual)'},
+    power:{titulo:'Potencias y raíces',pasos:['Una potencia es multiplicar un número por sí mismo.','5² significa 5 × 5 = 25.','La raíz cuadrada es lo contrario: √25 = 5.'],tip:'Ejemplo: 4² = 4×4 = 16, y √16 = 4'},
+    decimal:{titulo:'Números decimales',pasos:['Alinea los números por la coma decimal.','Opera columna por columna como con números enteros.','Mantén la coma en su lugar en el resultado.'],tip:'Ejemplo: 2.5 + 1.3 → alineo la coma → 3.8'},
+    integer:{titulo:'Números enteros (negativos)',pasos:['Un número negativo es menor que cero.','Sumar un negativo es como restar.','Restar un negativo es como sumar.'],tip:'Ejemplo: (-3) + 5 = 2 · (-3) - (-2) = -3+2 = -1'},
+    equation:{titulo:'Cómo resolver ecuaciones',pasos:['Quieres dejar la x sola de un lado.','Lo que suma de un lado, pasa restando al otro.','Lo que multiplica, pasa dividiendo.'],tip:'Ejemplo: x + 5 = 12 → x = 12 - 5 → x = 7'},
+    mcm:{titulo:'Mínimo común múltiplo',pasos:['Lista los múltiplos de cada número.','Busca el primer múltiplo que aparezca en ambas listas.','Ese es el MCM.'],tip:'Ejemplo: MCM de 4 y 6 → 4,8,12... y 6,12... → 12'},
+    sequence:{titulo:'Patrones y secuencias',pasos:['Observa cómo cambia un número al siguiente.','¿Se suma siempre lo mismo? ¿Se multiplica?','Aplica esa regla para hallar el siguiente.'],tip:'Ejemplo: 2,4,6,8... se suma 2 → sigue 10'}
+  };
+  return ex[op]||ex.add;
+}
+
+function showFB(ok,top,golden,guiaOp){
   var m=S.mode,msgs=['Poder desbloqueado!','Guardián veloz!','Escudo recargado!','Excelente!','Correcto!'];
-  var fbi=document.getElementById('fbi');if(fbi)fbi.innerHTML=ok?(m==='exp'?'&#9889;':'&#9989;'):'&#128162;';
-  var fbt=document.getElementById('fbt');if(fbt)fbt.textContent=ok?(m==='exp'?msgs[Math.floor(Math.random()*msgs.length)]:'Correcto!'):(m==='exp'?'Sigue entrenando!':'Incorrecto');
-  var fbs=document.getElementById('fbs');if(fbs)fbs.innerHTML=ok?(golden?'\u2b50 +10 XP y bono dorado!':'+10 XP - '+top):'Revisa este concepto';
-  var fbb=document.getElementById('fbb');if(fbb){fbb.style.background=m==='exp'?'var(--bl)':'var(--pu)';fbb.textContent=cq+1>=S.ses.qs.length?'Ver resultado':'Continuar';}
+  var fbi=document.getElementById('fbi');if(fbi)fbi.innerHTML=ok?(m==='exp'?'&#9889;':'&#9989;'):(guiaOp?'&#129504;':'&#128162;');
+  var fbt=document.getElementById('fbt');if(fbt)fbt.textContent=ok?(m==='exp'?msgs[Math.floor(Math.random()*msgs.length)]:'Correcto!'):(guiaOp?'Te ayudo con esto':(m==='exp'?'Sigue entrenando!':'Incorrecto'));
+  var fbs=document.getElementById('fbs');
+  if(fbs){
+    if(ok){
+      fbs.innerHTML=golden?'\u2b50 +10 XP y bono dorado!':'+10 XP - '+top;
+    }else if(guiaOp){
+      // ENTRENAMIENTO GUIADO: explicación paso a paso
+      var ex=getExplicacion(guiaOp);
+      var pasos=ex.pasos.map(function(p,i){return '<div style="display:flex;gap:8px;margin:6px 0;text-align:left;"><span style="background:var(--bl);color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;">'+(i+1)+'</span><span style="font-size:13px;line-height:1.4;">'+p+'</span></div>';}).join('');
+      fbs.innerHTML='<div style="font-weight:900;font-size:15px;margin-bottom:8px;color:var(--bl);">'+ex.titulo+'</div>'+pasos+'<div style="background:rgba(46,220,125,0.1);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;font-weight:700;color:var(--gr);text-align:left;">💡 '+ex.tip+'</div>';
+    }else{
+      fbs.innerHTML='Revisa este concepto';
+    }
+  }
+  var fbb=document.getElementById('fbb');if(fbb){fbb.style.background=m==='exp'?'var(--bl)':'var(--pu)';fbb.textContent=cq+1>=S.ses.qs.length?'Ver resultado':(guiaOp?'Entendí, seguir':'Continuar');
+    // Con auto-avance, el botón solo se muestra si hay guía (algo que leer).
+    // Sin guía, todo fluye solo, incluida la última pregunta hacia el resultado.
+    fbb.style.display=guiaOp?'inline-block':'none';
+  }
   var fb=document.getElementById('fb');if(fb)fb.classList.add('on');
   var fbo=document.getElementById('fboverlay');if(fbo)fbo.classList.add('on');
   if(ok)confetti(8);
+  // AUTO-AVANCE (opción 3): si NO hay explicación guiada, avanzar solo.
+  // Solo se detiene a pedir "Continuar" cuando aparece el entrenamiento guiado.
+  if(fbAutoTimer){clearTimeout(fbAutoTimer);fbAutoTimer=null;}
+  if(!guiaOp){
+    // Acierto o fallo simple: mostrar feedback breve y avanzar automáticamente
+    var espera=ok?850:1400; // un poco más en fallos para registrar el error
+    fbAutoTimer=setTimeout(function(){
+      // Solo avanzar si el feedback sigue abierto (el niño no tocó nada)
+      var fbEl=document.getElementById('fb');
+      if(fbEl&&fbEl.classList.contains('on'))nextQ();
+    },espera);
+  }
+  // Si hay guiaOp, NO se programa auto-avance: el niño lee y toca "Continuar"
 }
 function nextQ(){
+  if(fbAutoTimer){clearTimeout(fbAutoTimer);fbAutoTimer=null;}
   SND.ui();
   var fb=document.getElementById('fb');if(fb)fb.classList.remove('on');
   var fbo=document.getElementById('fboverlay');if(fbo)fbo.classList.remove('on');
@@ -1915,9 +2155,15 @@ function nextQ(){
 
 function pauseMission(){
   SND.ui();
+  if(typeof ocultarMascota==='function')ocultarMascota();
   // Guardar el tiempo acumulado y salir a seleccion (el tiempo se retoma luego)
   clearInterval(ti);stopSessTimer();
   saveMissionProgress(sessSeconds);
+  // Limpiar estado visual de la misión para que no quede pantalla vacía al volver
+  var mg=document.getElementById('mg');if(mg)mg.style.display='none';
+  var hub=document.getElementById('hub');if(hub)hub.style.display='block';
+  var fb=document.getElementById('fb');if(fb)fb.classList.remove('on');
+  var fbo=document.getElementById('fboverlay');if(fbo)fbo.classList.remove('on');
   var minDone=Math.floor(sessSeconds/60),minLeft=Math.max(0,Math.ceil((SESS_TARGET-sessSeconds)/60));
   if(sessSeconds>0 && sessSeconds<SESS_TARGET){
     toast('Progreso guardado: '+minDone+' min. Te faltan '+minLeft+' min para completar tu misión hoy.');
@@ -1964,6 +2210,7 @@ function adaptarNivel(d,score){
 }
 
 function endMission(){
+  if(typeof reaccionMascota==='function')reaccionMascota('celebrate');
   clearInterval(ti);
   // Interpretacion A: el tiempo acumula todo el dia. Mision valida si el total del dia >= 15 min
   var hasTime=sessSeconds>=SESS_TARGET;
@@ -2008,7 +2255,22 @@ function endMission(){
   var missionOk=passed&&hasTime;if(missionOk){
     // El tiempo NO se reinicia: sigue acumulando todo el dia (solo resetea al cambiar de dia)
     saveMissionProgress(sessSeconds);
-    d.streak++;if(d.streak>d.best)d.best=d.streak;
+    // RACHA = días consecutivos completando misión (no por misión individual)
+    var hoy=todayKey();
+    if(d.streakDate!==hoy){
+      // Primera misión válida del día: evaluar continuidad de la racha
+      if(d.streakDate===yesterdayKey()){
+        d.streak++; // día consecutivo: la racha crece
+      }else if(d.streakDate){
+        d.streak=1; // se saltó uno o más días: la racha reinicia en 1
+      }else{
+        d.streak=1; // primera vez que completa una misión
+      }
+      d.streakDate=hoy;
+      if(d.streak>d.best)d.best=d.streak;
+      S.ses.streakUpdatedToday=true; // marcar que la racha cambió hoy (para bono semanal)
+    }
+    // Si ya completó misión hoy, la racha NO vuelve a subir (sigue igual)
     addXP(100+(score===100?50:0),d);
     // Base = lo que el niño vio acumular pregunta por pregunta (contador visual)
     var baseNC=S.ses.visNC||0;
@@ -2019,7 +2281,7 @@ function endMission(){
     var goldenBonus=0; // la dorada ya se contó en el contador visual
     earned=addCoins(baseNC+scoreBonus+streakBonus+roundBonus+goldenBonus,d);
     S.ses.bonusNC=scoreBonus+streakBonus+roundBonus; // para mostrar desglose
-    if(d.streak%7===0){addCoins(1000,d);SND.streak();S.ses.weekBonus=1000;}
+    if(d.streak%7===0 && S.ses.streakUpdatedToday){addCoins(1000,d);SND.streak();S.ses.weekBonus=1000;}
     actLog.unshift({m:m,s:score,p:true,t:'Hoy',area:isLen?'len':'mat'});
     SND.win();checkT(d);syncToSheets();
   }else{
@@ -2156,6 +2418,8 @@ function startRec(){
   var mgtit=document.getElementById('mgtit');if(mgtit)mgtit.textContent=lastScore>=80?'Continúa entrenando':'Misión de Recuperación';
   startSessTimer();
   renderQ();
+  if(typeof setMascotaModo==='function')setMascotaModo();
+  if(typeof reaccionMascota==='function')reaccionMascota('welcome');
 }
 function nextAct(){goHome();}
 
@@ -2175,19 +2439,27 @@ function renderParent(){
   // ── Tiempo de hoy por perfil ──
   ['exp','gua'].forEach(function(mode){
     var d=S[mode];
-    // Calcular segundos de hoy (respetando reset diario)
     var todaySecs=(d.dailyDate===todayKey())?(d.dailySeconds||0):0;
     var mins=Math.floor(todaySecs/60);
-    var cap=d.didRecovery?45:30;
+    var cap=d.didRecovery?45:30; // tope diario en minutos
     var te=document.getElementById('time-'+mode);
     var ts=document.getElementById('time-'+mode+'-status');
+    // Mostrar minutos con el rango objetivo: "X / 15-30 min"
     if(te)te.textContent=mins+' min';
     if(ts){
-      if(todaySecs>=900){ts.textContent='\u2705 Cumplió el mínimo';ts.style.color='var(--gr)';}
-      else if(todaySecs>0){ts.textContent='\u23f3 '+(15-mins)+' min para el mínimo';ts.style.color='var(--am)';}
-      else{ts.textContent='Sin actividad hoy';ts.style.color='var(--tx3)';}
+      if(todaySecs===0){
+        ts.textContent='Sin actividad hoy';ts.style.color='var(--tx3)';
+      }else if(todaySecs<900){
+        ts.textContent='\u23f3 Faltan '+(15-mins)+' min (mínimo 15)';ts.style.color='var(--am)';
+      }else if(mins>=cap){
+        ts.textContent='\u26d4 Llegó al máximo ('+cap+' min)';ts.style.color='var(--bl)';
+      }else{
+        ts.textContent='\u2705 En rango ideal ('+mins+'/'+cap+' min)';ts.style.color='var(--gr)';
+      }
     }
-    if(te)te.style.color=todaySecs>=900?'var(--gr)':(todaySecs>0?'var(--am)':'var(--tx3)');
+    if(te){
+      te.style.color=(todaySecs<900)?(todaySecs>0?'var(--am)':'var(--tx3)'):(mins>=cap?'var(--bl)':'var(--gr)');
+    }
   });
   var pse=document.getElementById('pwse');if(pse)pse.textContent=exp.streak;
   var psg=document.getElementById('pwsg');if(psg)psg.textContent=gua.streak;
@@ -2206,12 +2478,12 @@ function renderParent(){
     var html='';
     function weakLine(label,weak,d){
       if(weak.length>0){
-        var tags=weak.slice(0,4).map(function(w){return '<span style=\"display:inline-block;background:rgba(255,82,82,0.12);color:var(--rd);font-weight:800;font-size:11px;padding:3px 9px;border-radius:999px;margin:2px;\">'+w.name+' '+w.pct+'%</span>';}).join('');
+        var tags=weak.slice(0,4).map(function(w){return '<span style=\"display:inline-block;background:rgba(255,82,82,0.18);color:#FF8A8A;border:1px solid rgba(255,82,82,0.45);font-weight:800;font-size:11px;padding:4px 10px;border-radius:999px;margin:3px;\">'+w.name+' '+w.pct+'%</span>';}).join('');
         return '<div style=\"margin-bottom:8px;\"><b>'+label+'</b> está reforzando: '+tags+'<div style=\"font-size:11px;color:var(--tx3);margin-top:4px;\">El juego le repetirá estos temas hasta dominarlos (80%+).</div></div>';
       }
       var anyData=d.skills&&Object.keys(d.skills).length>0;
       if(anyData)return '<div style=\"margin-bottom:8px;color:var(--gr);font-weight:700;\">'+label+' domina todos sus temas actuales. Listo para más retos!</div>';
-      return '<div style=\"margin-bottom:8px;color:var(--tx3);\">'+label+': aún sin datos suficientes. Necesita jugar más misiones.</div>';
+      return '<div style=\"margin-bottom:8px;color:#A8A8D0;\">'+label+': aún sin datos suficientes. Necesita jugar más misiones.</div>';
     }
     html+=weakLine('Explorador',weakE,S.exp);
     html+=weakLine('Guardián',weakG,S.gua);
@@ -2295,7 +2567,7 @@ function renderShop(){
     var grid=document.createElement('div');grid.className='shopg';
     secs[sec].forEach(function(it){
       var isO=it.type!=='c'?it.owned===true:false;
-      var isCon=it.type==='c',stock=isCon?(it.stock||0):0,full=isCon&&stock>=it.maxSt;
+      var isCon=it.type==='c',stock=isCon?(it.id==='p2'?(d.streakShields||0):(it.stock||0)):0,full=isCon&&stock>=it.maxSt;
       var poor=!isO&&!full&&it.price>d.coins,isTier=it.type==='tier',mTF=it.minTier&&d.tier<it.minTier;
       var card=document.createElement('div');card.className='si'+(isO?' sio':poor?' sip':'');
       var btn='',prH='';
@@ -2313,14 +2585,28 @@ function renderShop(){
 function buyItem(id){
   var m=S.mode,d=S[m],it=S.cat.filter(function(i){return i.id===id;})[0];
   if(!it||it.price>d.coins)return;
-  if(spend(it.price,d)){SND.buy();if(it.type==='c')it.stock=(it.stock||0)+1;else it.owned=true;updHdr();renderShop();confetti(10);toast(it.name+' obtenido!');}
+  if(spend(it.price,d)){
+    SND.buy();
+    if(it.id==='p2'){
+      // Escudo de racha: consumible que protege la racha si se salta un día
+      d.streakShields=(d.streakShields||0)+1;
+      toast('🛡️ Escudo de racha guardado! Tienes '+d.streakShields+'. Te protege si faltas un día.');
+    }else if(it.type==='c'){
+      it.stock=(it.stock||0)+1;
+      toast(it.name+' obtenido!');
+    }else{
+      it.owned=true;
+      toast(it.name+' obtenido!');
+    }
+    updHdr();renderShop();confetti(10);
+  }
 }
 
 // ═══ SHARE ═══
 function buildShareText(){
   var m=S.mode,d=S[m];
   var sc=d.scores,avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
-  return 'Soy un Guardián de NEXUS!\n'+'Misiones completadas: '+d.missions+'\nRacha: '+d.streak+' dias\nScore promedio: '+avg+'/100\nNexus Coins: '+d.coins.toLocaleString('es-DO')+'\n\nReto de vacaciones: 15 minutos diarios para llegar mas preparado al proximo curso. Unete!';
+  return '🎮 Estoy jugando NEXUS HEROES, el reto de vacaciones! Soy un '+(S.mode==='exp'?'Explorador':'Guardián')+'.\n\n✅ Misiones: '+d.missions+'\n🔥 Racha: '+d.streak+' dias\n⭐ Score: '+avg+'/100\n🪙 Nexus Coins: '+d.coins.toLocaleString('es-DO')+'\n\nEntra y juega tu tambien aqui 👉 '+GAME_URL+'\n\n15 minutos diarios para llegar mejor preparado al proximo curso.';
 }
 function openShare(){
   var m=S.mode,d=S[m];
@@ -2332,10 +2618,138 @@ function openShare(){
   var mo=document.getElementById('share-modal');if(mo)mo.classList.add('on');
 }
 function closeShare(){var mo=document.getElementById('share-modal');if(mo)mo.classList.remove('on');}
-function shareWhatsApp(){var txt=buildShareText();window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');closeShare();}
+function shareWhatsApp(){
+  var txt=buildShareText();
+  closeShare();
+  // El botón dice WhatsApp: abrir WhatsApp directamente con el esquema de la app.
+  var waUrl='https://api.whatsapp.com/send?text='+encodeURIComponent(txt);
+  // Intentar abrir WhatsApp. Si el navegador lo bloquea, copiar como respaldo.
+  try{
+    var win=window.open(waUrl,'_blank');
+    // Si la ventana no abrió (bloqueada), respaldo: copiar al portapapeles
+    if(!win){
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(txt).then(function(){toast('Copiado! Pégalo en WhatsApp.');});
+      }
+    }
+  }catch(e){
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast('Copiado! Pégalo en WhatsApp.');});
+    }
+  }
+}
+function dibujarTarjetaProgreso(){
+  var m=S.mode,d=S[m];
+  var sc=d.scores,avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
+  var modo=m==='exp'?'Explorador':'Guardián';
+  var W=1080,H=1080;
+  var cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  var ctx=cv.getContext('2d');
+  if(!ctx)return null;
+  // Fondo degradado
+  var g=ctx.createLinearGradient(0,0,W,H);
+  if(m==='exp'){g.addColorStop(0,'#0A1A3A');g.addColorStop(1,'#0A2A2A');}
+  else{g.addColorStop(0,'#1A0A3A');g.addColorStop(1,'#2A0A2A');}
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  // Tarjeta interior
+  ctx.fillStyle='rgba(255,255,255,0.04)';
+  roundRect(ctx,60,60,W-120,H-120,40);ctx.fill();
+  ctx.strokeStyle=m==='exp'?'#4DAFFF':'#9B6FFF';ctx.lineWidth=4;
+  roundRect(ctx,60,60,W-120,H-120,40);ctx.stroke();
+  ctx.textAlign='center';
+  ctx.fillStyle=m==='exp'?'#4DAFFF':'#9B6FFF';
+  ctx.font='900 64px Nunito,Arial,sans-serif';
+  ctx.fillText('NEXUS HEROES',W/2,200);
+  ctx.fillStyle='#A8A8D0';ctx.font='700 38px Nunito,Arial,sans-serif';
+  ctx.fillText('Reto de Vacaciones',W/2,260);
+  ctx.font='120px Arial';ctx.fillText(m==='exp'?'⚡':'🛡️',W/2,420);
+  ctx.fillStyle='#EEEEFF';ctx.font='900 56px Nunito,Arial,sans-serif';
+  ctx.fillText('Soy un '+modo+'!',W/2,510);
+  var stats=[['Misiones',d.missions],['Racha',d.streak+' dias'],['Score',avg+'/100'],['Nexus Coins',d.coins.toLocaleString('es-DO')]];
+  var sx=[W/2-220,W/2+220,W/2-220,W/2+220];
+  var sy=[680,680,860,860];
+  for(var i=0;i<4;i++){
+    ctx.font='900 72px Nunito,Arial,sans-serif';ctx.fillStyle='#FFB830';
+    ctx.fillText(String(stats[i][1]),sx[i],sy[i]);
+    ctx.font='700 32px Nunito,Arial,sans-serif';ctx.fillStyle='#A8A8D0';
+    ctx.fillText(stats[i][0],sx[i],sy[i]+45);
+  }
+  ctx.fillStyle=m==='exp'?'#4DAFFF':'#9B6FFF';ctx.font='800 38px Nunito,Arial,sans-serif';
+  ctx.fillText('🎮 nexus-heroes.netlify.app',W/2,1000);
+  return cv;
+}
+function compartirProgreso(){
+  var txt=buildShareText();
+  var cv=null;
+  try{ cv=dibujarTarjetaProgreso(); }catch(e){ cv=null; }
+  // Intentar compartir IMAGEN + TEXTO juntos por el menú nativo
+  if(cv && cv.toBlob && navigator.canShare){
+    cv.toBlob(function(blob){
+      var compartido=false;
+      if(blob){
+        try{
+          var file=new File([blob],'nexus-progreso.png',{type:'image/png'});
+          if(navigator.canShare({files:[file]})){
+            compartido=true;
+            navigator.share({files:[file],text:txt}).then(function(){closeShare();}).catch(function(){
+              // usuario canceló o falló: respaldo
+              respaldoCompartir(cv,txt);
+            });
+          }
+        }catch(e){ compartido=false; }
+      }
+      if(!compartido){ respaldoCompartir(cv,txt); }
+    },'image/png');
+  }else if(navigator.share){
+    // No soporta imagen pero sí texto: compartir solo texto
+    navigator.share({text:txt}).then(function(){closeShare();}).catch(function(){respaldoCompartir(cv,txt);});
+  }else{
+    // Sin menú nativo: respaldo directo
+    respaldoCompartir(cv,txt);
+  }
+}
+function respaldoCompartir(cv,txt){
+  // Respaldo: descargar la imagen y copiar el texto
+  if(cv){ try{ descargarImagen(cv); }catch(e){} }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){
+      toast('Imagen descargada y texto copiado! Compártelos donde quieras.');
+    }).catch(function(){ toast('Imagen descargada! Pega el texto manualmente.'); });
+  }else{
+    toast('Imagen descargada! Compártela donde quieras.');
+  }
+  closeShare();
+}
+function descargarProgreso(){
+  try{
+    var cv=dibujarTarjetaProgreso();
+    if(!cv){toast('No se pudo crear la imagen.');return;}
+    descargarImagen(cv);
+    closeShare();
+  }catch(e){
+    toast('No se pudo generar la imagen.');
+  }
+}
+function descargarImagen(cv){
+  try{
+    var url=cv.toDataURL('image/png');
+    var a=document.createElement('a');a.href=url;a.download='nexus-progreso.png';
+    document.body.appendChild(a);a.click();a.remove();
+    toast('Imagen descargada! Compártela donde quieras.');
+  }catch(e){toast('No se pudo descargar la imagen.');}
+}
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
 function copyProgress(){
   var txt=buildShareText();
-  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(function(){toast('Texto copiado! Pega en WhatsApp.');});}
+  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(function(){toast('Copiado! Ahora pégalo en WhatsApp o donde quieras.');});}
   else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Texto copiado!');}
   closeShare();
 }
@@ -2381,7 +2795,7 @@ function obNext(step) {
 function updateProfileBanner() {
   var p=S.profile;
   var pn=document.getElementById('pb-name'), pd=document.getElementById('pb-detail'), pa=document.getElementById('pb-avatar');
-  if(pn) pn.textContent=p.name||'Guardián';
+  if(pn) pn.textContent=p.name||(p.mode==='exp'?'Explorador':'Guardián');
   if(pd) pd.textContent=(p.mode==='gua'?'Modo Guardián':'Modo Explorador')+' \u00b7 Grado '+(p.grade||'4');
   if(pa){pa.className='pb-avatar '+(p.mode==='gua'?'gua':'exp');pa.innerHTML=p.mode==='gua'?'&#128737;':'&#9889;';}
 }
@@ -2454,8 +2868,26 @@ function finishDiag() {
 
 // ════ SESSION TIMER ════
 var sessInt=null, sessSeconds=0, SESS_TARGET=900;
+var fbAutoTimer=null;
 var DAILY_MAX=30*60, DAILY_MAX_REC=45*60; // 30 min normal, 45 min con recuperación
 function todayKey(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
+function yesterdayKey(){var d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
+function twoDaysAgoKey(){var d=new Date();d.setDate(d.getDate()-2);return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
+// Verificar si la racha sigue viva (no se saltó más de un día). Llamar al cargar.
+function checkStreakAlive(d){
+  if(!d.streakDate)return;
+  if(d.streakDate===todayKey()||d.streakDate===yesterdayKey())return; // racha viva
+  // La racha se rompería. ¿Faltó exactamente "un puente" cubrible por escudo?
+  if((d.streakShields||0)>0 && d.streakDate===twoDaysAgoKey()){
+    // Faltó UN día (anteayer fue su última vez): el escudo cubre ese hueco
+    d.streakShields--;
+    d.streakDate=yesterdayKey(); // el escudo "rellena" ayer, la racha sigue viva
+    d.streakShieldUsedMsg=true; // avisar al niño la próxima vez que entre
+    saveState();
+  }else{
+    d.streak=0; // se rompió (faltó más de un día o sin escudo)
+  }
+}
 function getDailySeconds(){
   var d=S[S.mode];
   if(!d.dailyDate||d.dailyDate!==todayKey()){d.dailyDate=todayKey();d.dailySeconds=0;d.didRecovery=false;saveState();}
@@ -2478,7 +2910,9 @@ function clearMissionProgress(){
   var d=S[S.mode];d.missionSeconds=0;d.missionDate=todayKey();saveState();
 }
 function startSessTimer() {
-  if(sessSeconds>=SESS_TARGET) return; // already reached goal, no need to restart
+  // El timer corre hasta el TOPE DIARIO (no se detiene a los 15 min, porque el tiempo
+  // acumula todo el día y debemos seguir contando hacia el máximo de 30/45 min).
+  if(dailyLimitReached()) return; // ya llegó al tope diario, no arrancar
   clearInterval(sessInt);
   updSessBar();
   sessInt=setInterval(function(){
@@ -2488,7 +2922,12 @@ function startSessTimer() {
     if(sessSeconds%5===0)saveMissionProgress(sessSeconds); // guardar cada 5s por si cierra el navegador
     updSessBar();
     if(sessSeconds===SESS_TARGET){SND.win();toast('15 minutos completados! Ya puedes completar tu misión.');}
-    if(dailyLimitReached()){clearInterval(sessInt);toast('Limite diario alcanzado ('+Math.floor(dailyCap()/60)+' min). Vuelve mañana!');}
+    if(dailyLimitReached()){
+      clearInterval(sessInt);
+      toast('Límite diario alcanzado ('+Math.floor(dailyCap()/60)+' min). Excelente trabajo, vuelve mañana!');
+      // Cerrar la misión: el niño no puede seguir jugando hoy
+      setTimeout(function(){ if(dailyLimitReached()){ saveMissionProgress(sessSeconds); showScreen('sel'); } },1500);
+    }
   },1000);
 }
 function stopSessTimer(){clearInterval(sessInt);}
@@ -2567,11 +3006,13 @@ function renderInforme() {
     +'<div class="slbl">&#128218; Lengua Española &mdash; Score: '+lenAvg+'/100</div>'
     +'<div class="inf-area-card">'+mkBars(lenT)+'</div>'
     +'<div class="slbl">Resumen de temas</div>'
-    +(dom.length?'<p style="font-size:11px;color:var(--gr);font-weight:900;margin-bottom:4px;">Dominados</p>'+mkTags(dom,'dom')+'<br><br>':'')
-    +(prog.length?'<p style="font-size:11px;color:var(--am);font-weight:900;margin:8px 0 4px;">En progreso</p>'+mkTags(prog,'prog')+'<br><br>':'')
-    +(ref.length?'<p style="font-size:11px;color:var(--rd);font-weight:900;margin:8px 0 4px;">Necesita refuerzo</p>'+mkTags(ref,'ref')+'<br><br>':'')
+    +(totalMis<3
+      ?'<div style="background:var(--card);border:2px solid var(--bdr);border-radius:14px;padding:16px;text-align:center;color:var(--tx3);font-size:13px;font-weight:700;margin-bottom:8px;">Aún no hay suficientes datos. Cuando complete algunas misiones más, aquí verás qué temas domina y cuáles necesita reforzar.</div>'
+      :(dom.length?'<p style="font-size:12px;color:#7CF2B0;font-weight:900;margin-bottom:6px;">&#9989; Dominados</p>'+mkTags(dom,'dom')+'<br><br>':'')
+       +(prog.length?'<p style="font-size:12px;color:#FFD27A;font-weight:900;margin:10px 0 6px;">&#128260; En progreso</p>'+mkTags(prog,'prog')+'<br><br>':'')
+       +(ref.length?'<p style="font-size:12px;color:#FF8A8A;font-weight:900;margin:10px 0 6px;">&#128296; Necesita refuerzo</p>'+mkTags(ref,'ref')+'<br><br>':''))
     +'<div class="inf-recom"><h4>Recomendacion para padres</h4><p>'+recom+'</p></div>'
-    +'<div class="inf-msg"><div class="inf-msg-ico">&#127942;</div><h3>'+firstName+', eres un Guardián!</h3><p>Completaste '+totalMis.toLocaleString('es-DO')+' misiones, lograste una racha de '+maxStreak+' dias y practicaste '+totalTime+' minutos. Llegaste mejor preparado para el proximo curso!</p></div>'
+    +'<div class="inf-msg"><div class="inf-msg-ico">&#127942;</div><h3>'+firstName+', eres un '+(S.profile.mode==='exp'?'Explorador':'Guardián')+'!</h3><p>Completaste '+totalMis.toLocaleString('es-DO')+' misiones, lograste una racha de '+maxStreak+' dias y practicaste '+totalTime+' minutos. Llegaste mejor preparado para el proximo curso!</p></div>'
     +'<div class="inf-share-row">'
     +'<button class="inf-sbtn wa" onclick="shareInforme()">&#128172; Compartir logro</button>'
     +'<button class="inf-sbtn sec" onclick="SND.ui();renderParent();showScreen(\'par\')">Volver al Panel</button>'
@@ -2582,10 +3023,10 @@ function shareInforme() {
   var d=S.exp; var sc=d.scores;
   var avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
   var total=Math.round(((S.exp.sessTime||0)+(S.gua.sessTime||0))/60);
-  var txt='Informe de vacaciones de '+name+'\n\nMisiones: '+(S.exp.missions+S.gua.missions)+'\nRacha maxima: '+Math.max(S.exp.best,S.gua.best)+' dias\nScore promedio: '+avg+'/100\nTiempo de práctica: '+total+' minutos\n\nReto NEXUS completado! 15 min diarios para llegar mejor preparado.';
-  if(navigator.share) navigator.share({title:'Informe NEXUS - '+name,text:txt}).catch(function(){});
-  else if(navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){toast('Copiado!');});
-  else window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+  var txt='📊 Informe de vacaciones de '+name+' en NEXUS HEROES\n\n✅ Misiones: '+(S.exp.missions+S.gua.missions)+'\n🔥 Racha maxima: '+Math.max(S.exp.best,S.gua.best)+' dias\n⭐ Score promedio: '+avg+'/100\n⏱️ Tiempo de práctica: '+total+' minutos\n\nConoce el reto y juega aqui 👉 '+GAME_URL+'\n\n15 min diarios para llegar mejor preparado al proximo curso.';
+  if(navigator.share){ navigator.share({title:'Informe NEXUS - '+name,text:txt}).catch(function(){}); }
+  else if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(function(){toast('Informe copiado! Pégalo donde quieras compartir.');}).catch(function(){window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');}); }
+  else { window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank'); }
 }
 
 
@@ -2776,7 +3217,7 @@ function renderAdmin(){
   var tech=document.getElementById('adm-tech');
   if(tech)tech.innerHTML=
     '<div class="adm-card">'
-    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v3.1</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v5.0</span></div>'
     +'<div class="adm-row"><span class="adm-rl">localStorage usado</span><span class="adm-rv">'+Math.round(lsUsed/1024*10)/10+' KB</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Clave de estado</span><span class="adm-rv" style="color:var(--tx3)">nh2</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Diagnóstico hecho</span><span class="adm-rv">'+(S.diagDone?'Si':'No')+'</span></div>'
@@ -2868,7 +3309,7 @@ function admCopyText(){
   var totalTime=Math.round(((exp.sessTime||0)+(gua.sessTime||0))/60);
   var allSc=exp.scores.concat(gua.scores);
   var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
-  var txt='NEXUS v3.1 — Resumen Admin\n'
+  var txt='NEXUS v5.0 — Resumen Admin\n'
     +new Date().toLocaleString('es-DO')+'\n\n'
     +'Perfil: '+(S.profile.name||'N/A')+', '+( S.profile.age||'-')+' años, Grado '+(S.profile.grade||'-')+'\n'
     +'Misiones totales: '+totalMis.toLocaleString('es-DO')+'\n'
