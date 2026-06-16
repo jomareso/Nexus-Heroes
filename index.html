@@ -627,6 +627,45 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 
 
 <!-- ONBOARD -->
+<!-- BIENVENIDA PADRES -->
+<div id="bienvenida" class="screen">
+  <div style="max-width:480px;margin:0 auto;padding:28px 22px;overflow-y:auto;height:100vh;-webkit-overflow-scrolling:touch;">
+    <div style="text-align:center;margin-bottom:8px;">
+      <div style="font-size:13px;font-weight:900;letter-spacing:2px;color:var(--bl);">NEXUS HEROES</div>
+      <h1 style="font-size:26px;font-weight:900;margin:6px 0;line-height:1.2;color:#4DAFFF;">El reto de vacaciones<br>que tus hijos van a querer hacer</h1>
+      <p style="color:#4DAFFF;font-size:14px;font-weight:700;line-height:1.4;">15 minutos al día de Matemática y Lengua, convertidos en un juego.</p>
+    </div>
+
+    <div style="background:var(--card);border:2px solid var(--bdr);border-radius:16px;padding:18px;margin:18px 0;">
+      <div style="font-size:12px;font-weight:900;letter-spacing:1px;color:#C0C0DD;margin-bottom:14px;">CÓMO FUNCIONA</div>
+      <div style="display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;">
+        <div style="font-size:26px;flex-shrink:0;">&#127919;</div>
+        <div><div style="font-weight:900;font-size:15px;">Tu hijo entrena jugando</div><div style="color:#E8E8F5;font-size:13px;font-weight:700;">Misiones cortas alineadas al currículo escolar (MINERD). El juego se adapta a su nivel y refuerza lo que le cuesta.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;">
+        <div style="font-size:26px;flex-shrink:0;">&#129689;</div>
+        <div><div style="font-weight:900;font-size:15px;">Gana Nexus Coins (NC)</div><div style="color:#E8E8F5;font-size:13px;font-weight:700;">Por cada misión y racha, acumula monedas del juego. Mientras mejor le va, más gana.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="font-size:26px;flex-shrink:0;">&#127873;</div>
+        <div><div style="font-weight:900;font-size:15px;">Tú le pagas las monedas en premios</div><div style="color:#E8E8F5;font-size:13px;font-weight:700;">Aquí entras tú: las Nexus Coins se canjean por premios que <b>ustedes acuerden</b> — un juguete, una salida, tiempo de pantalla, lo que tu hijo valore.</div></div>
+      </div>
+    </div>
+
+    <div style="background:#13132A;border:2px solid #2EDC7D;border-radius:16px;padding:16px;margin-bottom:18px;">
+      <div style="font-weight:900;font-size:15px;color:#2EDC7D;margin-bottom:7px;">&#128176; El trato con tu hijo</div>
+      <div style="color:#FFFFFF;font-size:14px;font-weight:600;line-height:1.5;">El juego te da una <b style="color:#5FE89B;">equivalencia en dinero</b> como guía (ej. RD$ por cada cierta cantidad de NC), pero <b style="color:#5FE89B;">tú decides el premio final</b>. Es una herramienta para motivar el hábito de estudio, no una obligación de pagar dinero.</div>
+    </div>
+
+    <div style="background:var(--card);border:2px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:20px;text-align:center;">
+      <div style="font-size:13px;color:#E8E8F5;font-weight:700;">&#128274; Tendrás un <b style="color:var(--tx);">Panel de Padres</b> con PIN para ver su progreso, tiempo de estudio y canjear premios.</div>
+    </div>
+
+    <button class="bbtn" style="width:100%;background:var(--bl);color:#fff;padding:16px;font-size:16px;font-weight:900;border:none;border-radius:14px;" onclick="SND.ui();terminarBienvenida()">Empezar &#8594;</button>
+    <p style="text-align:center;color:#C0C0DD;font-size:11px;font-weight:700;margin-top:12px;">A continuación crearás el perfil de tu hijo.</p>
+  </div>
+</div>
+
 <div id="onboard" class="screen">
   <div class="ob-card">
     <div class="ob-logo">NEXUS</div>
@@ -890,6 +929,10 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
   <div class="acc">
     <button class="acc-h" onclick="toggleAcc(this)"><span>&#128176; Premios y canje (RD$)</span><span class="acc-x">+</span></button>
     <div class="acc-b">
+      <div style="background:#13132A;border:2px solid var(--bl);border-radius:12px;padding:13px;margin-bottom:14px;">
+        <div style="font-weight:900;font-size:14px;color:var(--bl);margin-bottom:6px;">&#127873; Cómo funcionan los premios</div>
+        <div style="color:#FFFFFF;font-size:13px;font-weight:600;line-height:1.5;">Tu hijo gana <b style="color:#9FD0FF;">Nexus Coins</b> resolviendo misiones. Tú se las canjeas por premios que <b style="color:#9FD0FF;">acuerden juntos</b>: un juguete, una salida, tiempo extra de pantalla, etc. El valor en RD$ de abajo es solo una <b style="color:#9FD0FF;">guía</b> — tú decides el premio final.</div>
+      </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <div><div style="font-size:11px;color:var(--tx3);font-weight:700;">1 NC equivale a</div><div style="font-size:22px;font-weight:900;color:var(--gr);" id="par-rate">RD$0.025</div></div>
         <div style="text-align:right;"><div style="font-size:11px;color:var(--tx3);font-weight:700;">Tendencia hoy</div><div style="font-size:16px;font-weight:900;" id="par-trend">-</div></div>
@@ -1059,7 +1102,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 
     <!-- VERSION BADGE -->
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v5.1</span>
+      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v5.7</span>
       <span style="font-size:12px;color:var(--tx3);font-weight:700;" id="adm-lastave">Ultimo guardado: -</span>
     </div>
 
@@ -1415,6 +1458,10 @@ function showScreen(id){
   if(id==='res'||id==='pin')el.style.display='flex';
   if(id==='sel'){stopSessTimer();saveMissionProgress(sessSeconds);updSessBar();}
 }
+function terminarBienvenida(){
+  showScreen('onboard');
+  if(typeof obGoStep!=='undefined')obGoStep(0);
+}
 function goToHomepage(){
   clearInterval(ti);
   if(typeof ocultarMascota==='function')ocultarMascota();
@@ -1442,7 +1489,7 @@ function changePinFlow(){S.pinChanging=true;S.pinNew='';pbuf=[];renderPinUI('Ing
 
 // ═══ PARTICLES ═══
 // INIT
-(function(){if(S.onboarded){updateProfileBanner();}else{showScreen('onboard');if(typeof obGoStep!=='undefined')obGoStep(0);}})();
+(function(){if(S.onboarded){updateProfileBanner();}else{showScreen('bienvenida');}})();
 // Bind secret admin access to logo (touch + click, deduped)
 (function(){
   var logo=document.getElementById('nexus-logo');
@@ -3220,7 +3267,7 @@ function renderAdmin(){
   var tech=document.getElementById('adm-tech');
   if(tech)tech.innerHTML=
     '<div class="adm-card">'
-    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v5.1</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v5.7</span></div>'
     +'<div class="adm-row"><span class="adm-rl">localStorage usado</span><span class="adm-rv">'+Math.round(lsUsed/1024*10)/10+' KB</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Clave de estado</span><span class="adm-rv" style="color:var(--tx3)">nh2</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Diagnóstico hecho</span><span class="adm-rv">'+(S.diagDone?'Si':'No')+'</span></div>'
@@ -3312,7 +3359,7 @@ function admCopyText(){
   var totalTime=Math.round(((exp.sessTime||0)+(gua.sessTime||0))/60);
   var allSc=exp.scores.concat(gua.scores);
   var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
-  var txt='NEXUS v5.1 — Resumen Admin\n'
+  var txt='NEXUS v5.7 — Resumen Admin\n'
     +new Date().toLocaleString('es-DO')+'\n\n'
     +'Perfil: '+(S.profile.name||'N/A')+', '+( S.profile.age||'-')+' años, Grado '+(S.profile.grade||'-')+'\n'
     +'Misiones totales: '+totalMis.toLocaleString('es-DO')+'\n'
