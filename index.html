@@ -1059,7 +1059,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 
     <!-- VERSION BADGE -->
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v5.0</span>
+      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v5.1</span>
       <span style="font-size:12px;color:var(--tx3);font-weight:700;" id="adm-lastave">Ultimo guardado: -</span>
     </div>
 
@@ -1876,7 +1876,7 @@ function startMission(){
     S.ses.repasoNivel=Math.max(1,diff-d.repasoInicial);
     S.ses.repasoOk=0;
   }
-  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8),hotStreak:0,coldStreak:0,baseDiff:0,visNC:0,bonusNC:0,weekBonus:0,repasoNivel:undefined,repasoOk:0,failStreak:0,lastFailOp:null};
+  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8),hotStreak:0,coldStreak:0,baseDiff:0,visNC:0,bonusNC:0,weekBonus:0,repasoNivel:undefined,repasoOk:0,failStreak:0,lastFailOp:null,avisoTope:false};
   ans=[];cq=0;
   sessSeconds=getMissionProgress(); // retomar tiempo acumulado del dia
   var ncv=document.getElementById('mg-nc-val');if(ncv)ncv.textContent='0';
@@ -2924,9 +2924,12 @@ function startSessTimer() {
     if(sessSeconds===SESS_TARGET){SND.win();toast('15 minutos completados! Ya puedes completar tu misión.');}
     if(dailyLimitReached()){
       clearInterval(sessInt);
-      toast('Límite diario alcanzado ('+Math.floor(dailyCap()/60)+' min). Excelente trabajo, vuelve mañana!');
-      // Cerrar la misión: el niño no puede seguir jugando hoy
-      setTimeout(function(){ if(dailyLimitReached()){ saveMissionProgress(sessSeconds); showScreen('sel'); } },1500);
+      saveMissionProgress(sessSeconds);
+      // El niño puede TERMINAR la misión en curso; solo no podrá empezar otra hoy.
+      if(!S.ses.avisoTope){
+        S.ses.avisoTope=true; // avisar una sola vez
+        toast('Cumpliste tu tiempo de hoy! Termina esta misión con calma y descansa. 🌟');
+      }
     }
   },1000);
 }
@@ -3217,7 +3220,7 @@ function renderAdmin(){
   var tech=document.getElementById('adm-tech');
   if(tech)tech.innerHTML=
     '<div class="adm-card">'
-    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v5.0</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v5.1</span></div>'
     +'<div class="adm-row"><span class="adm-rl">localStorage usado</span><span class="adm-rv">'+Math.round(lsUsed/1024*10)/10+' KB</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Clave de estado</span><span class="adm-rv" style="color:var(--tx3)">nh2</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Diagnóstico hecho</span><span class="adm-rv">'+(S.diagDone?'Si':'No')+'</span></div>'
@@ -3309,7 +3312,7 @@ function admCopyText(){
   var totalTime=Math.round(((exp.sessTime||0)+(gua.sessTime||0))/60);
   var allSc=exp.scores.concat(gua.scores);
   var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
-  var txt='NEXUS v5.0 — Resumen Admin\n'
+  var txt='NEXUS v5.1 — Resumen Admin\n'
     +new Date().toLocaleString('es-DO')+'\n\n'
     +'Perfil: '+(S.profile.name||'N/A')+', '+( S.profile.age||'-')+' años, Grado '+(S.profile.grade||'-')+'\n'
     +'Misiones totales: '+totalMis.toLocaleString('es-DO')+'\n'
