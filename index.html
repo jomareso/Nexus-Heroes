@@ -34,6 +34,12 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 .logo p{color:var(--tx3);font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-top:4px;font-weight:800;}
 .sel-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:700px;width:100%;margin-bottom:1.2rem;}
 .scard{background:var(--card);border:2px solid var(--bdr);border-radius:22px;padding:1.8rem;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
+.age-badge{display:inline-block;margin:0.1rem 0 0.7rem 0;padding:0.4rem 0.85rem;border-radius:999px;font-size:0.92rem;font-weight:800;letter-spacing:0.2px;background:#0C0C1E;}
+.age-badge.exp-age{color:#7Fc4FF;border:1.5px solid #4DAFFF;}
+.age-badge.gua-age{color:#C3A6FF;border:1.5px solid #9B6FFF;}
+.scard.locked{opacity:0.4;filter:grayscale(0.7);position:relative;}
+.scard.locked::before{content:'\1F512';position:absolute;top:1.2rem;right:1.4rem;font-size:1.6rem;opacity:0.9;z-index:2;filter:grayscale(0);}
+.scard.locked h2,.scard.locked p,.scard.locked .age-badge{opacity:0.85;}
 .scard::after{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
 .scard.exp::after{background:var(--exp);}
 .scard.gua::after{background:var(--gua);}
@@ -344,7 +350,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 .opip{position:absolute;top:7px;right:7px;background:var(--gr);color:#fff;font-size:9px;font-weight:900;padding:2px 5px;border-radius:4px;}
 
 /* ═══ SHARE MODAL ═══ */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:300;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;padding:1rem;-webkit-overflow-scrolling:touch;overflow-y:auto;}
 .modal-overlay.on{display:flex;}
 .modal{background:var(--card);border:2px solid var(--bdr2);border-radius:22px;padding:2rem;max-width:420px;width:100%;text-align:center;}
 .modal h2{font-size:22px;font-weight:900;margin-bottom:8px;}
@@ -682,7 +688,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
       <div class="ob-field"><label>Edad</label>
         <select class="ob-select" id="ob-age"><option value="">Selecciona tu edad</option>
         <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-        <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option></select>
+        <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option></select>
       </div>
       <button class="ob-btn" onclick="SND.ui();obNext(0)">Continuar</button>
     </div>
@@ -733,13 +739,15 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
   <div class="profile-banner" id="profile-banner"><div class="pb-avatar exp" id="pb-avatar">&#9889;</div><div class="pb-info"><div class="pb-name" id="pb-name">Guardián</div><div class="pb-detail" id="pb-detail">Modo Explorador &bull; Grado 4</div></div><button class="pb-edit" onclick="SND.ui();showScreen('onboard');obGoStep(0)">Editar perfil</button></div>
   <div class="logo" id="nexus-logo" style="cursor:pointer;user-select:none;"><h1 style="pointer-events:none;">NEXUS</h1><p style="pointer-events:none;">Academia de Guardianes</p></div>
   <div class="sel-cards">
-    <div class="scard exp" onclick="SND.ui();startMode('exp')">
+    <div class="scard exp" id="scard-exp" onclick="SND.ui();startMode('exp')">
       <div class="sico">&#9889;</div><h2>Modo Explorador</h2>
+      <div class="age-badge exp-age">&#128100; 6 a 11 años</div>
       <p>Aventuras rápidas con preguntas adaptadas a tu nivel. Matemática y Lengua Española.</p>
       <div class="tags"><span class="tag tb">Matemática</span><span class="tag tt">Lengua</span><span class="tag tb">Visual</span><span class="tag tt">Rápido</span></div>
     </div>
-    <div class="scard gua" onclick="SND.ui();startMode('gua')">
+    <div class="scard gua" id="scard-gua" onclick="SND.ui();startMode('gua')">
       <div class="sico">&#128737;&#65039;</div><h2>Modo Guardián</h2>
+      <div class="age-badge gua-age">&#128100; 12 años o más</div>
       <p>Retos progresivos con niveles, ranking y logros. Matemática y Lengua Española.</p>
       <div class="tags"><span class="tag tp">Matemática</span><span class="tag ta">Lengua</span><span class="tag tp">Niveles</span><span class="tag ta">Ranking</span></div>
     </div>
@@ -828,10 +836,11 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
             <div class="srow"><span class="srl">Items</span><span class="srv" style="color:var(--tl)" id="sown">0</span></div>
             <div class="srow"><span class="srl">XP total</span><span class="srv" style="color:var(--pu)" id="sxp">0</span></div>
           </div>
-          <button class="shopobtn" style="background:linear-gradient(135deg,#9B6FFF,#FF6EB4);" onclick="openShare()">&#128279; Compartir progreso</button>
+          <a id="wa-share-link" href="#" target="_blank" rel="noopener noreferrer" class="shopobtn" style="background:linear-gradient(135deg,#25D366,#128C7E);display:block;text-align:center;text-decoration:none;" onclick="return prepWaShare();">&#128172; Compartir por WhatsApp</a>
         </div>
       </div>
       <div class="slbl">Mundos del Nexus</div>
+      <div id="meta-mundo"></div>
       <div class="wg" id="wg"></div>
       <div class="slbl">Logros</div>
       <div class="achrow" id="achr"></div>
@@ -1001,7 +1010,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
       <p style="font-size:10px;color:var(--tx3);font-weight:700;margin-top:10px;">Mínimo 15 min/día · Máximo 30 min (45 con recuperación).</p>
       <div style="display:flex;gap:7px;margin-top:12px;">
         <button class="bbtn" style="flex:1;" onclick="SND.ui();changePinFlow()">Cambiar PIN</button>
-        <button class="bbtn" style="flex:1;" onclick="openShare()">Compartir</button>
+        <button class="bbtn" style="flex:1;" onclick="shareInforme()">Compartir</button>
       </div>
       <div style="background:rgba(255,255,255,0.03);border-radius:9px;padding:10px;margin-top:12px;">
         <div style="font-size:11px;font-weight:800;color:var(--tx2);margin-bottom:4px;">&#128274; Privacidad</div>
@@ -1102,7 +1111,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 
     <!-- VERSION BADGE -->
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v5.7</span>
+      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v8.3</span>
       <span style="font-size:12px;color:var(--tx3);font-weight:700;" id="adm-lastave">Ultimo guardado: -</span>
     </div>
 
@@ -1176,18 +1185,18 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 <div class="modal-overlay" id="share-modal">
   <div class="modal">
     <h2>&#127775; Tu progreso</h2>
-    <p>Comparte tu progreso con tu familia: imagen y mensaje en un toque.</p>
+    <p>Comparte tu informe de vacaciones con tu familia.</p>
     <div class="prog-card">
-      <div class="prog-card-title">NEXUS — Reto de vacaciones</div>
+      <div class="prog-card-title">📊 NEXUS — Informe de Vacaciones</div>
       <div class="prog-stats">
-        <div class="prog-stat"><div class="prog-stat-val" id="sh-mis">0</div><div class="prog-stat-lbl">Misiones completadas</div></div>
-        <div class="prog-stat"><div class="prog-stat-val" id="sh-streak">0</div><div class="prog-stat-lbl">Dias de racha</div></div>
-        <div class="prog-stat"><div class="prog-stat-val" id="sh-score">-</div><div class="prog-stat-lbl">Score promedio</div></div>
-        <div class="prog-stat"><div class="prog-stat-val" id="sh-coins">0</div><div class="prog-stat-lbl">Nexus Coins</div></div>
+        <div class="prog-stat"><div class="prog-stat-val" id="sh-mis">0</div><div class="prog-stat-lbl">✅ Misiones</div></div>
+        <div class="prog-stat"><div class="prog-stat-val" id="sh-streak">0</div><div class="prog-stat-lbl">🔥 Racha máxima</div></div>
+        <div class="prog-stat"><div class="prog-stat-val" id="sh-score">-</div><div class="prog-stat-lbl">⭐ Score promedio</div></div>
+        <div class="prog-stat"><div class="prog-stat-val" id="sh-coins">0</div><div class="prog-stat-lbl">⏱️ Tiempo práctica</div></div>
       </div>
     </div>
     <div class="modal-btns">
-      <button class="modal-btn wa" onclick="compartirProgreso()">&#128228; Compartir mi progreso</button>
+      <button class="modal-btn wa" onclick="shareInforme()">&#128228; Compartir mi progreso</button>
       <button class="modal-btn close-btn" onclick="closeShare()">Cerrar</button>
     </div>
   </div>
@@ -1221,20 +1230,23 @@ var SND=(function(){
 })();
 
 // ═══ TIERS & LEVELS ═══
-var TIERS=[{cap:50000,lbl:'Cofre basico'},{cap:120000,lbl:'Cofre de plata'},{cap:220000,lbl:'Cofre de oro'},{cap:350000,lbl:'Cofre de cristal'},{cap:500000,lbl:'Cofre legendario'},{cap:650000,lbl:'Cofre mitico'},{cap:800000,lbl:'Cofre cosmico'},{cap:920000,lbl:'Cofre estelar'},{cap:1000000,lbl:'Cofre supremo'}];
+var TIERS=[{cap:50000,lbl:'Cofre basico'},{cap:120000,lbl:'Cofre de plata'},{cap:220000,lbl:'Cofre de oro'},{cap:350000,lbl:'Cofre de cristal'},{cap:500000,lbl:'Cofre legendario'},{cap:650000,lbl:'Cofre mitico'},{cap:800000,lbl:'Cofre cosmico'},{cap:920000,lbl:'Cofre estelar'},{cap:950000,lbl:'Cofre supremo'},{cap:970000,lbl:'Cofre titanico'},{cap:985000,lbl:'Cofre oracular'},{cap:1000000,lbl:'Cofre cosmico'}];
 var TSPEND=[0,1500,4000,8000,15000];
 var DLVLS=[
-  {n:1,name:'Novato',     grade:'1ro Primaria', ops:['add','sub'],                          maxN:99,    timer:32},
-  {n:2,name:'Aprendiz',   grade:'2do Primaria', ops:['add','sub','table'],                  maxN:999,   timer:28},
-  {n:3,name:'Explorador', grade:'3ro Primaria', ops:['add','sub','mul','table'],            maxN:9999,  timer:25},
-  {n:4,name:'Guerrero',   grade:'4to Primaria', ops:['add','sub','mul','div','table','frac'],maxN:99999, timer:22},
-  {n:5,name:'Campeon',    grade:'5to Primaria', ops:['mul','div','frac','power'],           maxN:99999, timer:20},
-  {n:6,name:'Veterano',   grade:'6to Primaria', ops:['div','frac','decimal','power','mcm'], maxN:99999, timer:18},
-  {n:7,name:'Maestro',    grade:'1ro Secundaria',ops:['integer','frac','decimal','power'],  maxN:999,   timer:18},
-  {n:8,name:'Sabio',      grade:'2do Secundaria',ops:['integer','equation','decimal','power'],maxN:999, timer:16},
-  {n:9,name:'Leyenda',    grade:'3ro Secundaria',ops:['equation','integer','power','sequence'],maxN:999,timer:15},
+  {n:1,name:'Novato',     grade:'1ro Primaria', ops:['add','sub'],                                                          maxN:99,    timer:32},
+  {n:2,name:'Aprendiz',   grade:'2do Primaria', ops:['add','sub','table'],                                                  maxN:999,   timer:28},
+  {n:3,name:'Explorador', grade:'3ro Primaria', ops:['add','sub','table','mul'],                                            maxN:9999,  timer:25},
+  {n:4,name:'Guerrero',   grade:'4to Primaria', ops:['add','sub','table','mul','div','frac'],                               maxN:99999, timer:22},
+  {n:5,name:'Campeon',    grade:'5to Primaria', ops:['add','sub','table','mul','div','frac','power'],                       maxN:99999, timer:20},
+  {n:6,name:'Veterano',   grade:'6to Primaria', ops:['add','sub','table','mul','div','frac','power','decimal','mcm'],       maxN:99999, timer:18},
+  {n:7,name:'Maestro',    grade:'1ro Secundaria',ops:['add','sub','table','mul','div','frac','power','decimal','mcm','integer'],maxN:999,timer:18},
+  {n:8,name:'Sabio',      grade:'2do Secundaria',ops:['add','sub','table','mul','div','frac','power','decimal','mcm','integer','equation'],maxN:999,timer:16},
+  {n:9,name:'Leyenda',    grade:'3ro Secundaria',ops:['add','sub','table','mul','div','frac','power','decimal','mcm','integer','equation','sequence'],maxN:999,timer:15},
+  {n:10,name:'Titan',     grade:'4to Secundaria',ops:['add','sub','table','mul','div','frac','power','decimal','mcm','integer','equation','sequence'],maxN:999,timer:14},
+  {n:11,name:'Oraculo',   grade:'5to Secundaria',ops:['add','sub','table','mul','div','frac','power','decimal','mcm','integer','equation','sequence'],maxN:999,timer:13},
+  {n:12,name:'Cosmico',   grade:'6to Secundaria',ops:['add','sub','table','mul','div','frac','power','decimal','mcm','integer','equation','sequence'],maxN:999,timer:12},
 ];
-var LXP=[0,300,700,1400,2500,4000,6000,8500,12000];
+var LXP=[0,300,700,1400,2500,4000,6000,8500,12000,16000,21000,27000];
 
 // ═══ SHOP CATALOG ═══
 var CAT=[
@@ -1242,6 +1254,9 @@ var CAT=[
   {id:'p2',sec:'Poderes',name:'Escudo de racha',ico:'&#128737;',desc:'Si faltas un día, protege tu racha automáticamente',price:150,type:'c',maxSt:5,stock:0},
   {id:'p3',sec:'Poderes',name:'Doble monedas',ico:'&#127775;',desc:'2x NC proxima misión',price:200,type:'c',maxSt:2,stock:0},
   {id:'p4',sec:'Poderes',name:'Pista magica',ico:'&#128161;',desc:'Elimina 2 opciones incorrectas',price:60,type:'c',maxSt:5,stock:0},
+  {id:'u1',sec:'Mejoras',name:'Cerebro Turbo',ico:'&#129504;',desc:'+20% Nexus Coins en cada pregunta, para siempre',price:600,type:'u',owned:false},
+  {id:'u2',sec:'Mejoras',name:'Reloj del Sabio',ico:'&#9203;',desc:'+5 segundos extra en cada pregunta, para siempre',price:800,type:'u',owned:false},
+  {id:'u3',sec:'Mejoras',name:'Corazon de Heroe',ico:'&#10084;',desc:'Un fallo no rompe tu combo (1 vez por mision)',price:1000,type:'u',owned:false},
   {id:'s1',sec:'Skins',name:'Armadura Nexus',ico:'&#128309;',desc:'Skin azul electrico',price:300,type:'s',owned:false},
   {id:'s2',sec:'Skins',name:'Armadura Volcan',ico:'&#128308;',desc:'Skin rojo fuego elite',price:400,type:'s',owned:false},
   {id:'s3',sec:'Skins',name:'Armadura Sombra',ico:'&#9899;',desc:'Skin oscuro legendario',price:750,type:'s',owned:false},
@@ -1256,11 +1271,11 @@ var CAT=[
 ];
 
 var WORLDS=[
-  {n:'Isla Nexus',ico:'&#127965;',t:'Suma y resta',c:'var(--bl)',p:60,lk:false},
-  {n:'Volcan',ico:'&#127755;',t:'Multiplicación',c:'var(--rd)',p:20,lk:false},
-  {n:'Ciudad Decimal',ico:'&#127961;',t:'Divisiones',c:'var(--tl)',p:0,lk:true},
-  {n:'Torre Medidas',ico:'&#128332;',t:'Tablas',c:'var(--am)',p:0,lk:true},
-  {n:'Dimension Geo',ico:'&#128311;',t:'Geometría',c:'var(--pu)',p:0,lk:true},
+  {n:'Isla Nexus',ico:'&#127965;',t:'Suma y resta',c:'var(--bl)',p:60,lk:false,key:0},
+  {n:'Volcan',ico:'&#127755;',t:'Multiplicación',c:'var(--rd)',p:20,lk:false,key:0},
+  {n:'Ciudad Decimal',ico:'&#127961;',t:'Divisiones',c:'var(--tl)',p:0,lk:true,key:1500},
+  {n:'Torre Medidas',ico:'&#128332;',t:'Tablas',c:'var(--am)',p:0,lk:true,key:3000},
+  {n:'Dimension Geo',ico:'&#128311;',t:'Geometría',c:'var(--pu)',p:0,lk:true,key:5000},
 ];
 var ACHS=[
   {n:'Triada',d:'3 dias seguidos',i:'&#128293;',lk:false},
@@ -1269,6 +1284,7 @@ var ACHS=[
   {n:'Perfecto',d:'100/100',i:'&#128142;',lk:true},
   {n:'Bilingue',d:'Completa Mat y Lengua',i:'&#127760;',lk:true},
   {n:'Maestro',d:'Todos los mundos',i:'&#127775;',lk:true},
+  {n:'Coleccionista',d:'Compra las 3 mejoras',i:'&#127894;',lk:true},
 ];
 
 // ═══ LENGUA QUESTIONS ═══
@@ -1395,7 +1411,7 @@ function loadState(){
         else dst.grade=Math.min(dst.level||1,9);
       }
       if(dst.grade>=1){
-        var maxOk=Math.min(9,dst.grade+3);
+        var maxOk=Math.min(12,dst.grade+3);
         if(dst.level>maxOk){dst.level=dst.grade;dst.recentScores=[];} // re-anclar al grado
       }
     });
@@ -1415,7 +1431,7 @@ var actLog=[
 
 // ═══ COIN SYSTEM ═══
 function coinCap(d){return TIERS[(d.level||1)-1].cap;}
-function addCoins(amt,d){var c=coinCap(d),before=d.coins;d.coins=Math.min(c,d.coins+amt);var added=d.coins-before;if(added>0){SND.coin();floatCoin('+'+added.toLocaleString('es-DO')+' NC');}if(d.coins>=c){if(d.level>=9)toast('Limite máximo alcanzado: '+c.toLocaleString('es-DO')+' NC!');else toast('Cofre lleno! Sube al nivel '+(d.level+1)+' para mas espacio.');}saveState();return added;}
+function addCoins(amt,d){var c=coinCap(d),before=d.coins;d.coins=Math.min(c,d.coins+amt);var added=d.coins-before;if(added>0){SND.coin();floatCoin('+'+added.toLocaleString('es-DO')+' NC');}if(d.coins>=c){if(d.level>=12)toast('Limite máximo alcanzado: '+c.toLocaleString('es-DO')+' NC!');else toast('Cofre lleno! Sube al nivel '+(d.level+1)+' para mas espacio.');}saveState();return added;}
 function spend(amt,d){if(d.coins<amt)return false;d.coins-=amt;d.spent+=amt;checkT(d);updHdr();saveState();return true;}
 function checkT(d){S.cat.filter(function(i){return i.type==='tier'&&!i.owned;}).forEach(function(it){if(d.spent>=(it.spendReq||0)){it.owned=true;if(it.tier>d.tier){d.tier=it.tier;SND.unlock();confetti(40);toast('Nuevo cofre: '+TIERS[it.tier-1].lbl+'. Limite: '+TIERS[it.tier-1].cap.toLocaleString('es-DO')+' NC');}}});}
 function floatCoin(t){var el=document.createElement('div');el.className='cflt';el.textContent=t;el.style.cssText='left:'+(40+Math.random()*20)+'%;top:'+(30+Math.random()*15)+'%;';document.body.appendChild(el);setTimeout(function(){el.remove();},1300);}
@@ -1456,7 +1472,7 @@ function showScreen(id){
   var el=document.getElementById(id);if(!el)return;
   el.classList.add('active');
   if(id==='res'||id==='pin')el.style.display='flex';
-  if(id==='sel'){stopSessTimer();saveMissionProgress(sessSeconds);updSessBar();}
+  if(id==='sel'){stopSessTimer();saveMissionProgress(sessSeconds);updSessBar();if(typeof updateModeCards==='function')updateModeCards();}
 }
 function terminarBienvenida(){
   showScreen('onboard');
@@ -1508,8 +1524,34 @@ function changePinFlow(){S.pinChanging=true;S.pinNew='';pbuf=[];renderPinUI('Ing
 (function(){var c=document.getElementById('ptc');if(!c)return;var cols=['#4DAFFF33','#9B6FFF33','#18CDB033','#FFB83022'];for(var i=0;i<18;i++){var p=document.createElement('div');p.className='pt';var sz=Math.random()*4+2;p.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+cols[i%4]+';left:'+Math.random()*100+'%;animation-duration:'+(Math.random()*16+8)+'s;animation-delay:'+(Math.random()*10)+'s;';c.appendChild(p);}})();
 
 // ═══ MODE ═══
+// Devuelve el modo que corresponde a una edad: 6-11 = exp, 12+ = gua
+function modeForAge(age){return (parseInt(age)<=11)?'exp':'gua';}
+// Atenua/bloquea visualmente el modo que NO corresponde a la edad del perfil.
+function updateModeCards(){
+  var ce=document.getElementById('scard-exp'),cg=document.getElementById('scard-gua');
+  if(!ce||!cg)return;
+  // Sin perfil aun (primera vez): ambos disponibles para poder crear perfil.
+  if(!S.onboarded||!S.profile||!S.profile.age){
+    ce.classList.remove('locked');cg.classList.remove('locked');return;
+  }
+  var correcto=modeForAge(S.profile.age);
+  if(correcto==='exp'){ce.classList.remove('locked');cg.classList.add('locked');}
+  else{cg.classList.remove('locked');ce.classList.add('locked');}
+}
 function startMode(m){
-  SND.ui();S.mode=m;
+  SND.ui();
+  // BLOQUEO POR EDAD: solo se puede entrar al modo que corresponde a la edad del perfil.
+  if(S.onboarded && S.profile && S.profile.age){
+    var correcto=modeForAge(S.profile.age);
+    if(m!==correcto){
+      var msg=(correcto==='exp')
+        ? 'Modo Explorador es para tu edad (6 a 11 años). Modo Guardián es para 12 años o más.'
+        : 'Modo Guardián es para tu edad (12 años o más). Modo Explorador es para 6 a 11 años.';
+      toast(msg);
+      return;
+    }
+  }
+  S.mode=m;
   if(typeof ocultarMascota==='function')ocultarMascota();
   if(!S.onboarded){obMode=m;selObMode(m);showScreen('onboard');obGoStep(0);return;}
   // Asegurar que se vea el HUB y no el área de misión vacía (bug al salir/volver)
@@ -1610,7 +1652,7 @@ function updHdr(){
   var hl=document.getElementById('hlvln'),hlt=document.getElementById('hlvlt'),hls=document.getElementById('hlvls'),hlb=document.getElementById('hlvlb');
   if(hl)hl.textContent=d.level;
   if(hlt)hlt.textContent=DLVLS[d.level-1].name; // solo el rango (el modo ya se ve en el header)
-  if(hls)hls.textContent=d.level<9?'XP para nivel '+(d.level+1)+': '+(d.lvlXP||0).toLocaleString('es-DO')+'/'+LXP[d.level].toLocaleString('es-DO'):'Nivel máximo!';
+  if(hls)hls.textContent=d.level<12?'XP para nivel '+(d.level+1)+': '+(d.lvlXP||0).toLocaleString('es-DO')+'/'+LXP[d.level].toLocaleString('es-DO'):'Nivel máximo!';
   if(hlb)hlb.style.width=lvlPct(d)+'%';
   // area tabs
   var tm=document.getElementById('tab-mat'),tl=document.getElementById('tab-len');
@@ -1628,6 +1670,10 @@ function renderHubMission(){
 
 function renderHub(){
   var m=S.mode,d=S[m];
+  // Aplicar los mundos que este perfil ya desbloqueo (persistencia por perfil)
+  if(d.worldsUnlocked){d.worldsUnlocked.forEach(function(wi){if(WORLDS[wi])WORLDS[wi].lk=false;});}
+  // Re-bloquear los que este perfil NO ha desbloqueado (al cambiar de perfil)
+  WORLDS.forEach(function(w,wi){if(w.key&&w.key>0){w.lk=!(d.worldsUnlocked&&d.worldsUnlocked.indexOf(wi)>=0);}});
   var gn=document.getElementById('gname');if(gn)gn.textContent=m==='exp'?'Explorador':'Guardián';
   var gs=document.getElementById('gsub');if(gs)gs.textContent=d.streak>0?'Llevas '+d.streak+' dias de racha! No la rompas.':'Completala con 80+ para comenzar tu racha!';
   renderHubMission();
@@ -1648,7 +1694,27 @@ function renderHub(){
     document.getElementById('rb3').style.width=avg+'%';document.getElementById('rv3').textContent=avg?avg+'/100':'-';
   }else if(grk)grk.style.display='none';
   var wg=document.getElementById('wg');
-  if(wg){wg.innerHTML='';WORLDS.forEach(function(w,i){var d2=document.createElement('div');d2.className='wc'+(w.lk?' lk':'')+(i===(S.activeWorld||0)?' act':'');d2.onmouseenter=function(){if(!w.lk)SND.hover();};d2.onclick=function(){if(!w.lk){SND.ui();S.activeWorld=i;renderHub();}};d2.innerHTML='<div class="wico">'+w.ico+'</div><div class="wn" style="color:'+w.c+'">'+w.n+'</div><div class="wt">'+w.t+'</div><div class="wp"><div class="wpf" style="width:'+w.p+'%;background:'+w.c+'"></div></div>'+(w.lk?'<div style="font-size:9px;color:var(--tx3);margin-top:4px;font-weight:800;">BLOQUEADO</div>':'');wg.appendChild(d2);});}
+  if(wg){wg.innerHTML='';WORLDS.forEach(function(w,i){var d2=document.createElement('div');d2.className='wc'+(w.lk?' lk':'')+(i===(S.activeWorld||0)?' act':'');d2.onmouseenter=function(){if(!w.lk)SND.hover();};d2.onclick=function(){if(!w.lk){SND.ui();S.activeWorld=i;renderHub();}else{desbloquearMundo(i);}};var lockHtml=w.lk?'<div style="font-size:11px;color:'+w.c+';margin-top:4px;font-weight:800;">&#128273; '+(w.key||0).toLocaleString('es-DO')+' NC</div>':'';d2.innerHTML='<div class="wico">'+w.ico+'</div><div class="wn" style="color:'+w.c+'">'+w.n+'</div><div class="wt">'+w.t+'</div><div class="wp"><div class="wpf" style="width:'+w.p+'%;background:'+w.c+'"></div></div>'+lockHtml;wg.appendChild(d2);});}
+  // ── VITRINA DE META: proximo mundo a desbloquear (crea el deseo de juntar monedas) ──
+  var metaEl=document.getElementById('meta-mundo');
+  if(metaEl){
+    var prox=null,proxI=-1;
+    for(var wi=0;wi<WORLDS.length;wi++){ if(WORLDS[wi].lk && WORLDS[wi].key>0){prox=WORLDS[wi];proxI=wi;break;} }
+    if(prox){
+      var falta=Math.max(0,prox.key-d.coins);
+      var pct=Math.min(100,Math.round(d.coins/prox.key*100));
+      var listo=falta===0;
+      metaEl.innerHTML='<div style="background:#13132A;border:2px solid '+prox.c+';border-radius:14px;padding:13px 15px;margin-bottom:12px;">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
+        +'<div style="font-weight:800;color:#fff;font-size:14px;">&#127919; Proxima meta: '+prox.ico+' '+prox.n+'</div>'
+        +'<div style="font-weight:900;color:'+prox.c+';font-size:13px;">&#128273; '+prox.key.toLocaleString("es-DO")+'</div></div>'
+        +'<div style="background:#0C0C1E;border-radius:999px;height:9px;overflow:hidden;margin-bottom:6px;"><div style="width:'+pct+'%;height:100%;background:'+prox.c+';border-radius:999px;"></div></div>'
+        +'<div style="font-size:12px;color:'+(listo?prox.c:"#A0A0C0")+';font-weight:700;">'
+        +(listo?'&#10024; Listo! Toca '+prox.n+' para desbloquearlo.':'Te faltan '+falta.toLocaleString("es-DO")+' NC. Sigue jugando para abrirlo!')+'</div></div>';
+    } else {
+      metaEl.innerHTML='<div style="background:#13132A;border:2px solid #2EDC7D;border-radius:14px;padding:13px 15px;margin-bottom:12px;font-weight:800;color:#5FE89B;font-size:14px;text-align:center;">&#127881; Desbloqueaste todos los mundos! Eres un explorador completo.</div>';
+    }
+  }
   var ar=document.getElementById('achr');
   if(ar){ar.innerHTML='';ACHS.forEach(function(a){var d2=document.createElement('div');d2.className='ac'+(a.lk?' lk':'');d2.innerHTML='<div class="ai">'+a.i+'</div><div class="an">'+a.n+'</div><div class="ad">'+(a.lk?'Bloq. ':'')+a.d+'</div>';ar.appendChild(d2);});}
   updHdr();
@@ -1724,24 +1790,84 @@ function prereqListos(op){
 }
 
 function pickWeightedOp(ops){
-  var weights=ops.map(function(op){
+  // Los temas estan ordenados de mas antiguo (indice 0) a mas nuevo (ultimo).
+  // Los temas NUEVOS del grado (al final) deben predominar; los viejos son repaso ligero.
+  var n=ops.length;
+  var weights=ops.map(function(op,idx){
     var m=skillMastery(op);
     var w;
-    if(m===null)w=1.5;             // tema nuevo: peso medio-alto (explorar)
+    if(m===null)w=1.5;             // sin datos: peso medio-alto (explorar)
     else if(m<0.5)w=3.0;           // muy debil: triple probabilidad
     else if(m<0.7)w=2.0;           // debil: doble
     else if(m<0.85)w=1.0;          // en progreso: normal
     else w=0.4;                    // dominado: baja frecuencia
-    // MECANISMO 3: si los prerequisitos NO están dominados, reducir mucho el peso
-    // (introducción gradual: el tema aparece muy poco hasta dominar su base).
+    // PESO POR RECENCIA: los temas nuevos del grado (ultimos del array) reciben
+    // mas peso; los antiguos (primeros) son repaso ligero. Solo aplica si hay
+    // varios temas acumulados (nivel >= 4 aprox).
+    if(n>3){
+      var recencia=(idx+1)/n;                    // 0..1 (1 = el mas nuevo)
+      var factorRecencia=0.15+Math.pow(recencia,1.5)*1.6; // curva: viejos muy bajos, nuevos altos
+      w*=factorRecencia;
+    }
+    // MECANISMO 3: si los prerequisitos NO están dominados, reducir mucho el peso.
     if(!prereqListos(op))w*=0.12;
     return w;
   });
   var total=weights.reduce(function(a,b){return a+b;},0);
-  if(total<=0)return ops[0]; // seguridad
+  if(total<=0)return ops[0];
   var r=Math.random()*total,acc=0;
   for(var i=0;i<ops.length;i++){acc+=weights[i];if(r<=acc)return ops[i];}
   return ops[ops.length-1];
+}
+
+// ════ PROBLEMAS DE RAZONAMIENTO (contextos dominicanos) ════
+// Genera un problema verbal para la operacion dada, con numeros ya calculados.
+// a,b = operandos; res = resultado correcto. Devuelve {q, top} o null.
+function _wordProblem(op,a,b,res){
+  function rPick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+  var nombres=['Juan','Maria','Pedro','Ana','Luis','Carmen','Jose','Rosa','Miguel','Yamilet','Francis','Wanda'];
+  var n1=rPick(nombres), n2=rPick(nombres.filter(function(x){return x!==n1;}));
+  if(op==='add'){
+    var T=[
+      n1+' tiene '+a+' mangos y recoge '+b+' mas. Cuantos mangos tiene en total?',
+      'En el colmado hay '+a+' panes y traen '+b+' mas. Cuantos panes hay ahora?',
+      n1+' ahorro '+a+' pesos y su mama le dio '+b+' pesos. Cuanto dinero tiene?',
+      'Un gua-gua llevaba '+a+' pasajeros y subieron '+b+' mas. Cuantos pasajeros hay?',
+      n1+' tiene '+a+' chelitos y se gana '+b+' mas. Cuantos chelitos tiene?'
+    ];
+    return {q:rPick(T),top:'Problema de suma'};
+  }
+  if(op==='sub'){
+    var T2=[
+      n1+' tiene '+a+' mangos y regala '+b+'. Cuantos mangos le quedan?',
+      'En el colmado habia '+a+' refrescos y se vendieron '+b+'. Cuantos quedan?',
+      n1+' tenia '+a+' pesos y gasto '+b+' pesos en el colmado. Cuanto le queda?',
+      'Un gua-gua llevaba '+a+' pasajeros y se bajaron '+b+'. Cuantos quedan?',
+      n1+' tenia '+a+' caramelos y se comio '+b+'. Cuantos le quedan?'
+    ];
+    return {q:rPick(T2),top:'Problema de resta'};
+  }
+  if(op==='mul'){
+    var T3=[
+      n1+' compra '+a+' fundas con '+b+' mangos cada una. Cuantos mangos tiene?',
+      'En el colmado hay '+a+' cajas con '+b+' refrescos cada una. Cuantos refrescos hay?',
+      n1+' ahorra '+b+' pesos cada dia durante '+a+' dias. Cuanto ahorra?',
+      'Hay '+a+' gua-guas con '+b+' pasajeros cada uno. Cuantos pasajeros en total?',
+      n1+' tiene '+a+' paquetes de '+b+' galletas. Cuantas galletas tiene?'
+    ];
+    return {q:rPick(T3),top:'Problema de multiplicacion'};
+  }
+  if(op==='div'){
+    var T4=[
+      n1+' reparte '+a+' mangos entre '+b+' amigos por igual. Cuantos le toca a cada uno?',
+      'En el colmado ponen '+a+' refrescos en '+b+' cajas iguales. Cuantos por caja?',
+      n1+' reparte '+a+' pesos entre '+b+' hijos por igual. Cuanto recibe cada uno?',
+      a+' pasajeros se reparten en '+b+' gua-guas iguales. Cuantos por gua-gua?',
+      n1+' divide '+a+' caramelos en '+b+' bolsitas iguales. Cuantos por bolsita?'
+    ];
+    return {q:rPick(T4),top:'Problema de division'};
+  }
+  return null;
 }
 
 function _genMatCore(diff){
@@ -1749,21 +1875,35 @@ function _genMatCore(diff){
   var __op=op; // recordar la operacion elegida para tracking
   function shuf(arr){return arr.sort(function(){return Math.random()-0.5;});}
   function R(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+  // Rango de complejidad por grado: cada operador escala con el nivel del jugador.
+  // Devuelve el tope superior de los operandos basicos segun el nivel.
+  function capByLevel(l){
+    if(l<=1)return 20;      // 1ro Prim: hasta 20
+    if(l<=2)return 99;      // 2do Prim: hasta 99
+    if(l<=3)return 500;     // 3ro Prim
+    if(l<=4)return 9999;    // 4to Prim
+    if(l<=5)return 99999;   // 5to Prim
+    if(l<=6)return 99999;   // 6to Prim
+    return 99999;           // Secundaria: operandos hasta ~5 cifras (exigente sin ser absurdo)
+  }
   function wrap(res,pool){var all=[res].concat(pool.filter(function(x){return x!==res&&x>0;}).slice(0,3));while(all.length<4)all.push(res+all.length+Math.floor(Math.random()*4)+1);var s=shuf(all.slice(0,4));return{opts:s.map(String),ok:s.indexOf(res)};}
   function wrapAny(res,wrongs){var all=[res].concat(wrongs.filter(function(x){return x!==res;})).slice(0,4);while(all.length<4)all.push(res+'_'+all.length);var s=shuf(all);return{opts:s.map(String),ok:s.indexOf(res)};}
 
   // ── ADD ──
   if(op==='add'){
-    var cap=Math.min(mx,diff<=1?99:diff<=2?500:9999);
+    var cap=capByLevel(diff);
     var a=R(1,cap),b=R(1,cap),res=a+b;
     var w=wrap(res,[res+1,res-1,res+10,res-10,res+a]);
+    // ~38% de las veces: problema de razonamiento en vez de operacion abstracta
+    if(Math.random()<0.38){var wp=_wordProblem('add',a,b,res);if(wp)return{q:wp.q,vis:null,opts:w.opts,ok:w.ok,top:wp.top,ctx:'Lee con atención y resuelve.'};}
     return{q:a+' + '+b+' = ?',vis:null,opts:w.opts,ok:w.ok,top:'Suma',ctx:'El guardian suma energía.'};
   }
   // ── SUB ──
   if(op==='sub'){
-    var cap2=Math.min(mx,diff<=1?99:diff<=2?500:9999);
+    var cap2=capByLevel(diff);
     var a2=R(Math.ceil(cap2/2),cap2),b2=R(1,a2-1),res2=a2-b2;
     var w2=wrap(res2,[res2+1,res2-1,a2+b2,res2+5]);
+    if(Math.random()<0.38){var wp2=_wordProblem('sub',a2,b2,res2);if(wp2)return{q:wp2.q,vis:null,opts:w2.opts,ok:w2.ok,top:wp2.top,ctx:'Lee con atención y resuelve.'};}
     return{q:a2+' - '+b2+' = ?',vis:null,opts:w2.opts,ok:w2.ok,top:'Resta',ctx:'El guardian resta el poder del villano.'};
   }
   // ── TABLE ──
@@ -1774,15 +1914,17 @@ function _genMatCore(diff){
   }
   // ── MUL ──
   if(op==='mul'){
-    var mF=diff<=3?12:diff<=5?25:99;
-    var a4=R(2,mF),b4=R(2,Math.min(mF,diff<=3?12:50)),res4=a4*b4;
+    var mF=diff<=3?12:diff<=5?25:diff<=7?99:999;
+    var a4=R(2,mF),b4=R(2,Math.min(mF,diff<=3?12:diff<=5?50:99)),res4=a4*b4;
     var w4=wrap(res4,[a4*(b4+1),a4*(b4-1)||(res4+1),res4+a4,res4-b4||(res4+2)]);
+    if(Math.random()<0.38){var wp4=_wordProblem('mul',a4,b4,res4);if(wp4)return{q:wp4.q,vis:null,opts:w4.opts,ok:w4.ok,top:wp4.top,ctx:'Lee con atención y resuelve.'};}
     return{q:a4+' x '+b4+' = ?',vis:null,opts:w4.opts,ok:w4.ok,top:'Multiplicación',ctx:'El guardian multiplica su poder.'};
   }
   // ── DIV ──
   if(op==='div'){
-    var b5=R(2,diff<=4?12:25),res5=R(2,diff<=4?12:50),a5=b5*res5;
+    var b5=R(2,diff<=4?12:diff<=7?25:50),res5=R(2,diff<=4?12:diff<=7?50:99),a5=b5*res5;
     var w5=wrap(res5,[res5+1,res5-1||(res5+2),res5+2,Math.floor(a5/(b5+1))+1]);
+    if(Math.random()<0.38){var wp5=_wordProblem('div',a5,b5,res5);if(wp5)return{q:wp5.q,vis:null,opts:w5.opts,ok:w5.ok,top:wp5.top,ctx:'Lee con atención y resuelve.'};}
     return{q:a5+' \u00f7 '+b5+' = ?',vis:null,opts:w5.opts,ok:w5.ok,top:'División',ctx:'El guardian divide los recursos.'};
   }
   // ── FRAC ──
@@ -1820,9 +1962,10 @@ function _genMatCore(diff){
   // ── INTEGER (numeros enteros con negativos) ──
   if(op==='integer'){
     // Siempre incluir al menos un negativo para que sea operacion con enteros (no suma trivial)
-    var i1=R(-30,-1); // primero siempre negativo
-    var i2=R(1,30);   // segundo positivo (o lo volvemos negativo a veces)
-    if(Math.random()<0.4)i2=R(-30,-1); // a veces ambos negativos
+    var iCap=diff<=7?30:diff<=9?60:99;
+    var i1=R(-iCap,-1); // primero siempre negativo
+    var i2=R(1,iCap);   // segundo positivo (o lo volvemos negativo a veces)
+    if(Math.random()<0.4)i2=R(-iCap,-1); // a veces ambos negativos
     var iop=Math.random()<0.5?'+':'-';
     var ri=iop==='+'?(i1+i2):(i1-i2);
     function fmt(n){return n<0?'('+n+')':''+n;}
@@ -1831,13 +1974,14 @@ function _genMatCore(diff){
   }
   // ── EQUATION (ecuaciones simples) ──
   if(op==='equation'){
-    var x=R(1,20),k=R(1,30),sum2=x+k;
+    var xCap=diff<=8?20:diff<=10?40:60, kCap=diff<=8?30:diff<=10?60:99;
+    var x=R(1,xCap),k=R(1,kCap),sum2=x+k;
     var fmt2=Math.random();
     if(fmt2<0.5){
       var we=wrap(x,[x+1,x-1,x+2,k]);
       return{q:'x + '+k+' = '+sum2+'  \u2192  x = ?',vis:null,opts:we.opts,ok:we.ok,top:'Ecuaciones',ctx:'El guardian descifra el valor oculto.'};
     } else {
-      var mult=R(2,9),prod=mult*x;
+      var mult=R(2,diff<=8?9:diff<=10?12:15),prod=mult*x;
       var we2=wrap(x,[x+1,x-1,prod,mult]);
       return{q:mult+'x = '+prod+'  \u2192  x = ?',vis:null,opts:we2.opts,ok:we2.ok,top:'Ecuaciones',ctx:'El guardian resuelve la incognita.'};
     }
@@ -1872,7 +2016,7 @@ function _genMatCore(diff){
   return{q:fa+' + '+fb+' = ?',vis:null,opts:fw.opts,ok:fw.ok,top:'Suma',ctx:'Energía base.'};
 }
 function genMat(diff){
-  diff=Math.max(1,Math.min(9,diff||1)); // proteger rango 1-9 (evita crash con datos corruptos)
+  diff=Math.max(1,Math.min(12,diff||1)); // proteger rango 1-9 (evita crash con datos corruptos)
   var q=_genMatCore(diff);
   if(q && !q.op){
     // inferir op desde el top si el core no lo expone
@@ -1883,15 +2027,20 @@ function genMat(diff){
 function _topToOp(top){
   if(!top)return 'add';
   if(top.indexOf('Tabla')===0)return 'table';
+  // Los problemas de razonamiento cuentan para la operacion correspondiente.
+  if(top.indexOf('Problema de suma')===0)return 'add';
+  if(top.indexOf('Problema de resta')===0)return 'sub';
+  if(top.indexOf('Problema de multiplicacion')===0)return 'mul';
+  if(top.indexOf('Problema de division')===0)return 'div';
   var map={'Suma':'add','Resta':'sub','Multiplicación':'mul','División':'div','Fracciones':'frac','Potencias':'power','Raiz cuadrada':'power','Decimales':'decimal','Números enteros':'integer','Ecuaciones':'equation','MCM':'mcm','Patrones':'sequence'};
   return map[top]||'add';
 }
 
 
 function genLen(diff){
-  diff=Math.max(1,Math.min(9,diff||1)); // proteger rango 1-9
+  diff=Math.max(1,Math.min(12,diff||1)); // proteger rango 1-9
   // Banco escalado por nivel (grado MINERD). diff = nivel 1-9
-  var lvl=Math.max(1,Math.min(9,diff||S[S.mode].level||1));
+  var lvl=Math.max(1,Math.min(12,diff||S[S.mode].level||1));
   var bank=(typeof LENGUA_BY_LEVEL!=='undefined'&&LENGUA_BY_LEVEL[lvl])?LENGUA_BY_LEVEL[lvl]:LENGUA_QS;
   var q=JSON.parse(JSON.stringify(bank[Math.floor(Math.random()*bank.length)]));
   // Barajar opciones para que la correcta no quede siempre en la misma posicion
@@ -1923,7 +2072,7 @@ function startMission(){
     S.ses.repasoNivel=Math.max(1,diff-d.repasoInicial);
     S.ses.repasoOk=0;
   }
-  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8),hotStreak:0,coldStreak:0,baseDiff:0,visNC:0,bonusNC:0,weekBonus:0,repasoNivel:undefined,repasoOk:0,failStreak:0,lastFailOp:null,avisoTope:false};
+  S.ses={qs:pool,correct:0,t0:Date.now(),world:WORLDS[S.activeWorld||0].n,area:S.area,totalCorrect:0,totalQ:0,rounds:0,combo:0,maxCombo:0,goldenIdx:Math.floor(Math.random()*8),hotStreak:0,coldStreak:0,baseDiff:0,visNC:0,bonusNC:0,weekBonus:0,acreditadoSes:0,heroeUsado:false,repasoNivel:undefined,repasoOk:0,failStreak:0,lastFailOp:null,avisoTope:false};
   ans=[];cq=0;
   sessSeconds=getMissionProgress(); // retomar tiempo acumulado del dia
   var ncv=document.getElementById('mg-nc-val');if(ncv)ncv.textContent='0';
@@ -1956,7 +2105,7 @@ function renderQ(){
     var adjDiff=s.repasoNivel;
     // Si va en racha buena en su nivel base, puede subir 1 sobre el base
     if((s.hotStreak||0)>=3 && s.repasoNivel>=s.baseDiff){
-      adjDiff=Math.min(9,s.baseDiff+1);
+      adjDiff=Math.min(12,s.baseDiff+1);
     }
     if(ans[cq]===undefined){
       s.qs[cq]=genMat(adjDiff);
@@ -1983,6 +2132,8 @@ function renderQ(){
   var mgc=document.getElementById('mgc');
   if(mgc)mgc.innerHTML='<div class="qcard'+(isGolden?' golden':'')+'">'+(isGolden?'<div class="golden-badge">&#11088; PREGUNTA DORADA - Vale doble!</div>':'')+''+(function(){var rn=(s.repasoNivel!==undefined&&s.repasoNivel<s.baseDiff)?s.repasoNivel:d.level;var enRepaso=(s.repasoNivel!==undefined&&s.repasoNivel<s.baseDiff);return '<div class="qlvl">'+(enRepaso?'🌱 Modo Repaso':'Nivel '+rn+' - '+DLVLS[rn-1].name)+'</div>';})()+'<div class="qctx">'+q.ctx+'</div>'+passage+'<div class="qtxt">'+fmtNum(q.q)+'</div>'+vis+optsHtml+'</div>';
   var t=DLVLS[d.level-1].timer;
+  // MEJORA Reloj del Sabio: +5 segundos extra en cada pregunta
+  if(d.upgrades&&d.upgrades.u2){t+=5;}
   startTimer(S.mode==='gua'?Math.max(10,t-3):t);
 }
 
@@ -2036,11 +2187,20 @@ function pick(i){
     showCombo(S.ses.combo,isGolden);
     // Recompensa visible por pregunta (contador sube, no afecta economia real)
     var qNC=100+(S.ses.combo>=5?100:S.ses.combo>=3?50:0)+(isGolden?300:0);
+    // MEJORA Cerebro Turbo: +20% NC por pregunta
+    if(S[S.mode].upgrades&&S[S.mode].upgrades.u1){qNC=Math.round(qNC*1.2);}
     S.ses.visNC=(S.ses.visNC||0)+qNC;
     bumpNCCounter(S.ses.visNC,qNC);
   }else{
-    S.ses.combo=0; // romper combo
-    SND.wrong();
+    // MEJORA Corazon de Heroe: el primer fallo de la mision NO rompe el combo
+    if(S[S.mode].upgrades&&S[S.mode].upgrades.u3&&!S.ses.heroeUsado){
+      S.ses.heroeUsado=true;
+      toast('❤️ Corazon de Heroe te salvo el combo!');
+      // no reseteamos el combo; continuar como si no hubiera fallado para el combo
+    } else {
+      S.ses.combo=0; // romper combo
+      SND.wrong();
+    }
   }
   if(typeof reaccionMascota==='function')reaccionMascota(ok?'happy':'sad');
   // ENTRENAMIENTO GUIADO: rastrear fallos seguidos en el mismo tema
@@ -2206,6 +2366,17 @@ function pauseMission(){
   // Guardar el tiempo acumulado y salir a seleccion (el tiempo se retoma luego)
   clearInterval(ti);stopSessTimer();
   saveMissionProgress(sessSeconds);
+  // ACREDITAR las monedas ya ganadas en esta misión (aunque no se complete).
+  var ganadas=(S.ses&&S.ses.visNC)?S.ses.visNC:0;
+  if(ganadas>0){
+    var d=S[S.mode];
+    var antes=d.coins;
+    addCoins(ganadas,d);
+    var acreditadas=d.coins-antes;
+    S.ses.visNC=0; // ya acreditadas, evitar doble conteo si se vuelve a entrar
+    saveState();
+    if(acreditadas>0)toast('Ganaste '+acreditadas.toLocaleString('es-DO')+' NC! Se guardaron en tu cuenta. 🪙');
+  }
   // Limpiar estado visual de la misión para que no quede pantalla vacía al volver
   var mg=document.getElementById('mg');if(mg)mg.style.display='none';
   var hub=document.getElementById('hub');if(hub)hub.style.display='block';
@@ -2229,7 +2400,7 @@ function adaptarNivel(d,score){
   }
   var grado=d.grade||1;
   var minNivel=Math.max(1,grado-2);
-  var maxNivel=Math.min(9,grado+3); // hasta 3 grados arriba
+  var maxNivel=Math.min(12,grado+3); // hasta 3 grados arriba
   // Rastrear desempeno reciente
   d.recentScores=d.recentScores||[];
   d.recentScores.push(score);
@@ -2269,6 +2440,15 @@ function endMission(){
     S.ses.totalCorrect+=S.ses.correct;
     S.ses.totalQ+=S.ses.qs.length;
     S.ses.rounds++;
+    // ACREDITAR al saldo grande las monedas ganadas en esta tanda (antes de la siguiente).
+    var ganadasTanda=S.ses.visNC||0;
+    if(ganadasTanda>0){
+      addCoins(ganadasTanda,S[S.mode]);
+      S.ses.acreditadoSes=(S.ses.acreditadoSes||0)+ganadasTanda; // total ya acreditado en la sesion
+      S.ses.visNC=0; // reset para que la proxima tanda cuente desde 0 (evita doble conteo)
+      saveState();
+      if(typeof updHdr==='function')updHdr(); // refrescar saldo visible
+    }
     // Nueva tanda de preguntas, mismo nivel/area, timer de sesión sigue corriendo
     var d2=S[S.mode],diff2=d2.level,isLen2=S.ses.area==='len';
     var pool2=[];
@@ -2299,6 +2479,9 @@ function endMission(){
   d.scores.push(score);d.missions++;
   if(isLen){if(!d.lenScores)d.lenScores=[];d.lenScores.push(score);}
   var earned=0;
+  // Las monedas BASE (por respuestas) se acreditan SIEMPRE al cerrar: ya se ganaron pregunta a pregunta.
+  var baseUlt=S.ses.visNC||0;
+  if(baseUlt>0){addCoins(baseUlt,d);S.ses.acreditadoSes=(S.ses.acreditadoSes||0)+baseUlt;S.ses.visNC=0;}
   var missionOk=passed&&hasTime;if(missionOk){
     // El tiempo NO se reinicia: sigue acumulando todo el dia (solo resetea al cambiar de dia)
     saveMissionProgress(sessSeconds);
@@ -2320,14 +2503,15 @@ function endMission(){
     // Si ya completó misión hoy, la racha NO vuelve a subir (sigue igual)
     addXP(100+(score===100?50:0),d);
     // Base = lo que el niño vio acumular pregunta por pregunta (contador visual)
-    var baseNC=S.ses.visNC||0;
-    // Bonos adicionales que se revelan al final
+    // baseNC ya fue acreditada arriba (se acredita siempre). Aqui solo los BONOS por completar bien.
     var roundBonus=Math.max(0,(rounds-1))*150;
     var scoreBonus=score===100?400:(score>=90?200:0);
     var streakBonus=(d.streak>1?200:0);
-    var goldenBonus=0; // la dorada ya se contó en el contador visual
-    earned=addCoins(baseNC+scoreBonus+streakBonus+roundBonus+goldenBonus,d);
-    S.ses.bonusNC=scoreBonus+streakBonus+roundBonus; // para mostrar desglose
+    var bonosTotal=scoreBonus+streakBonus+roundBonus;
+    addCoins(bonosTotal,d);
+    // earned mostrado = todo lo ganado en la sesion (base de toda la sesion + bonos)
+    earned=(S.ses.acreditadoSes||0)+bonosTotal;
+    S.ses.bonusNC=bonosTotal; // para mostrar desglose
     if(d.streak%7===0 && S.ses.streakUpdatedToday){addCoins(1000,d);SND.streak();S.ses.weekBonus=1000;}
     actLog.unshift({m:m,s:score,p:true,t:'Hoy',area:isLen?'len':'mat'});
     SND.win();checkT(d);syncToSheets();
@@ -2408,7 +2592,8 @@ function showResult(score,passed,tMin,earned,hasTime,rawPassed,rounds){
 
   // ── REWARDS ──
   var rews=document.getElementById('rews');
-  var baseNC=S.ses.visNC||0;var bonusNC=S.ses.bonusNC||0;var weekBonus=S.ses.weekBonus||0;
+  // baseNC = monedas por respuestas de TODA la sesion (ya acreditadas al saldo)
+  var baseNC=(S.ses.acreditadoSes||0)+(S.ses.visNC||0);var bonusNC=S.ses.bonusNC||0;var weekBonus=S.ses.weekBonus||0;
   if(rews)rews.innerHTML=missionOk
     ?'<div class="rew" style="font-size:1.3em;color:var(--gr)">&#127881; NC +'+earned.toLocaleString('es-DO')+'</div>'
       +'<div class="rew" style="font-size:0.85em;color:var(--tx3)">'+baseNC.toLocaleString('es-DO')+' por tus respuestas'+(bonusNC>0?' + '+bonusNC.toLocaleString('es-DO')+' de bonos':'')+'</div>'
@@ -2629,6 +2814,30 @@ function renderShop(){
     body.appendChild(grid);
   });
 }
+// Desbloquear un mundo con una llave (monedas). Atractivo, no obligatorio:
+// si tiene suficientes, lo abre; si no, le muestra cuanto le falta (crea el deseo).
+function desbloquearMundo(i){
+  var w=WORLDS[i];if(!w||!w.lk)return;
+  var m=S.mode,d=S[m];
+  var precio=w.key||0;
+  if(d.coins>=precio){
+    if(confirm('Desbloquear '+w.n+' por '+precio.toLocaleString('es-DO')+' NC?')){
+      if(spend(precio,d)){
+        w.lk=false; // abrir el mundo
+        // Guardar en el perfil que este mundo esta desbloqueado
+        d.worldsUnlocked=d.worldsUnlocked||[];
+        if(d.worldsUnlocked.indexOf(i)<0)d.worldsUnlocked.push(i);
+        SND.buy();confetti(30);
+        S.activeWorld=i;
+        toast('&#127881; '+w.n+' desbloqueado! Nuevo mundo para explorar.');
+        updHdr();renderHub();saveState();
+      }
+    }
+  } else {
+    var faltan=precio-d.coins;
+    toast('&#128273; Te faltan '+faltan.toLocaleString('es-DO')+' NC para abrir '+w.n+'. Sigue jugando!');
+  }
+}
 function buyItem(id){
   var m=S.mode,d=S[m],it=S.cat.filter(function(i){return i.id===id;})[0];
   if(!it||it.price>d.coins)return;
@@ -2641,6 +2850,21 @@ function buyItem(id){
     }else if(it.type==='c'){
       it.stock=(it.stock||0)+1;
       toast(it.name+' obtenido!');
+    }else if(it.type==='u'){
+      it.owned=true;
+      // Guardar la mejora en el perfil para que tenga efecto permanente
+      d.upgrades=d.upgrades||{};
+      d.upgrades[it.id]=true;
+      toast('⭐ '+it.name+' activado! Mejora permanente.');
+      // ¿Compró las 3 mejoras? -> logro Coleccionista
+      if(d.upgrades.u1&&d.upgrades.u2&&d.upgrades.u3){
+        if(!d.coleccionista){
+          d.coleccionista=true;
+          addCoins(2000,d); // gran recompensa
+          confetti(40);
+          toast('🏆 LOGRO: Coleccionista! Compraste todas las mejoras. +2.000 NC de regalo!');
+        }
+      }
     }else{
       it.owned=true;
       toast(it.name+' obtenido!');
@@ -2651,20 +2875,33 @@ function buyItem(id){
 
 // ═══ SHARE ═══
 function buildShareText(){
-  var m=S.mode,d=S[m];
-  var sc=d.scores,avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
-  return '🎮 Estoy jugando NEXUS HEROES, el reto de vacaciones! Soy un '+(S.mode==='exp'?'Explorador':'Guardián')+'.\n\n✅ Misiones: '+d.missions+'\n🔥 Racha: '+d.streak+' dias\n⭐ Score: '+avg+'/100\n🪙 Nexus Coins: '+d.coins.toLocaleString('es-DO')+'\n\nEntra y juega tu tambien aqui 👉 '+GAME_URL+'\n\n15 minutos diarios para llegar mejor preparado al proximo curso.';
+  // Mismo formato que el informe del panel de padres (mensaje unificado).
+  var name=(S.profile&&S.profile.name)?S.profile.name:(S.mode==='exp'?'Explorador':'Guardián');
+  var allSc=S.exp.scores.concat(S.gua.scores);
+  var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
+  var total=Math.round(((S.exp.sessTime||0)+(S.gua.sessTime||0))/60);
+  return '📊 Informe de vacaciones de '+name+' en NEXUS HEROES\n\n✅ Misiones: '+(S.exp.missions+S.gua.missions)+'\n🔥 Racha maxima: '+Math.max(S.exp.best,S.gua.best)+' dias\n⭐ Score promedio: '+avg+'/100\n⏱️ Tiempo de práctica: '+total+' minutos\n\nConoce el reto y juega aqui 👉 '+GAME_URL+'\n\n15 min diarios para llegar mejor preparado al proximo curso.';
 }
 function openShare(){
-  var m=S.mode,d=S[m];
-  var sc=d.scores,avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
-  var shm=document.getElementById('sh-mis');if(shm)shm.textContent=d.missions;
-  var shs=document.getElementById('sh-streak');if(shs)shs.textContent=d.streak;
+  // Mismos datos que el informe del panel de padres (totales)
+  var allSc=S.exp.scores.concat(S.gua.scores);
+  var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
+  var totalMis=S.exp.missions+S.gua.missions;
+  var rachaMax=Math.max(S.exp.best,S.gua.best);
+  var totalMin=Math.round(((S.exp.sessTime||0)+(S.gua.sessTime||0))/60);
+  var shm=document.getElementById('sh-mis');if(shm)shm.textContent=totalMis;
+  var shs=document.getElementById('sh-streak');if(shs)shs.textContent=rachaMax+' dias';
   var shsc=document.getElementById('sh-score');if(shsc)shsc.textContent=avg?avg+'/100':'-';
-  var shc=document.getElementById('sh-coins');if(shc)shc.textContent=d.coins;
-  var mo=document.getElementById('share-modal');if(mo)mo.classList.add('on');
+  var shc=document.getElementById('sh-coins');if(shc)shc.textContent=totalMin+' min';
+  var mo=document.getElementById('share-modal');
+  if(mo){
+    mo.classList.add('on');
+    mo.style.display='flex'; // refuerzo directo para iOS WebView (por si la clase no aplica)
+    // Asegurar que el modal este al final del body para evitar clipping por overflow/transform de un padre
+    if(mo.parentElement!==document.body)document.body.appendChild(mo);
+  }
 }
-function closeShare(){var mo=document.getElementById('share-modal');if(mo)mo.classList.remove('on');}
+function closeShare(){var mo=document.getElementById('share-modal');if(mo){mo.classList.remove('on');mo.style.display='none';}}
 function shareWhatsApp(){
   var txt=buildShareText();
   closeShare();
@@ -2686,9 +2923,14 @@ function shareWhatsApp(){
   }
 }
 function dibujarTarjetaProgreso(){
-  var m=S.mode,d=S[m];
-  var sc=d.scores,avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
-  var modo=m==='exp'?'Explorador':'Guardián';
+  var m=S.mode;
+  // Mismos datos que el informe del panel de padres (totales, no de un solo modo)
+  var name=(S.profile&&S.profile.name)?S.profile.name:'Mi héroe';
+  var allSc=S.exp.scores.concat(S.gua.scores);
+  var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
+  var totalMis=S.exp.missions+S.gua.missions;
+  var rachaMax=Math.max(S.exp.best,S.gua.best);
+  var totalMin=Math.round(((S.exp.sessTime||0)+(S.gua.sessTime||0))/60);
   var W=1080,H=1080;
   var cv=document.createElement('canvas');cv.width=W;cv.height=H;
   var ctx=cv.getContext('2d');
@@ -2705,65 +2947,43 @@ function dibujarTarjetaProgreso(){
   roundRect(ctx,60,60,W-120,H-120,40);ctx.stroke();
   ctx.textAlign='center';
   ctx.fillStyle=m==='exp'?'#4DAFFF':'#9B6FFF';
-  ctx.font='900 64px Nunito,Arial,sans-serif';
-  ctx.fillText('NEXUS HEROES',W/2,200);
-  ctx.fillStyle='#A8A8D0';ctx.font='700 38px Nunito,Arial,sans-serif';
-  ctx.fillText('Reto de Vacaciones',W/2,260);
-  ctx.font='120px Arial';ctx.fillText(m==='exp'?'⚡':'🛡️',W/2,420);
-  ctx.fillStyle='#EEEEFF';ctx.font='900 56px Nunito,Arial,sans-serif';
-  ctx.fillText('Soy un '+modo+'!',W/2,510);
-  var stats=[['Misiones',d.missions],['Racha',d.streak+' dias'],['Score',avg+'/100'],['Nexus Coins',d.coins.toLocaleString('es-DO')]];
+  ctx.font='900 60px Nunito,Arial,sans-serif';
+  ctx.fillText('NEXUS HEROES',W/2,185);
+  ctx.fillStyle='#A8A8D0';ctx.font='700 34px Nunito,Arial,sans-serif';
+  ctx.fillText('📊 Informe de Vacaciones',W/2,240);
+  ctx.font='100px Arial';ctx.fillText(m==='exp'?'⚡':'🛡️',W/2,375);
+  ctx.fillStyle='#FFFFFF';ctx.font='900 52px Nunito,Arial,sans-serif';
+  ctx.fillText(name,W/2,455);
+  var stats=[['✅ Misiones',totalMis],['🔥 Racha max',rachaMax+' dias'],['⭐ Score prom',avg+'/100'],['⏱️ Práctica',totalMin+' min']];
   var sx=[W/2-220,W/2+220,W/2-220,W/2+220];
-  var sy=[680,680,860,860];
+  var sy=[650,650,830,830];
   for(var i=0;i<4;i++){
-    ctx.font='900 72px Nunito,Arial,sans-serif';ctx.fillStyle='#FFB830';
+    ctx.font='900 64px Nunito,Arial,sans-serif';ctx.fillStyle='#FFB830';
     ctx.fillText(String(stats[i][1]),sx[i],sy[i]);
-    ctx.font='700 32px Nunito,Arial,sans-serif';ctx.fillStyle='#A8A8D0';
-    ctx.fillText(stats[i][0],sx[i],sy[i]+45);
+    ctx.font='700 30px Nunito,Arial,sans-serif';ctx.fillStyle='#A8A8D0';
+    ctx.fillText(stats[i][0],sx[i],sy[i]+44);
   }
-  ctx.fillStyle=m==='exp'?'#4DAFFF':'#9B6FFF';ctx.font='800 38px Nunito,Arial,sans-serif';
-  ctx.fillText('🎮 nexus-heroes.netlify.app',W/2,1000);
+  ctx.fillStyle=m==='exp'?'#4DAFFF':'#9B6FFF';ctx.font='800 36px Nunito,Arial,sans-serif';
+  ctx.fillText('🎮 nexus-heroes.netlify.app',W/2,990);
   return cv;
 }
 function compartirProgreso(){
   var txt=buildShareText();
-  var cv=null;
-  try{ cv=dibujarTarjetaProgreso(); }catch(e){ cv=null; }
-  // Intentar compartir IMAGEN + TEXTO juntos por el menú nativo
-  if(cv && cv.toBlob && navigator.canShare){
-    cv.toBlob(function(blob){
-      var compartido=false;
-      if(blob){
-        try{
-          var file=new File([blob],'nexus-progreso.png',{type:'image/png'});
-          if(navigator.canShare({files:[file]})){
-            compartido=true;
-            navigator.share({files:[file],text:txt}).then(function(){closeShare();}).catch(function(){
-              // usuario canceló o falló: respaldo
-              respaldoCompartir(cv,txt);
-            });
-          }
-        }catch(e){ compartido=false; }
-      }
-      if(!compartido){ respaldoCompartir(cv,txt); }
-    },'image/png');
-  }else if(navigator.share){
-    // No soporta imagen pero sí texto: compartir solo texto
-    navigator.share({text:txt}).then(function(){closeShare();}).catch(function(){respaldoCompartir(cv,txt);});
+  // Compartir SOLO el texto (mismo formato que el informe de padres)
+  if(navigator.share){
+    navigator.share({text:txt}).then(function(){closeShare();}).catch(function(){respaldoCompartir(txt);});
   }else{
-    // Sin menú nativo: respaldo directo
-    respaldoCompartir(cv,txt);
+    respaldoCompartir(txt);
   }
 }
-function respaldoCompartir(cv,txt){
-  // Respaldo: descargar la imagen y copiar el texto
-  if(cv){ try{ descargarImagen(cv); }catch(e){} }
+function respaldoCompartir(txt){
+  // Respaldo: copiar solo el texto
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(function(){
-      toast('Imagen descargada y texto copiado! Compártelos donde quieras.');
-    }).catch(function(){ toast('Imagen descargada! Pega el texto manualmente.'); });
+      toast('Texto copiado! Pégalo en WhatsApp o donde quieras.');
+    }).catch(function(){ toast('Copia el texto manualmente.'); });
   }else{
-    toast('Imagen descargada! Compártela donde quieras.');
+    toast('Comparte tu progreso desde aquí.');
   }
   closeShare();
 }
@@ -2807,7 +3027,7 @@ function toast(msg){var t=document.createElement('div');t.className='toast';t.in
 
 // ════ PROFILE + ONBOARDING ════
 var obMode = '';
-var GRADE_LEVEL = {1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9}; // grado = nivel directo (9 niveles MINERD)
+var GRADE_LEVEL = {1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,11:11,12:12}; // grado = nivel directo (9 niveles MINERD)
 
 function obGoStep(n) {
   document.querySelectorAll('.ob-step').forEach(function(s){s.classList.remove('active');});
@@ -2828,14 +3048,22 @@ function obNext(step) {
     if(!name){toast('Escribe tu nombre primero');return;}
     if(!age){toast('Selecciona tu edad');return;}
     S.profile.name=name; S.profile.age=age;
+    // El GRADO se deriva automáticamente de la EDAD (edad-5, cap 1-12)
+    var gradeFromAge=ageToGrade(age);
+    S.profile.grade=String(gradeFromAge);
+    // El MODO se determina por la EDAD: 6-11 = Explorador (Primaria), 12+ = Guardián (Secundaria)
+    obMode=(parseInt(age)<=11)?'exp':'gua';
+    S.profile.suggestedMode=obMode;
     obGoStep(1);
   } else if(step===1){
-    var grade=(document.getElementById('ob-grade')||{value:''}).value;
-    if(!grade){toast('Selecciona tu grado');return;}
     if(!obMode){toast('Selecciona tu modo de juego');return;}
-    S.profile.grade=grade; S.profile.mode=obMode; S.mode=obMode;
-    var gl=GRADE_LEVEL[parseInt(grade)]||1;
-    S.exp.level=gl; S.gua.level=Math.min(5,gl+1);
+    S.profile.mode=obMode; S.mode=obMode;
+    // Nivel de dificultad basado en el grado derivado de la edad
+    var grade=parseInt(S.profile.grade)||ageToGrade(S.profile.age);
+    var gl=GRADE_LEVEL[grade]||grade||1;
+    // Ambos perfiles anclados a la edad real del niño
+    S.exp.grade=grade; S.gua.grade=grade;
+    S.exp.level=gl; S.gua.level=gl;
     obGoStep(2); saveState();
   }
 }
@@ -2848,6 +3076,7 @@ function updateProfileBanner() {
 }
 
 // ════ DIAGNOSTIC ════
+var diagQs = [];
 var DIAG_QS = [
   {q:'Cuanto es 7 + 5?',opts:['12','11','13','10'],ok:0},
   {q:'Cuanto es 15 - 8?',opts:['7','6','8','9'],ok:0},
@@ -2859,8 +3088,25 @@ var diagIdx=0, diagAns=[];
 
 function startDiag() {
   SND.ui(); diagIdx=0; diagAns=[];
-  DIAG_QS.forEach(function(q){q._shuffled=false;}); // re-barajar en cada intento
+  // Generar preguntas de diagnóstico SEGÚN EL GRADO/EDAD del niño (no fijas).
+  diagQs=buildDiagQs();
   renderDiagQ();
+}
+// Construye preguntas de diagnóstico al nivel del grado del niño:
+// algunas justo en su nivel, una por debajo y una por encima, para ubicarlo bien.
+function buildDiagQs(){
+  var base=ageToGrade(S.profile.age);
+  var below=Math.max(1,base-1), above=Math.min(12,base+1);
+  var qs=[];
+  // 3 de matemática (una por debajo, dos en su nivel) + 2 de lengua (en su nivel y una por encima)
+  function adaptMat(lvl){var g=genMat(lvl);return {q:g.q,opts:g.opts,ok:g.ok,_shuffled:true};}
+  function adaptLen(lvl){var g=genLen(lvl);return {q:(g.ctx?g.ctx+' ':'')+g.q,opts:g.opts,ok:g.ok,_shuffled:true};}
+  qs.push(adaptMat(below));
+  qs.push(adaptMat(base));
+  qs.push(adaptMat(base));
+  qs.push(adaptLen(base));
+  qs.push(adaptLen(above));
+  return qs;
 }
 function skipDiag() {
   SND.ui(); S.profile.registro=S.profile.registro||todayKey(); S.onboarded=true; S.diagDone=true; saveState();
@@ -2868,7 +3114,7 @@ function skipDiag() {
 }
 function renderDiagQ() {
   showScreen('diagscreen');
-  var q=DIAG_QS[diagIdx];
+  var q=diagQs[diagIdx];
   // Barajar opciones para que la correcta no quede siempre en la misma posicion
   if(!q._shuffled){
     var correctVal=q.opts[q.ok];
@@ -2877,14 +3123,14 @@ function renderDiagQ() {
     q.opts=arr; q.ok=arr.indexOf(correctVal); q._shuffled=true;
   }
   var sub=document.getElementById('ds-sub'), qel=document.getElementById('ds-q'), opts=document.getElementById('ds-opts'), prog=document.getElementById('ds-prog');
-  if(sub) sub.textContent='Pregunta '+(diagIdx+1)+' de '+DIAG_QS.length;
+  if(sub) sub.textContent='Pregunta '+(diagIdx+1)+' de '+diagQs.length;
   if(qel) qel.textContent=q.q;
-  if(prog){prog.innerHTML='';DIAG_QS.forEach(function(_,i){var seg=document.createElement('div');seg.className='diag-seg'+(i<diagIdx?' done':i===diagIdx?' now':'');prog.appendChild(seg);});}
+  if(prog){prog.innerHTML='';diagQs.forEach(function(_,i){var seg=document.createElement('div');seg.className='diag-seg'+(i<diagIdx?' done':i===diagIdx?' now':'');prog.appendChild(seg);});}
   if(opts){opts.innerHTML='';q.opts.forEach(function(o,i){var b=document.createElement('button');b.className='diag-opt';b.textContent=o;b.onclick=function(){pickDiagQ(i);};opts.appendChild(b);});}
 }
 function pickDiagQ(i) {
   SND.ui();
-  var q=DIAG_QS[diagIdx];
+  var q=diagQs[diagIdx];
   var btns=document.querySelectorAll('#ds-opts .diag-opt');
   btns.forEach(function(b){b.style.pointerEvents='none';});
   var ok=i===q.ok;
@@ -2892,17 +3138,17 @@ function pickDiagQ(i) {
   if(!ok&&btns[q.ok]) btns[q.ok].className='diag-opt ok';
   diagAns.push(ok);
   if(ok)SND.correct();else SND.wrong();
-  setTimeout(function(){diagIdx++;if(diagIdx>=DIAG_QS.length)finishDiag();else renderDiagQ();},900);
+  setTimeout(function(){diagIdx++;if(diagIdx>=diagQs.length)finishDiag();else renderDiagQ();},900);
 }
 function finishDiag() {
   var correct=diagAns.filter(Boolean).length;
-  var score=Math.round(correct/DIAG_QS.length*100);
+  var score=Math.round(correct/diagQs.length*100);
   // Ajuste fino +/-1 sobre el nivel del grado (no reemplaza el grado)
   var baseLevel=ageToGrade(S.profile.age);
   var adjust=0;
   if(score>=80) adjust=1;       // le fue excelente: sube 1
   else if(score<40) adjust=-1;  // le costo: baja 1
-  var finalLevel=Math.max(1,Math.min(9,baseLevel+adjust));
+  var finalLevel=Math.max(1,Math.min(12,baseLevel+adjust));
   S.exp.level=finalLevel; S.gua.level=finalLevel;
   S.profile.registro=S.profile.registro||todayKey(); S.onboarded=true; S.diagDone=true; saveState();
   confetti(20);
@@ -3068,48 +3314,56 @@ function renderInforme() {
     +'<button class="inf-sbtn sec" onclick="SND.ui();renderParent();showScreen(\'par\')">Volver al Panel</button>'
     +'</div>';
 }
+// Al tocar el enlace de WhatsApp: rellena su href con el informe actual y deja que
+// el navegador navegue de forma nativa (lo mas confiable en iOS). Devuelve true para
+// que el <a> haga su navegacion normal.
+function prepWaShare(){
+  try{
+    var txt=buildShareText();
+    var enc=encodeURIComponent(txt);
+    var ua=navigator.userAgent||navigator.vendor||'';
+    var esMovil=/Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(ua);
+    var url=esMovil ? ('https://wa.me/?text='+enc) : ('https://web.whatsapp.com/send?text='+enc);
+    var link=document.getElementById('wa-share-link');
+    if(link)link.href=url;
+  }catch(e){}
+  return true; // dejar que el enlace navegue normalmente
+}
 function shareInforme() {
-  var name=S.profile.name||'Guardián';
-  var d=S.exp; var sc=d.scores;
-  var avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
-  var total=Math.round(((S.exp.sessTime||0)+(S.gua.sessTime||0))/60);
-  var txt='📊 Informe de vacaciones de '+name+' en NEXUS HEROES\n\n✅ Misiones: '+(S.exp.missions+S.gua.missions)+'\n🔥 Racha maxima: '+Math.max(S.exp.best,S.gua.best)+' dias\n⭐ Score promedio: '+avg+'/100\n⏱️ Tiempo de práctica: '+total+' minutos\n\nConoce el reto y juega aqui 👉 '+GAME_URL+'\n\n15 min diarios para llegar mejor preparado al proximo curso.';
-  if(navigator.share){ navigator.share({title:'Informe NEXUS - '+name,text:txt}).catch(function(){}); }
-  else if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(function(){toast('Informe copiado! Pégalo donde quieras compartir.');}).catch(function(){window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');}); }
-  else { window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank'); }
+  var txt=buildShareText();
+  var enc=encodeURIComponent(txt);
+  var ua=navigator.userAgent||navigator.vendor||'';
+  var esMovil=/Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(ua);
+  // wa.me: URL web estandar. En movil abre la app de WhatsApp; en PC, WhatsApp Web.
+  var url=esMovil ? ('https://wa.me/?text='+enc) : ('https://web.whatsapp.com/send?text='+enc);
+  // Metodo mas confiable en iOS: crear un enlace <a> real y simular el clic del usuario.
+  // iOS trata los <a> como navegacion legitima, mucho mejor que window.open por JS.
+  try{
+    var a=document.createElement('a');
+    a.href=url;
+    a.target='_blank';
+    a.rel='noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }catch(e){
+    // Respaldo: navegacion directa
+    location.href=url;
+  }
 }
 
 
 // ════ ONBOARD: obNext patch — remove grade step ════
 // Override obNext to only handle step 0 (name+age) → step 1 (mode) → step 2 (diag)
 function ageToGrade(age){
-  // edad 6 = 1ro, 7 = 2do ... 14 = 9no (3ro secundaria). Cap 1-9.
+  // MINERD: 6=1ro Prim ... 11=6to Prim, 12=1ro Sec ... 17=6to Sec. Cap 1-12.
   var g=parseInt(age)-5;
   if(isNaN(g)||g<1)g=1;
-  if(g>9)g=9;
+  if(g>12)g=12;
   return g;
 }
-function obNext(step) {
-  if(step===0){
-    var name=(document.getElementById('ob-name')||{value:''}).value.trim();
-    var age=(document.getElementById('ob-age')||{value:''}).value;
-    if(!name){toast('Escribe tu nombre primero');return;}
-    if(!age){toast('Selecciona tu edad');return;}
-    S.profile.name=name; S.profile.age=age;
-    // Edad determina grado y nivel base automaticamente
-    var grade=ageToGrade(age);
-    S.profile.grade=String(grade);
-    S.exp.level=grade; S.gua.level=grade;
-    S.exp.grade=grade; S.gua.grade=grade; // ancla para adaptacion de nivel
-    obGoStep(1);
-  } else if(step===1){
-    if(!obMode){toast('Selecciona tu modo de juego');return;}
-    S.profile.mode=obMode; S.mode=obMode;
-    obGoStep(2); saveState();
-  }
-}
 
-// ════ PARENT CONFIG: Grade + Session Duration ════
+
 function saveParConfig() {
   var ge=document.getElementById('par-grade-exp');
   var gg=document.getElementById('par-grade-gua');
@@ -3267,7 +3521,7 @@ function renderAdmin(){
   var tech=document.getElementById('adm-tech');
   if(tech)tech.innerHTML=
     '<div class="adm-card">'
-    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v5.7</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v8.3</span></div>'
     +'<div class="adm-row"><span class="adm-rl">localStorage usado</span><span class="adm-rv">'+Math.round(lsUsed/1024*10)/10+' KB</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Clave de estado</span><span class="adm-rv" style="color:var(--tx3)">nh2</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Diagnóstico hecho</span><span class="adm-rv">'+(S.diagDone?'Si':'No')+'</span></div>'
@@ -3300,7 +3554,7 @@ function saveManualEdit(){
   var d=S[_editProfile];
   var get=function(id,fallback){var el=document.getElementById(id);if(!el)return fallback;var v=parseInt(el.value);return isNaN(v)?fallback:v;};
   var newCoins=Math.max(0,get('edit-coins',d.coins));
-  var newLevel=Math.max(1,Math.min(9,get('edit-level',d.level)));
+  var newLevel=Math.max(1,Math.min(12,get('edit-level',d.level)));
   var newMissions=Math.max(0,get('edit-missions',d.missions));
   var newStreak=Math.max(0,get('edit-streak',d.streak));
   var newBest=Math.max(0,get('edit-best',d.best));
@@ -3359,7 +3613,7 @@ function admCopyText(){
   var totalTime=Math.round(((exp.sessTime||0)+(gua.sessTime||0))/60);
   var allSc=exp.scores.concat(gua.scores);
   var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
-  var txt='NEXUS v5.7 — Resumen Admin\n'
+  var txt='NEXUS v8.3 — Resumen Admin\n'
     +new Date().toLocaleString('es-DO')+'\n\n'
     +'Perfil: '+(S.profile.name||'N/A')+', '+( S.profile.age||'-')+' años, Grado '+(S.profile.grade||'-')+'\n'
     +'Misiones totales: '+totalMis.toLocaleString('es-DO')+'\n'
@@ -3419,7 +3673,7 @@ function getDailyRate(){
   // PRNG simple deterministico a partir de la fecha
   var x=Math.sin(seed)*10000;
   var frac=x-Math.floor(x);           // 0..1
-  var variation=(frac*2-1)*RATE_BAND; // -10%..+10%
+  variation=(frac*2-1)*RATE_BAND; // -10%..+10%
   return RATE_BASE*(1+variation);
 }
 function rateToday(){return getDailyRate();}
