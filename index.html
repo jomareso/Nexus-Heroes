@@ -1105,7 +1105,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 
     <!-- VERSION BADGE -->
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v8.5</span>
+      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v8.7</span>
       <span style="font-size:12px;color:var(--tx3);font-weight:700;" id="adm-lastave">Ultimo guardado: -</span>
     </div>
 
@@ -1499,7 +1499,7 @@ function changePinFlow(){S.pinChanging=true;S.pinNew='';pbuf=[];renderPinUI('Ing
 
 // ═══ PARTICLES ═══
 // INIT
-(function(){if(S.onboarded){updateProfileBanner();}else{showScreen('bienvenida');}})();
+(function(){if(S.onboarded){updateProfileBanner();if(S.profile&&S.profile.name&&typeof syncToSheets==='function'){try{syncToSheets();}catch(e){}}}else{showScreen('bienvenida');}})();
 // Bind secret admin access to logo (touch + click, deduped)
 (function(){
   var logo=document.getElementById('nexus-logo');
@@ -3062,7 +3062,11 @@ function obNext(step) {
     // Ambos perfiles anclados a la edad real del niño
     S.exp.grade=grade; S.gua.grade=grade;
     S.exp.level=gl; S.gua.level=gl;
+    // Registrar fecha de creación del perfil
+    if(!S.profile.registro)S.profile.registro=todayKey();
     obGoStep(2); saveState();
+    // Sincronizar al Sheet AL CREAR el perfil (no solo al completar misión)
+    if(typeof syncToSheets==='function')syncToSheets();
   }
 }
 function updateProfileBanner() {
@@ -3522,7 +3526,7 @@ function renderAdmin(){
   var tech=document.getElementById('adm-tech');
   if(tech)tech.innerHTML=
     '<div class="adm-card">'
-    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v8.5</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v8.7</span></div>'
     +'<div class="adm-row"><span class="adm-rl">localStorage usado</span><span class="adm-rv">'+Math.round(lsUsed/1024*10)/10+' KB</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Clave de estado</span><span class="adm-rv" style="color:var(--tx3)">nh2</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Diagnóstico hecho</span><span class="adm-rv">'+(S.diagDone?'Si':'No')+'</span></div>'
@@ -3614,7 +3618,7 @@ function admCopyText(){
   var totalTime=Math.round(((exp.sessTime||0)+(gua.sessTime||0))/60);
   var allSc=exp.scores.concat(gua.scores);
   var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
-  var txt='NEXUS v8.5 — Resumen Admin\n'
+  var txt='NEXUS v8.7 — Resumen Admin\n'
     +new Date().toLocaleString('en-US')+'\n\n'
     +'Perfil: '+(S.profile.name||'N/A')+', '+( S.profile.age||'-')+' años, Grado '+(S.profile.grade||'-')+'\n'
     +'Misiones totales: '+totalMis.toLocaleString('en-US')+'\n'
@@ -3634,7 +3638,7 @@ function admCopyText(){
 // ════ GOOGLE SHEETS SYNC ════
 // Pega aqui la URL del Apps Script Web App (entre las comillas).
 // Si queda vacia, el juego funciona igual pero no envia datos.
-var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyZmYD-7QjfbpUAKG7MZWhSIzJmu9PshhCzpAMLCRj1j7e1w0RLc6FXnho_5ZRFEkux2A/exec';
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyMr1RQYb9RZGH2_zwRp5fymrTqT6fO11lkco-ImC5gnt4Sxj5JlWYA1-msAyzuuSRKkw/exec';
 
 function syncToSheets(){
   if(!SHEETS_URL) return;
