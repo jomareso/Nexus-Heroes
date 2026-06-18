@@ -677,7 +677,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
     </div>
     <div class="ob-step active" id="ostep0">
       <div class="ob-title">Bienvenido, Guardián</div>
-      <div class="ob-desc">15 minutos diarios para llegar mejor preparado al proximo curso.</div>
+      <div class="ob-desc">15 minutos diarios para llegar mejor preparado al próximo curso.</div>
       <div class="ob-field"><label>Tu nombre</label><input class="ob-input" id="ob-name" type="text" placeholder="Tu primer nombre o apodo..." maxlength="20"><div style="font-size:10px;color:var(--tx3);font-weight:700;margin-top:5px;line-height:1.4;">&#128274; Para tu privacidad, usa solo tu primer nombre o un apodo.</div></div>
       <div class="ob-field"><label>Edad</label>
         <select class="ob-select" id="ob-age"><option value="">Selecciona tu edad</option>
@@ -1105,7 +1105,7 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 
     <!-- VERSION BADGE -->
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v8.4</span>
+      <span style="background:rgba(255,82,82,0.15);border:2px solid rgba(255,82,82,0.3);color:var(--rd);font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;">NEXUS v8.5</span>
       <span style="font-size:12px;color:var(--tx3);font-weight:700;" id="adm-lastave">Ultimo guardado: -</span>
     </div>
 
@@ -1250,9 +1250,9 @@ var CAT=[
   {id:'p4',sec:'Poderes',name:'Pista magica',ico:'&#128161;',desc:'Elimina 2 opciones incorrectas',price:60,type:'c',maxSt:5,stock:0},
   {id:'u1',sec:'Mejoras',name:'Cerebro Turbo',ico:'&#129504;',desc:'+20% Nexus Coins en cada pregunta, para siempre',price:600,type:'u',owned:false},
   {id:'u2',sec:'Mejoras',name:'Reloj del Sabio',ico:'&#9203;',desc:'+5 segundos extra en cada pregunta, para siempre',price:800,type:'u',owned:false},
-  {id:'u3',sec:'Mejoras',name:'Corazon de Heroe',ico:'&#10084;',desc:'Un fallo no rompe tu combo (1 vez por mision)',price:1000,type:'u',owned:false},
+  {id:'u3',sec:'Mejoras',name:'Corazón de Héroe',ico:'&#10084;',desc:'Un fallo no rompe tu combo (1 vez por mision)',price:1000,type:'u',owned:false},
   {id:'s1',sec:'Skins',name:'Armadura Nexus',ico:'&#128309;',desc:'Skin azul electrico',price:300,type:'s',owned:false},
-  {id:'s2',sec:'Skins',name:'Armadura Volcan',ico:'&#128308;',desc:'Skin rojo fuego elite',price:400,type:'s',owned:false},
+  {id:'s2',sec:'Skins',name:'Armadura Volcán',ico:'&#128308;',desc:'Skin rojo fuego elite',price:400,type:'s',owned:false},
   {id:'s3',sec:'Skins',name:'Armadura Sombra',ico:'&#9899;',desc:'Skin oscuro legendario',price:750,type:'s',owned:false},
   {id:'s4',sec:'Skins',name:'Armadura Arcoiris',ico:'&#127752;',desc:'Skin cromatico raro',price:1200,type:'s',owned:false},
   {id:'w1',sec:'Mundos',name:'Ciudad Decimal',ico:'&#127961;',desc:'Desbloquea Mundo III',price:500,type:'s',owned:false},
@@ -1272,9 +1272,9 @@ var WORLDS=[
   {n:'Dimension Geo',ico:'&#128311;',t:'Geometría',c:'var(--pu)',p:0,lk:true,key:5000},
 ];
 var ACHS=[
-  {n:'Triada',d:'3 dias seguidos',i:'&#128293;',lk:false},
-  {n:'Semana',d:'7 dias seguidos',i:'&#9889;',lk:false},
-  {n:'Acero',d:'14 dias seguidos',i:'&#128737;',lk:true},
+  {n:'Triada',d:'3 días seguidos',i:'&#128293;',lk:false},
+  {n:'Semana',d:'7 días seguidos',i:'&#9889;',lk:false},
+  {n:'Acero',d:'14 días seguidos',i:'&#128737;',lk:true},
   {n:'Perfecto',d:'100/100',i:'&#128142;',lk:true},
   {n:'Bilingue',d:'Completa Mat y Lengua',i:'&#127760;',lk:true},
   {n:'Maestro',d:'Todos los mundos',i:'&#127775;',lk:true},
@@ -1419,15 +1419,15 @@ var ans=[],cq=0,ti=null,tL=0,tT=0,pbuf=[];
 var actLog=[
   {m:'exp',s:92,p:true,t:'Ayer 4:30pm',area:'mat'},
   {m:'gua',s:88,p:true,t:'Ayer 7:15pm',area:'len'},
-  {m:'exp',s:75,p:false,t:'Hace 2 dias',area:'mat'},
-  {m:'gua',s:95,p:true,t:'Hace 3 dias',area:'len'},
+  {m:'exp',s:75,p:false,t:'Hace 2 días',area:'mat'},
+  {m:'gua',s:95,p:true,t:'Hace 3 días',area:'len'},
 ];
 
 // ═══ COIN SYSTEM ═══
 function coinCap(d){return TIERS[(d.level||1)-1].cap;}
-function addCoins(amt,d){var c=coinCap(d),before=d.coins;d.coins=Math.min(c,d.coins+amt);var added=d.coins-before;if(added>0){SND.coin();floatCoin('+'+added.toLocaleString('es-DO')+' NC');}if(d.coins>=c){if(d.level>=12)toast('Limite máximo alcanzado: '+c.toLocaleString('es-DO')+' NC!');else toast('Cofre lleno! Sube al nivel '+(d.level+1)+' para mas espacio.');}saveState();return added;}
+function addCoins(amt,d){var c=coinCap(d),before=d.coins;d.coins=Math.min(c,d.coins+amt);var added=d.coins-before;if(added>0){SND.coin();floatCoin('+'+added.toLocaleString('en-US')+' NC');}if(d.coins>=c){if(d.level>=12)toast('Limite máximo alcanzado: '+c.toLocaleString('en-US')+' NC!');else toast('Cofre lleno! Sube al nivel '+(d.level+1)+' para mas espacio.');}saveState();return added;}
 function spend(amt,d){if(d.coins<amt)return false;d.coins-=amt;d.spent+=amt;checkT(d);updHdr();saveState();return true;}
-function checkT(d){S.cat.filter(function(i){return i.type==='tier'&&!i.owned;}).forEach(function(it){if(d.spent>=(it.spendReq||0)){it.owned=true;if(it.tier>d.tier){d.tier=it.tier;SND.unlock();confetti(40);toast('Nuevo cofre: '+TIERS[it.tier-1].lbl+'. Limite: '+TIERS[it.tier-1].cap.toLocaleString('es-DO')+' NC');}}});}
+function checkT(d){S.cat.filter(function(i){return i.type==='tier'&&!i.owned;}).forEach(function(it){if(d.spent>=(it.spendReq||0)){it.owned=true;if(it.tier>d.tier){d.tier=it.tier;SND.unlock();confetti(40);toast('Nuevo cofre: '+TIERS[it.tier-1].lbl+'. Limite: '+TIERS[it.tier-1].cap.toLocaleString('en-US')+' NC');}}});}
 function floatCoin(t){var el=document.createElement('div');el.className='cflt';el.textContent=t;el.style.cssText='left:'+(40+Math.random()*20)+'%;top:'+(30+Math.random()*15)+'%;';document.body.appendChild(el);setTimeout(function(){el.remove();},1300);}
 function addXP(xp,d){
   d.xp+=xp;d.lvlXP=(d.lvlXP||0)+xp;
@@ -1621,19 +1621,19 @@ function updHdr(){
   var mb=document.getElementById('mbdg');if(mb){mb.textContent=m==='exp'?'EXPLORADOR':'GUARDIAN';mb.className='mbdg '+m;}
   var lb=document.getElementById('lvlb');if(lb)lb.textContent='Nv.'+d.level;
   var hst=document.getElementById('hst');if(hst)hst.textContent=d.streak;
-  var hco=document.getElementById('hco');if(hco)hco.textContent=d.coins.toLocaleString('es-DO');
-  var hxp=document.getElementById('hxp');if(hxp)hxp.textContent=d.xp.toLocaleString('es-DO');
+  var hco=document.getElementById('hco');if(hco)hco.textContent=d.coins.toLocaleString('en-US');
+  var hxp=document.getElementById('hxp');if(hxp)hxp.textContent=d.xp.toLocaleString('en-US');
   var pb=document.getElementById('playbtn');if(pb)pb.style.background=m==='exp'?'linear-gradient(135deg,#4DAFFF,#18CDB0)':'linear-gradient(135deg,#9B6FFF,#FF6EB4)';
   var hbar=document.getElementById('hcobar');if(hbar)hbar.style.width=pct+'%';
   var t=TIERS[d.tier-1];
   var ct=document.getElementById('cptot'),ctr=document.getElementById('cptier'),cbr=document.getElementById('cpbar'),cm=document.getElementById('cpmid'),cmx=document.getElementById('cpmax');
-  if(ct)ct.textContent=d.coins.toLocaleString('es-DO');
+  if(ct)ct.textContent=d.coins.toLocaleString('en-US');
   var lvlCap=coinCap(d);
-  if(ctr)ctr.textContent=t.lbl+' - Limite Nv.'+d.level+': '+lvlCap.toLocaleString('es-DO')+' NC';
+  if(ctr)ctr.textContent=t.lbl+' - Limite Nv.'+d.level+': '+lvlCap.toLocaleString('en-US')+' NC';
   // Barra de progreso hacia el techo del nivel actual
   if(cbr)cbr.style.width=Math.min(100,Math.round(d.coins/lvlCap*100))+'%';
-  if(cm)cm.textContent=Math.round(lvlCap/2).toLocaleString('es-DO');
-  if(cmx)cmx.textContent=lvlCap.toLocaleString('es-DO');
+  if(cm)cm.textContent=Math.round(lvlCap/2).toLocaleString('en-US');
+  if(cmx)cmx.textContent=lvlCap.toLocaleString('en-US');
   // ── Valor en pesos dominicanos ──
   var dopAmt=document.getElementById('dop-amount'),dopRate=document.getElementById('dop-rate');
   if(dopAmt)dopAmt.textContent=fmtDOP(d.coins);
@@ -1646,7 +1646,7 @@ function updHdr(){
   var hl=document.getElementById('hlvln'),hlt=document.getElementById('hlvlt'),hls=document.getElementById('hlvls'),hlb=document.getElementById('hlvlb');
   if(hl)hl.textContent=d.level;
   if(hlt)hlt.textContent=DLVLS[d.level-1].name; // solo el rango (el modo ya se ve en el header)
-  if(hls)hls.textContent=d.level<12?'XP para nivel '+(d.level+1)+': '+(d.lvlXP||0).toLocaleString('es-DO')+'/'+LXP[d.level].toLocaleString('es-DO'):'Nivel máximo!';
+  if(hls)hls.textContent=d.level<12?'XP para nivel '+(d.level+1)+': '+(d.lvlXP||0).toLocaleString('en-US')+'/'+LXP[d.level].toLocaleString('en-US'):'Nivel máximo!';
   if(hlb)hlb.style.width=lvlPct(d)+'%';
   // area tabs
   var tm=document.getElementById('tab-mat'),tl=document.getElementById('tab-len');
@@ -1669,14 +1669,14 @@ function renderHub(){
   // Re-bloquear los que este perfil NO ha desbloqueado (al cambiar de perfil)
   WORLDS.forEach(function(w,wi){if(w.key&&w.key>0){w.lk=!(d.worldsUnlocked&&d.worldsUnlocked.indexOf(wi)>=0);}});
   var gn=document.getElementById('gname');if(gn)gn.textContent=m==='exp'?'Explorador':'Guardián';
-  var gs=document.getElementById('gsub');if(gs)gs.textContent=d.streak>0?'Llevas '+d.streak+' dias de racha! No la rompas.':'Completala con 80+ para comenzar tu racha!';
+  var gs=document.getElementById('gsub');if(gs)gs.textContent=d.streak>0?'Llevas '+d.streak+' días de racha! No la rompas.':'Completala con 80+ para comenzar tu racha!';
   renderHubMission();
   var sc=d.scores,avg=sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0;
   var sm=document.getElementById('smis');if(sm)sm.textContent=d.missions;
   var sa=document.getElementById('savg');if(sa)sa.textContent=avg?avg+'/100':'-';
-  var sb=document.getElementById('sbst');if(sb)sb.textContent=d.best+' dias';
+  var sb=document.getElementById('sbst');if(sb)sb.textContent=d.best+' días';
   var so=document.getElementById('sown');if(so)so.textContent=S.cat.filter(function(i){return i.owned===true||(i.type==='c'&&i.stock>0);}).length;
-  var sx=document.getElementById('sxp');if(sx)sx.textContent=d.xp.toLocaleString('es-DO')+' XP';
+  var sx=document.getElementById('sxp');if(sx)sx.textContent=d.xp.toLocaleString('en-US')+' XP';
   var stn=document.getElementById('stnum');if(stn)stn.textContent=d.streak;
   var dt=document.getElementById('stdots');if(dt){dt.innerHTML='';for(var i=0;i<14;i++){var dv=document.createElement('div');dv.className='dot '+(i<d.streak?'done':i===d.streak?'today':'empty');dt.appendChild(dv);}}
   var grk=document.getElementById('grk');
@@ -1688,7 +1688,7 @@ function renderHub(){
     document.getElementById('rb3').style.width=avg+'%';document.getElementById('rv3').textContent=avg?avg+'/100':'-';
   }else if(grk)grk.style.display='none';
   var wg=document.getElementById('wg');
-  if(wg){wg.innerHTML='';WORLDS.forEach(function(w,i){var d2=document.createElement('div');d2.className='wc'+(w.lk?' lk':'')+(i===(S.activeWorld||0)?' act':'');d2.onmouseenter=function(){if(!w.lk)SND.hover();};d2.onclick=function(){if(!w.lk){SND.ui();S.activeWorld=i;renderHub();}else{desbloquearMundo(i);}};var lockHtml=w.lk?'<div style="font-size:11px;color:'+w.c+';margin-top:4px;font-weight:800;">&#128273; '+(w.key||0).toLocaleString('es-DO')+' NC</div>':'';d2.innerHTML='<div class="wico">'+w.ico+'</div><div class="wn" style="color:'+w.c+'">'+w.n+'</div><div class="wt">'+w.t+'</div><div class="wp"><div class="wpf" style="width:'+w.p+'%;background:'+w.c+'"></div></div>'+lockHtml;wg.appendChild(d2);});}
+  if(wg){wg.innerHTML='';WORLDS.forEach(function(w,i){var d2=document.createElement('div');d2.className='wc'+(w.lk?' lk':'')+(i===(S.activeWorld||0)?' act':'');d2.onmouseenter=function(){if(!w.lk)SND.hover();};d2.onclick=function(){if(!w.lk){SND.ui();S.activeWorld=i;renderHub();}else{desbloquearMundo(i);}};var lockHtml=w.lk?'<div style="font-size:11px;color:'+w.c+';margin-top:4px;font-weight:800;">&#128273; '+(w.key||0).toLocaleString('en-US')+' NC</div>':'';d2.innerHTML='<div class="wico">'+w.ico+'</div><div class="wn" style="color:'+w.c+'">'+w.n+'</div><div class="wt">'+w.t+'</div><div class="wp"><div class="wpf" style="width:'+w.p+'%;background:'+w.c+'"></div></div>'+lockHtml;wg.appendChild(d2);});}
   // ── VITRINA DE META: proximo mundo a desbloquear (crea el deseo de juntar monedas) ──
   var metaEl=document.getElementById('meta-mundo');
   if(metaEl){
@@ -1819,47 +1819,49 @@ function pickWeightedOp(ops){
 // a,b = operandos; res = resultado correcto. Devuelve {q, top} o null.
 function _wordProblem(op,a,b,res){
   function rPick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+  // Formatear numeros con coma para los problemas
+  var A=a.toLocaleString('en-US'), B=b.toLocaleString('en-US');
   var nombres=['Juan','Maria','Pedro','Ana','Luis','Carmen','Jose','Rosa','Miguel','Yamilet','Francis','Wanda'];
   var n1=rPick(nombres), n2=rPick(nombres.filter(function(x){return x!==n1;}));
   if(op==='add'){
     var T=[
-      n1+' tiene '+a+' mangos y recoge '+b+' mas. Cuantos mangos tiene en total?',
-      'En el colmado hay '+a+' panes y traen '+b+' mas. Cuantos panes hay ahora?',
-      n1+' ahorro '+a+' pesos y su mama le dio '+b+' pesos. Cuanto dinero tiene?',
-      'Un gua-gua llevaba '+a+' pasajeros y subieron '+b+' mas. Cuantos pasajeros hay?',
-      n1+' tiene '+a+' chelitos y se gana '+b+' mas. Cuantos chelitos tiene?'
+      n1+' tiene '+A+' mangos y recoge '+B+' más. Cuántos mangos tiene en total?',
+      'En el colmado hay '+A+' panes y traen '+B+' más. Cuántos panes hay ahora?',
+      n1+' ahorro '+A+' pesos y su mama le dio '+B+' pesos. Cuánto dinero tiene?',
+      'Un gua-gua llevaba '+A+' pasajeros y subieron '+B+' más. Cuántos pasajeros hay?',
+      n1+' tiene '+A+' chelitos y se gana '+B+' más. Cuántos chelitos tiene?'
     ];
     return {q:rPick(T),top:'Problema de suma'};
   }
   if(op==='sub'){
     var T2=[
-      n1+' tiene '+a+' mangos y regala '+b+'. Cuantos mangos le quedan?',
-      'En el colmado habia '+a+' refrescos y se vendieron '+b+'. Cuantos quedan?',
-      n1+' tenia '+a+' pesos y gasto '+b+' pesos en el colmado. Cuanto le queda?',
-      'Un gua-gua llevaba '+a+' pasajeros y se bajaron '+b+'. Cuantos quedan?',
-      n1+' tenia '+a+' caramelos y se comio '+b+'. Cuantos le quedan?'
+      n1+' tiene '+A+' mangos y regala '+B+'. Cuántos mangos le quedan?',
+      'En el colmado habia '+A+' refrescos y se vendieron '+B+'. Cuántos quedan?',
+      n1+' tenia '+A+' pesos y gasto '+B+' pesos en el colmado. Cuánto le queda?',
+      'Un gua-gua llevaba '+A+' pasajeros y se bajaron '+B+'. Cuántos quedan?',
+      n1+' tenia '+A+' caramelos y se comió '+B+'. Cuántos le quedan?'
     ];
     return {q:rPick(T2),top:'Problema de resta'};
   }
   if(op==='mul'){
     var T3=[
-      n1+' compra '+a+' fundas con '+b+' mangos cada una. Cuantos mangos tiene?',
-      'En el colmado hay '+a+' cajas con '+b+' refrescos cada una. Cuantos refrescos hay?',
-      n1+' ahorra '+b+' pesos cada dia durante '+a+' dias. Cuanto ahorra?',
-      'Hay '+a+' gua-guas con '+b+' pasajeros cada uno. Cuantos pasajeros en total?',
-      n1+' tiene '+a+' paquetes de '+b+' galletas. Cuantas galletas tiene?'
+      n1+' compra '+A+' fundas con '+B+' mangos cada una. Cuántos mangos tiene?',
+      'En el colmado hay '+A+' cajas con '+B+' refrescos cada una. Cuántos refrescos hay?',
+      n1+' ahorra '+B+' pesos cada dia durante '+A+' días. Cuánto ahorra?',
+      'Hay '+A+' gua-guas con '+B+' pasajeros cada uno. Cuántos pasajeros en total?',
+      n1+' tiene '+A+' paquetes de '+B+' galletas. Cuantas galletas tiene?'
     ];
-    return {q:rPick(T3),top:'Problema de multiplicacion'};
+    return {q:rPick(T3),top:'Problema de multiplicación'};
   }
   if(op==='div'){
     var T4=[
-      n1+' reparte '+a+' mangos entre '+b+' amigos por igual. Cuantos le toca a cada uno?',
-      'En el colmado ponen '+a+' refrescos en '+b+' cajas iguales. Cuantos por caja?',
-      n1+' reparte '+a+' pesos entre '+b+' hijos por igual. Cuanto recibe cada uno?',
-      a+' pasajeros se reparten en '+b+' gua-guas iguales. Cuantos por gua-gua?',
-      n1+' divide '+a+' caramelos en '+b+' bolsitas iguales. Cuantos por bolsita?'
+      n1+' reparte '+A+' mangos entre '+B+' amigos por igual. Cuántos le toca a cada uno?',
+      'En el colmado ponen '+A+' refrescos en '+B+' cajas iguales. Cuántos por caja?',
+      n1+' reparte '+A+' pesos entre '+B+' hijos por igual. Cuánto recibe cada uno?',
+      a+' pasajeros se reparten en '+B+' gua-guas iguales. Cuántos por gua-gua?',
+      n1+' divide '+A+' caramelos en '+B+' bolsitas iguales. Cuántos por bolsita?'
     ];
-    return {q:rPick(T4),top:'Problema de division'};
+    return {q:rPick(T4),top:'Problema de división'};
   }
   return null;
 }
@@ -1869,6 +1871,8 @@ function _genMatCore(diff){
   var __op=op; // recordar la operacion elegida para tracking
   function shuf(arr){return arr.sort(function(){return Math.random()-0.5;});}
   function R(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+  // Formatea numeros con separador de miles (coma). Solo a partir de 1000 para no afectar numeros pequenos.
+  function fmtN(n){return (typeof n==='number'?n:parseFloat(n)).toLocaleString('en-US');}
   // Rango de complejidad por grado: cada operador escala con el nivel del jugador.
   // Devuelve el tope superior de los operandos basicos segun el nivel.
   function capByLevel(l){
@@ -1880,7 +1884,7 @@ function _genMatCore(diff){
     if(l<=6)return 99999;   // 6to Prim
     return 99999;           // Secundaria: operandos hasta ~5 cifras (exigente sin ser absurdo)
   }
-  function wrap(res,pool){var all=[res].concat(pool.filter(function(x){return x!==res&&x>0;}).slice(0,3));while(all.length<4)all.push(res+all.length+Math.floor(Math.random()*4)+1);var s=shuf(all.slice(0,4));return{opts:s.map(String),ok:s.indexOf(res)};}
+  function wrap(res,pool){var all=[res].concat(pool.filter(function(x){return x!==res&&x>0;}).slice(0,3));while(all.length<4)all.push(res+all.length+Math.floor(Math.random()*4)+1);var s=shuf(all.slice(0,4));return{opts:s.map(function(x){return fmtN(x);}),ok:s.indexOf(res)};}
   function wrapAny(res,wrongs){var all=[res].concat(wrongs.filter(function(x){return x!==res;})).slice(0,4);while(all.length<4)all.push(res+'_'+all.length);var s=shuf(all);return{opts:s.map(String),ok:s.indexOf(res)};}
 
   // ── ADD ──
@@ -1890,7 +1894,7 @@ function _genMatCore(diff){
     var w=wrap(res,[res+1,res-1,res+10,res-10,res+a]);
     // ~38% de las veces: problema de razonamiento en vez de operacion abstracta
     if(Math.random()<0.38){var wp=_wordProblem('add',a,b,res);if(wp)return{q:wp.q,vis:null,opts:w.opts,ok:w.ok,top:wp.top,ctx:'Lee con atención y resuelve.'};}
-    return{q:a+' + '+b+' = ?',vis:null,opts:w.opts,ok:w.ok,top:'Suma',ctx:'El guardian suma energía.'};
+    return{q:fmtN(a)+' + '+fmtN(b)+' = ?',vis:null,opts:w.opts,ok:w.ok,top:'Suma',ctx:'El guardian suma energía.'};
   }
   // ── SUB ──
   if(op==='sub'){
@@ -1898,7 +1902,7 @@ function _genMatCore(diff){
     var a2=R(Math.ceil(cap2/2),cap2),b2=R(1,a2-1),res2=a2-b2;
     var w2=wrap(res2,[res2+1,res2-1,a2+b2,res2+5]);
     if(Math.random()<0.38){var wp2=_wordProblem('sub',a2,b2,res2);if(wp2)return{q:wp2.q,vis:null,opts:w2.opts,ok:w2.ok,top:wp2.top,ctx:'Lee con atención y resuelve.'};}
-    return{q:a2+' - '+b2+' = ?',vis:null,opts:w2.opts,ok:w2.ok,top:'Resta',ctx:'El guardian resta el poder del villano.'};
+    return{q:fmtN(a2)+' - '+fmtN(b2)+' = ?',vis:null,opts:w2.opts,ok:w2.ok,top:'Resta',ctx:'El guardian resta el poder del villano.'};
   }
   // ── TABLE ──
   if(op==='table'){
@@ -1912,14 +1916,14 @@ function _genMatCore(diff){
     var a4=R(2,mF),b4=R(2,Math.min(mF,diff<=3?12:diff<=5?50:99)),res4=a4*b4;
     var w4=wrap(res4,[a4*(b4+1),a4*(b4-1)||(res4+1),res4+a4,res4-b4||(res4+2)]);
     if(Math.random()<0.38){var wp4=_wordProblem('mul',a4,b4,res4);if(wp4)return{q:wp4.q,vis:null,opts:w4.opts,ok:w4.ok,top:wp4.top,ctx:'Lee con atención y resuelve.'};}
-    return{q:a4+' x '+b4+' = ?',vis:null,opts:w4.opts,ok:w4.ok,top:'Multiplicación',ctx:'El guardian multiplica su poder.'};
+    return{q:fmtN(a4)+' x '+fmtN(b4)+' = ?',vis:null,opts:w4.opts,ok:w4.ok,top:'Multiplicación',ctx:'El guardian multiplica su poder.'};
   }
   // ── DIV ──
   if(op==='div'){
     var b5=R(2,diff<=4?12:diff<=7?25:50),res5=R(2,diff<=4?12:diff<=7?50:99),a5=b5*res5;
     var w5=wrap(res5,[res5+1,res5-1||(res5+2),res5+2,Math.floor(a5/(b5+1))+1]);
     if(Math.random()<0.38){var wp5=_wordProblem('div',a5,b5,res5);if(wp5)return{q:wp5.q,vis:null,opts:w5.opts,ok:w5.ok,top:wp5.top,ctx:'Lee con atención y resuelve.'};}
-    return{q:a5+' \u00f7 '+b5+' = ?',vis:null,opts:w5.opts,ok:w5.ok,top:'División',ctx:'El guardian divide los recursos.'};
+    return{q:fmtN(a5)+' \u00f7 '+fmtN(b5)+' = ?',vis:null,opts:w5.opts,ok:w5.ok,top:'División',ctx:'El guardian divide los recursos.'};
   }
   // ── FRAC ──
   if(op==='frac'){
@@ -2024,8 +2028,8 @@ function _topToOp(top){
   // Los problemas de razonamiento cuentan para la operacion correspondiente.
   if(top.indexOf('Problema de suma')===0)return 'add';
   if(top.indexOf('Problema de resta')===0)return 'sub';
-  if(top.indexOf('Problema de multiplicacion')===0)return 'mul';
-  if(top.indexOf('Problema de division')===0)return 'div';
+  if(top.indexOf('Problema de multiplicación')===0)return 'mul';
+  if(top.indexOf('Problema de división')===0)return 'div';
   var map={'Suma':'add','Resta':'sub','Multiplicación':'mul','División':'div','Fracciones':'frac','Potencias':'power','Raiz cuadrada':'power','Decimales':'decimal','Números enteros':'integer','Ecuaciones':'equation','MCM':'mcm','Patrones':'sequence'};
   return map[top]||'add';
 }
@@ -2046,7 +2050,7 @@ function genLen(diff){
 
 // ═══ MISSION ═══
 function startMission(){
-  if(dailyLimitReached()){
+  if(!puedeIniciarMision()){
     var cap=Math.floor(dailyCap()/60);
     toast('Ya cumpliste tu tiempo de hoy ('+cap+' min). Descansa y vuelve mañana!');
     return;
@@ -2084,7 +2088,7 @@ function startMission(){
 // Formatea numeros de 4+ digitos con separador de miles dentro de un texto
 function fmtNum(str){
   if(str==null)return str;
-  return (''+str).replace(/\d{4,}/g,function(n){return parseInt(n,10).toLocaleString('es-DO');});
+  return (''+str).replace(/\d{4,}/g,function(n){return parseInt(n,10).toLocaleString('en-US');});
 }
 
 function renderQ(){
@@ -2186,10 +2190,10 @@ function pick(i){
     S.ses.visNC=(S.ses.visNC||0)+qNC;
     bumpNCCounter(S.ses.visNC,qNC);
   }else{
-    // MEJORA Corazon de Heroe: el primer fallo de la mision NO rompe el combo
+    // MEJORA Corazón de Héroe: el primer fallo de la mision NO rompe el combo
     if(S[S.mode].upgrades&&S[S.mode].upgrades.u3&&!S.ses.heroeUsado){
       S.ses.heroeUsado=true;
-      toast('❤️ Corazon de Heroe te salvo el combo!');
+      toast('❤️ Corazón de Héroe te salvo el combo!');
       // no reseteamos el combo; continuar como si no hubiera fallado para el combo
     } else {
       S.ses.combo=0; // romper combo
@@ -2213,7 +2217,7 @@ function pick(i){
 function bumpNCCounter(total,gain){
   var el=document.getElementById('mg-nc-val');
   var box=el?el.parentElement:null;
-  if(el)el.textContent=total.toLocaleString('es-DO');
+  if(el)el.textContent=total.toLocaleString('en-US');
   if(box){box.classList.add('pulse');setTimeout(function(){box.classList.remove('pulse');},200);}
   // Texto flotante "+X NC" cerca del contador
   if(box){
@@ -2249,9 +2253,9 @@ function showCombo(combo,golden){
 }
 
 // ════ MASCOTA NEXUS: reacciones ════
-var MASC_HAPPY=['BOOM! Correcto','Eres imparable!','Energia al maximo!','Asi se hace, crack!','Nivel genio!','Me dejaste sin palabras!','Otra mas asi!','Estas on fire!'];
+var MASC_HAPPY=['BOOM! Correcto','Eres imparable!','Energía al máximo!','Asi se hace, crack!','Nivel genio!','Me dejaste sin palabras!','Otra más así!','Estas on fire!'];
 var MASC_SAD=['Uy, casi!','Respira y vamos!','Yo creo en ti!','La proxima es tuya!','Equivocarse es aprender!','No pasa nada, sigue!'];
-var MASC_WELCOME=['A cargar energia!','Modo heroe activado!','Vamos con todo!','Hoy la rompemos!'];
+var MASC_WELCOME=['A cargar energía!','Modo héroe activado!','Vamos con todo!','Hoy la rompemos!'];
 function reaccionMascota(tipo){
   var body=document.getElementById('masc-body');
   var msg=document.getElementById('masc-msg');
@@ -2369,7 +2373,7 @@ function pauseMission(){
     var acreditadas=d.coins-antes;
     S.ses.visNC=0; // ya acreditadas, evitar doble conteo si se vuelve a entrar
     saveState();
-    if(acreditadas>0)toast('Ganaste '+acreditadas.toLocaleString('es-DO')+' NC! Se guardaron en tu cuenta. 🪙');
+    if(acreditadas>0)toast('Ganaste '+acreditadas.toLocaleString('en-US')+' NC! Se guardaron en tu cuenta. 🪙');
   }
   // Limpiar estado visual de la misión para que no quede pantalla vacía al volver
   var mg=document.getElementById('mg');if(mg)mg.style.display='none';
@@ -2589,11 +2593,11 @@ function showResult(score,passed,tMin,earned,hasTime,rawPassed,rounds){
   // baseNC = monedas por respuestas de TODA la sesion (ya acreditadas al saldo)
   var baseNC=(S.ses.acreditadoSes||0)+(S.ses.visNC||0);var bonusNC=S.ses.bonusNC||0;var weekBonus=S.ses.weekBonus||0;
   if(rews)rews.innerHTML=missionOk
-    ?'<div class="rew" style="font-size:1.3em;color:var(--gr)">&#127881; NC +'+earned.toLocaleString('es-DO')+'</div>'
-      +'<div class="rew" style="font-size:0.85em;color:var(--tx3)">'+baseNC.toLocaleString('es-DO')+' por tus respuestas'+(bonusNC>0?' + '+bonusNC.toLocaleString('es-DO')+' de bonos':'')+'</div>'
+    ?'<div class="rew" style="font-size:1.3em;color:var(--gr)">&#127881; NC +'+earned.toLocaleString('en-US')+'</div>'
+      +'<div class="rew" style="font-size:0.85em;color:var(--tx3)">'+baseNC.toLocaleString('en-US')+' por tus respuestas'+(bonusNC>0?' + '+bonusNC.toLocaleString('en-US')+' de bonos':'')+'</div>'
       +'<div class="rew">XP +100</div>'
       +(score===100?'<div class="rew" style="color:var(--am)">Score perfecto!</div>':'')
-      +(weekBonus>0?'<div class="rew" style="color:var(--am)">&#128293; Semana perfecta +'+weekBonus.toLocaleString('es-DO')+' NC!</div>':'')
+      +(weekBonus>0?'<div class="rew" style="color:var(--am)">&#128293; Semana perfecta +'+weekBonus.toLocaleString('en-US')+' NC!</div>':'')
     :(passed&&!hasTime
       ?'<div class="rew" style="color:var(--am)">&#9888; Falta tiempo de sesión</div>'
       :'<div class="rew" style="color:var(--am)">Seguir practicando</div>');
@@ -2717,9 +2721,9 @@ function renderParent(){
   }
   // Levels
   var ple=document.getElementById('plve'),ples=document.getElementById('plves');
-  if(ple)ple.textContent='Nivel '+exp.level;if(ples)ples.textContent=DLVLS[exp.level-1].name+' - XP: '+exp.xp.toLocaleString('es-DO');
+  if(ple)ple.textContent='Nivel '+exp.level;if(ples)ples.textContent=DLVLS[exp.level-1].name+' - XP: '+exp.xp.toLocaleString('en-US');
   var plg=document.getElementById('plvg'),plgs=document.getElementById('plvgs');
-  if(plg)plg.textContent='Nivel '+gua.level;if(plgs)plgs.textContent=DLVLS[gua.level-1].name+' - XP: '+gua.xp.toLocaleString('es-DO');
+  if(plg)plg.textContent='Nivel '+gua.level;if(plgs)plgs.textContent=DLVLS[gua.level-1].name+' - XP: '+gua.xp.toLocaleString('en-US');
   // Week grids
   var days=['L','M','X','J','V','S','D'];
   ['exp','gua'].forEach(function(m){
@@ -2781,11 +2785,11 @@ function renderShop(){
   var sc=document.getElementById('shcoins');if(sc)sc.textContent=d.coins;
   var st=document.getElementById('shtier');if(st)st.textContent=TIERS[d.tier-1].lbl+' - '+d.tier+'/5';
   var sb=document.getElementById('shbar');if(sb)sb.style.width=pct+'%';
-  var ss=document.getElementById('shcapsub');if(ss)ss.textContent=d.coins.toLocaleString('es-DO')+' de '+c.toLocaleString('es-DO')+' NC ('+pct+'%)';
-  var sn=document.getElementById('shcnote');if(sn)sn.textContent='Limite: '+c.toLocaleString('es-DO')+' NC - Gastado: '+d.spent.toLocaleString('es-DO')+' NC';
-  var sv=document.getElementById('shcapval');if(sv)sv.textContent=c.toLocaleString('es-DO')+' NC';
+  var ss=document.getElementById('shcapsub');if(ss)ss.textContent=d.coins.toLocaleString('en-US')+' de '+c.toLocaleString('en-US')+' NC ('+pct+'%)';
+  var sn=document.getElementById('shcnote');if(sn)sn.textContent='Limite: '+c.toLocaleString('en-US')+' NC - Gastado: '+d.spent.toLocaleString('en-US')+' NC';
+  var sv=document.getElementById('shcapval');if(sv)sv.textContent=c.toLocaleString('en-US')+' NC';
   var shen=document.getElementById('sheconote');var nr=TSPEND[d.tier]||null;
-  if(shen)shen.textContent=nr?'Siguiente cofre: gasta '+nr.toLocaleString('es-DO')+' NC. Llevas '+d.spent.toLocaleString('es-DO')+' NC.':'Tienes el cofre máximo!';
+  if(shen)shen.textContent=nr?'Siguiente cofre: gasta '+nr.toLocaleString('en-US')+' NC. Llevas '+d.spent.toLocaleString('en-US')+' NC.':'Tienes el cofre máximo!';
   var secs={};S.cat.forEach(function(it){if(!secs[it.sec])secs[it.sec]=[];secs[it.sec].push(it);});
   var body=document.getElementById('shopbody');if(!body)return;body.innerHTML='';
   Object.keys(secs).forEach(function(sec){
@@ -2815,7 +2819,7 @@ function desbloquearMundo(i){
   var m=S.mode,d=S[m];
   var precio=w.key||0;
   if(d.coins>=precio){
-    if(confirm('Desbloquear '+w.n+' por '+precio.toLocaleString('es-DO')+' NC?')){
+    if(confirm('Desbloquear '+w.n+' por '+precio.toLocaleString('en-US')+' NC?')){
       if(spend(precio,d)){
         w.lk=false; // abrir el mundo
         // Guardar en el perfil que este mundo esta desbloqueado
@@ -2829,7 +2833,7 @@ function desbloquearMundo(i){
     }
   } else {
     var faltan=precio-d.coins;
-    toast('&#128273; Te faltan '+faltan.toLocaleString('es-DO')+' NC para abrir '+w.n+'. Sigue jugando!');
+    toast('&#128273; Te faltan '+faltan.toLocaleString('en-US')+' NC para abrir '+w.n+'. Sigue jugando!');
   }
 }
 function buyItem(id){
@@ -2874,7 +2878,7 @@ function buildShareText(){
   var allSc=S.exp.scores.concat(S.gua.scores);
   var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
   var total=Math.round(((S.exp.sessTime||0)+(S.gua.sessTime||0))/60);
-  return '📊 Informe de vacaciones de '+name+' en NEXUS HEROES\n\n✅ Misiones: '+(S.exp.missions+S.gua.missions)+'\n🔥 Racha maxima: '+Math.max(S.exp.best,S.gua.best)+' dias\n⭐ Score promedio: '+avg+'/100\n⏱️ Tiempo de práctica: '+total+' minutos\n\nConoce el reto y juega aqui 👉 '+GAME_URL+'\n\n15 min diarios para llegar mejor preparado al proximo curso.';
+  return '📊 Informe de vacaciones de '+name+' en NEXUS HEROES\n\n✅ Misiones: '+(S.exp.missions+S.gua.missions)+'\n🔥 Racha máxima: '+Math.max(S.exp.best,S.gua.best)+' días\n⭐ Score promedio: '+avg+'/100\n⏱️ Tiempo de práctica: '+total+' minutos\n\nConoce el reto y juega aquí 👉 '+GAME_URL+'\n\n15 min diarios para llegar mejor preparado al próximo curso.';
 }
 function openShare(){
   // Mismos datos que el informe del panel de padres (totales)
@@ -2884,7 +2888,7 @@ function openShare(){
   var rachaMax=Math.max(S.exp.best,S.gua.best);
   var totalMin=Math.round(((S.exp.sessTime||0)+(S.gua.sessTime||0))/60);
   var shm=document.getElementById('sh-mis');if(shm)shm.textContent=totalMis;
-  var shs=document.getElementById('sh-streak');if(shs)shs.textContent=rachaMax+' dias';
+  var shs=document.getElementById('sh-streak');if(shs)shs.textContent=rachaMax+' días';
   var shsc=document.getElementById('sh-score');if(shsc)shsc.textContent=avg?avg+'/100':'-';
   var shc=document.getElementById('sh-coins');if(shc)shc.textContent=totalMin+' min';
   var mo=document.getElementById('share-modal');
@@ -2948,7 +2952,7 @@ function dibujarTarjetaProgreso(){
   ctx.font='100px Arial';ctx.fillText(m==='exp'?'⚡':'🛡️',W/2,375);
   ctx.fillStyle='#FFFFFF';ctx.font='900 52px Nunito,Arial,sans-serif';
   ctx.fillText(name,W/2,455);
-  var stats=[['✅ Misiones',totalMis],['🔥 Racha max',rachaMax+' dias'],['⭐ Score prom',avg+'/100'],['⏱️ Práctica',totalMin+' min']];
+  var stats=[['✅ Misiones',totalMis],['🔥 Racha max',rachaMax+' días'],['⭐ Score prom',avg+'/100'],['⏱️ Práctica',totalMin+' min']];
   var sx=[W/2-220,W/2+220,W/2-220,W/2+220];
   var sy=[650,650,830,830];
   for(var i=0;i<4;i++){
@@ -3183,6 +3187,9 @@ function getDailySeconds(){
 function addDailySeconds(n){var d=S[S.mode];getDailySeconds();d.dailySeconds=(d.dailySeconds||0)+n;saveState();}
 function dailyCap(){var d=S[S.mode];return d.didRecovery?DAILY_MAX_REC:DAILY_MAX;}
 function dailyLimitReached(){return getDailySeconds()>=dailyCap();}
+// Para INICIAR una mision nueva: bloquear si queda muy poco tiempo (evita el hueco de
+// reintentos cerca del tope). Si quedan menos de 60s utiles, no deja empezar otra.
+function puedeIniciarMision(){return getDailySeconds() < (dailyCap()-60);}
 // ── Tiempo de mision acumulado por dia (permite pausar y retomar) ──
 function getMissionProgress(){
   var d=S[S.mode];
@@ -3287,7 +3294,7 @@ function renderInforme() {
     +'<div class="inf-hero-name">'+name+'</div>'
     +'<div class="inf-hero-detail">Grado '+grade+' &bull; Nivel '+exp.level+' &mdash; '+DLVLS[exp.level-1].name+'</div>'
     +'<div class="inf-stats">'
-    +'<div class="inf-stat"><div class="inf-stat-val">'+totalMis.toLocaleString('es-DO')+'</div><div class="inf-stat-lbl">Misiones</div></div>'
+    +'<div class="inf-stat"><div class="inf-stat-val">'+totalMis.toLocaleString('en-US')+'</div><div class="inf-stat-lbl">Misiones</div></div>'
     +'<div class="inf-stat"><div class="inf-stat-val">'+maxStreak+'</div><div class="inf-stat-lbl">Mejor racha</div></div>'
     +'<div class="inf-stat"><div class="inf-stat-val">'+totalTime+'</div><div class="inf-stat-lbl">Min práctica</div></div>'
     +'</div></div>'
@@ -3302,7 +3309,7 @@ function renderInforme() {
        +(prog.length?'<p style="font-size:12px;color:#FFD27A;font-weight:900;margin:10px 0 6px;">&#128260; En progreso</p>'+mkTags(prog,'prog')+'<br><br>':'')
        +(ref.length?'<p style="font-size:12px;color:#FF8A8A;font-weight:900;margin:10px 0 6px;">&#128296; Necesita refuerzo</p>'+mkTags(ref,'ref')+'<br><br>':''))
     +'<div class="inf-recom"><h4>Recomendacion para padres</h4><p>'+recom+'</p></div>'
-    +'<div class="inf-msg"><div class="inf-msg-ico">&#127942;</div><h3>'+firstName+', eres un '+(S.profile.mode==='exp'?'Explorador':'Guardián')+'!</h3><p>Completaste '+totalMis.toLocaleString('es-DO')+' misiones, lograste una racha de '+maxStreak+' dias y practicaste '+totalTime+' minutos. Llegaste mejor preparado para el proximo curso!</p></div>'
+    +'<div class="inf-msg"><div class="inf-msg-ico">&#127942;</div><h3>'+firstName+', eres un '+(S.profile.mode==='exp'?'Explorador':'Guardián')+'!</h3><p>Completaste '+totalMis.toLocaleString('en-US')+' misiones, lograste una racha de '+maxStreak+' días y practicaste '+totalTime+' minutos. Llegaste mejor preparado para el proximo curso!</p></div>'
     +'<div class="inf-share-row">'
     +'<button class="inf-sbtn wa" onclick="shareInforme()">&#128172; Compartir logro</button>'
     +'<button class="inf-sbtn sec" onclick="SND.ui();renderParent();showScreen(\'par\')">Volver al Panel</button>'
@@ -3492,12 +3499,12 @@ function renderAdmin(){
   var stats=document.getElementById('adm-stats');
   if(stats)stats.innerHTML=
     '<div class="adm-stat-grid">'
-    +'<div class="adm-stat"><div class="adm-stat-val">'+totalMis.toLocaleString('es-DO')+'</div><div class="adm-stat-lbl">Misiones totales</div></div>'
+    +'<div class="adm-stat"><div class="adm-stat-val">'+totalMis.toLocaleString('en-US')+'</div><div class="adm-stat-lbl">Misiones totales</div></div>'
     +'<div class="adm-stat"><div class="adm-stat-val">'+tasaAprobacion+'%</div><div class="adm-stat-lbl">Tasa aprobacion</div></div>'
     +'<div class="adm-stat"><div class="adm-stat-val">'+maxStreak+'</div><div class="adm-stat-lbl">Mejor racha</div></div>'
     +'<div class="adm-stat"><div class="adm-stat-val">'+avgAll+'</div><div class="adm-stat-lbl">Score global prom.</div></div>'
-    +'<div class="adm-stat"><div class="adm-stat-val" style="color:var(--tl)">'+ncEarned.toLocaleString('es-DO')+'</div><div class="adm-stat-lbl">NC ganados total</div></div>'
-    +'<div class="adm-stat"><div class="adm-stat-val" style="color:var(--am)">'+ncSpent.toLocaleString('es-DO')+'</div><div class="adm-stat-lbl">NC gastados</div></div>'
+    +'<div class="adm-stat"><div class="adm-stat-val" style="color:var(--tl)">'+ncEarned.toLocaleString('en-US')+'</div><div class="adm-stat-lbl">NC ganados total</div></div>'
+    +'<div class="adm-stat"><div class="adm-stat-val" style="color:var(--am)">'+ncSpent.toLocaleString('en-US')+'</div><div class="adm-stat-lbl">NC gastados</div></div>'
     +'</div>'
     +'<div class="adm-card">'
     +'<div class="adm-row"><span class="adm-rl">Score Explorador (Mat)</span><span class="adm-rv" style="color:var(--bl)">'+expAvg+'/100</span></div>'
@@ -3515,7 +3522,7 @@ function renderAdmin(){
   var tech=document.getElementById('adm-tech');
   if(tech)tech.innerHTML=
     '<div class="adm-card">'
-    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v8.4</span></div>'
+    +'<div class="adm-row"><span class="adm-rl">Version</span><span class="adm-rv" style="color:var(--bl)">NEXUS v8.5</span></div>'
     +'<div class="adm-row"><span class="adm-rl">localStorage usado</span><span class="adm-rv">'+Math.round(lsUsed/1024*10)/10+' KB</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Clave de estado</span><span class="adm-rv" style="color:var(--tx3)">nh2</span></div>'
     +'<div class="adm-row"><span class="adm-rl">Diagnóstico hecho</span><span class="adm-rv">'+(S.diagDone?'Si':'No')+'</span></div>'
@@ -3554,7 +3561,7 @@ function saveManualEdit(){
   var newBest=Math.max(0,get('edit-best',d.best));
   var newXP=Math.max(0,get('edit-xp',d.xp));
   var nombre=_editProfile==='exp'?'Explorador':'Guardián';
-  if(!confirm('Aplicar cambios al '+nombre+'?\n\nMonedas: '+newCoins.toLocaleString('es-DO')+'\nNivel: '+newLevel+'\nMisiones: '+newMissions+'\nRacha: '+newStreak+'\nMejor racha: '+newBest+'\nXP: '+newXP)) return;
+  if(!confirm('Aplicar cambios al '+nombre+'?\n\nMonedas: '+newCoins.toLocaleString('en-US')+'\nNivel: '+newLevel+'\nMisiones: '+newMissions+'\nRacha: '+newStreak+'\nMejor racha: '+newBest+'\nXP: '+newXP)) return;
   // Aplicar respetando el techo de monedas del nivel
   d.level=newLevel;
   d.coins=Math.min(newCoins,coinCap(d));
@@ -3607,15 +3614,15 @@ function admCopyText(){
   var totalTime=Math.round(((exp.sessTime||0)+(gua.sessTime||0))/60);
   var allSc=exp.scores.concat(gua.scores);
   var avg=allSc.length?Math.round(allSc.reduce(function(a,b){return a+b;},0)/allSc.length):0;
-  var txt='NEXUS v8.4 — Resumen Admin\n'
-    +new Date().toLocaleString('es-DO')+'\n\n'
+  var txt='NEXUS v8.5 — Resumen Admin\n'
+    +new Date().toLocaleString('en-US')+'\n\n'
     +'Perfil: '+(S.profile.name||'N/A')+', '+( S.profile.age||'-')+' años, Grado '+(S.profile.grade||'-')+'\n'
-    +'Misiones totales: '+totalMis.toLocaleString('es-DO')+'\n'
+    +'Misiones totales: '+totalMis.toLocaleString('en-US')+'\n'
     +'Score promedio: '+avg+'/100\n'
     +'Tiempo práctica: '+totalTime+' min\n'
-    +'Racha max: '+Math.max(exp.best,gua.best)+' dias\n'
-    +'NC Explorador: '+exp.coins.toLocaleString('es-DO')+' (gastados: '+exp.spent.toLocaleString('es-DO')+')\n'
-    +'NC Guardián: '+gua.coins.toLocaleString('es-DO')+' (gastados: '+gua.spent.toLocaleString('es-DO')+')\n'
+    +'Racha max: '+Math.max(exp.best,gua.best)+' días\n'
+    +'NC Explorador: '+exp.coins.toLocaleString('en-US')+' (gastados: '+exp.spent.toLocaleString('en-US')+')\n'
+    +'NC Guardián: '+gua.coins.toLocaleString('en-US')+' (gastados: '+gua.spent.toLocaleString('en-US')+')\n'
     +'Nivel Exp: '+exp.level+' | Nivel Gua: '+gua.level+'\n';
   if(navigator.clipboard)navigator.clipboard.writeText(txt).then(function(){toast('Resumen copiado!');});
   else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Copiado!');}
@@ -3649,7 +3656,7 @@ function syncToSheets(){
       minutos:totalMin,
       nivel:S[S.mode].level,
       coins:exp.coins+gua.coins,
-      ultimaActividad:new Date().toLocaleString('es-DO')
+      ultimaActividad:new Date().toLocaleString('en-US')
     };
     fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(function(){});
   } catch(e){}
@@ -3692,7 +3699,7 @@ function redeemNC(mode){
   if(nc<=0){toast('No hay NC para canjear en este perfil.');return;}
   var dop=fmtDOP(nc);
   var name=mode==='exp'?'Explorador':'Guardián';
-  if(!confirm('Canjear '+nc.toLocaleString('es-DO')+' NC del '+name+' por '+dop+'?\n\nEsto reinicia el saldo de NC del niño a 0. Entrega el premio acordado equivalente a '+dop+'.')) return;
+  if(!confirm('Canjear '+nc.toLocaleString('en-US')+' NC del '+name+' por '+dop+'?\n\nEsto reinicia el saldo de NC del niño a 0. Entrega el premio acordado equivalente a '+dop+'.')) return;
   d.coins=0;
   saveState();updHdr();renderParent();
   toast('Canje realizado: '+dop+'. Saldo reiniciado.');
@@ -3710,10 +3717,10 @@ function renderExchangePanel(){
     else{pt.textContent='\u25cf estable';pt.style.color='var(--tx3)';}
   }
   var een=document.getElementById('par-exp-nc'),eed=document.getElementById('par-exp-dop');
-  if(een)een.textContent=S.exp.coins.toLocaleString('es-DO')+' NC';
+  if(een)een.textContent=S.exp.coins.toLocaleString('en-US')+' NC';
   if(eed)eed.textContent=fmtDOP(S.exp.coins);
   var gen=document.getElementById('par-gua-nc'),ged=document.getElementById('par-gua-dop');
-  if(gen)gen.textContent=S.gua.coins.toLocaleString('es-DO')+' NC';
+  if(gen)gen.textContent=S.gua.coins.toLocaleString('en-US')+' NC';
   if(ged)ged.textContent=fmtDOP(S.gua.coins);
 }
 
